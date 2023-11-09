@@ -3,7 +3,12 @@ import { useRouter } from "next/router";
 const NonMemberDetailPage = () => {
   const router = useRouter();
   const userId = router.query.userId
-  return <h1>Hallo {userId}</h1>;
+  return (
+    <Fragment>
+      <Navbar />
+      <h1>halo {userId}</h1>;
+    </Fragment>
+  );
 };
 
 export default NonMemberDetailPage;

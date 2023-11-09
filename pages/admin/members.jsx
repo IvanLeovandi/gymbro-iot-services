@@ -1,4 +1,5 @@
 import { Fragment, useEffect, useState } from "react";
+import Navbar from "@/components/navbar";
 
 const AdminMembersPage = () => {
   const [users, setUsers] = useState([]);
@@ -16,6 +17,7 @@ const AdminMembersPage = () => {
 
   return (
     <Fragment>
+      <Navbar />
       {loading && <p>Loading...</p>}
       {!loading && 
         <ul>
