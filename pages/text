@@ -1,0 +1,27 @@
+ <div>
+       <Card className="max-w-[400px]">
+       <CardHeader className="flex gap-3">
+         <div className="flex flex-col">
+           <p className="text-md">{classes.tipe}</p>
+           <p className="text-small text-default-500">{classes.instruktur}</p>
+         </div>
+       </CardHeader>
+       <Divider/>
+       <CardBody>
+         <p>{classes.deskripsi}</p>
+         <p>{classes.harga}</p>
+         <p>{classes.jadwal}</p>
+         <p>{classes.kapasitas}</p>
+         <p>{classes.user}</p>
+       </CardBody>
+       <Divider/>
+       <CardFooter>
+       <Link
+          href="/"
+          className="text-[#FFD700] font-sans border border-solid border-[#FFD700] rounded-lg px-8 py-2 hover:bg-[#FFD700] hover:text-black"
+        >
+          Daftar
+        </Link>
+       </CardFooter>
+     </Card>
+     </div>
