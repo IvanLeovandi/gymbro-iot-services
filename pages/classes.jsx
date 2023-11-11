@@ -22,22 +22,44 @@ const ClassPage = () => {
   return (
     <Fragment>
       <Navbar />
+      <h1 className="text-6xl font-bold text-center my-[10px]">Classes</h1>
       {loading && <p>Loading...</p>}
       {!loading && 
         <div>
         {classes.map((item) => (
           <div key={item.id} className="flex p-10 w-1/2">
             <div className="relative">
-              <Image src = {Card} alt="" className="w-1/2 "/>
+              <Image src = {Card} alt="" className="w-[55%] "/>
               <div className="absolute top-[1.5vw] left-[2vw]">
-                <h3 className="text-xl font-bold">{item.tipe}</h3>
-                <hr className=" h-[1.5px] bg-gradient-to-r from-transparent via-white to-transparent mt-[5px]"/>
-                <p className="mt-[5px]">{item.instruktur}</p>
-                <p>{item.deskripsi}</p>
-                <p>{item.harga}</p>
-                <p>{item.jadwal}</p>
-                <p>{item.kapasitas}</p>
-                <p>{item.user}</p>
+                <div className="flex justify-between items-center">
+                  <div>
+                    <h3 className="text-xl font-bold">{item.tipe}</h3>
+                    <p className="text-sm">{item.instruktur}</p>
+                  </div>
+                  <p className="text-sm">{item.jadwal}</p>
+                </div>
+                <hr className=" w-[350px] h-[1.5px] bg-gradient-to-r from-transparent via-white to-transparent mt-[5px]"/>
+                <p className="mt-[5px] h-[70px]">{item.deskripsi}</p>
+                
+                <div className="flex">
+                  <div className="flex-col">
+                    <p className="font-bold">Harga</p>
+                    <p className="mb-[10px] text-md">Rp {item.harga}</p>
+                  </div>
+
+                  
+                  <div className="flex-col ml-[100px]">
+                    <p className="font-bold">Kuota</p>
+                    <p className="mb-[10px] text-md">{item.user}/{item.kapasitas}</p>
+                  </div>
+                </div>
+                <Link
+                href={`/${item._id}`}
+                className="text-[#FFD700] font-sans border border-solid border-[#FFD700] rounded-lg px-8 py-2 hover:bg-[#FFD700] hover:text-black
+                           ml-[280px]"
+                >
+                  Details
+                </Link>
               </div>
             </div>
           </div>
