@@ -4,19 +4,6 @@ import Image from "next/image";
 import Navbar from "../components/navbar"
 
 const HomePage = () => {
-  const [classes, setClasses] = useState([]);
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    setLoading(true);
-    fetch("/api/classes")
-      .then((response) => response.json())
-      .then((data) => {
-        setClasses(data.classes);
-        setLoading(false);
-      });
-  }, []);
-
   return (
     <>
       <Navbar />
