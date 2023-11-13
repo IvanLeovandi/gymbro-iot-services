@@ -3,6 +3,10 @@ import { Fragment } from "react";
 import Link from "next/link";
 import Navbar from "@/components/navbar";
 import Card from "../public/card.png";
+import Img_dum from "../public/image_dummy.jpg";
+import React from 'react';
+import Popup from 'reactjs-popup';
+import 'reactjs-popup/dist/index.css';
 import Image from 'next/image';
 
 const ClassPage = () => {
@@ -11,7 +15,7 @@ const ClassPage = () => {
 
   useEffect(() => {
     setLoading(true);
-    fetch("/api/classes")
+    fetch("http://localhost:3000/api/classes")
       .then((response) => response.json())
       .then((data) => {
         setClasses(data.classes);
@@ -29,8 +33,9 @@ const ClassPage = () => {
         {classes.map((item) => (
           <div key={item.id} className="flex p-10 w-1/2">
             <div className="relative">
-              <Image src = {Card} alt="" className="w-[55%] "/>
+              <Image src = {Card} alt="Card" className="w-[55%] h-[580px]"/>
               <div className="absolute top-[1.5vw] left-[2vw]">
+                <Image src= {Img_dum} alt = "image fitnes" className="w-[400px] h-[300px]  py-[5px] "/>
                 <div className="flex justify-between items-center">
                   <div>
                     <h3 className="text-xl font-bold">{item.tipe}</h3>
@@ -38,7 +43,7 @@ const ClassPage = () => {
                   </div>
                   <p className="text-sm">{item.jadwal}</p>
                 </div>
-                <hr className=" w-[350px] h-[1.5px] bg-gradient-to-r from-transparent via-white to-transparent mt-[5px]"/>
+                <hr className=" w-[380px] h-[1.5px] bg-gradient-to-r from-transparent via-white to-transparent mt-[5px]"/>
                 <p className="mt-[5px] h-[70px]">{item.deskripsi}</p>
                 
                 <div className="flex">
@@ -53,13 +58,19 @@ const ClassPage = () => {
                     <p className="mb-[10px] text-md">{item.user}/{item.kapasitas}</p>
                   </div>
                 </div>
-                <Link
-                href={`/${item._id}`}
-                className="text-[#FFD700] font-sans border border-solid border-[#FFD700] rounded-lg px-8 py-2 hover:bg-[#FFD700] hover:text-black
-                           ml-[280px]"
+                <Popup trigger = 
+                  <button
+                  className="text-[#FFD700] font-sans border border-solid border-[#FFD700] rounded-lg px-8 py-2 hover:bg-[#FFD700] hover:text-black
+                             ml-[280px]"
+                  >
+                    Details
+                  </button>
+                  modal nested
                 >
-                  Details
-                </Link>
+                  <div className="bg-black h-500 w-500">
+                    <p>AAAA</p>
+                  </div>
+                </Popup>
               </div>
             </div>
           </div>

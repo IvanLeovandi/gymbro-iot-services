@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function navbar() {
   return (
-    <div className="flex justify-around items-center py-4 bg-gray-800 m-8">
+    <div className="flex justify-around items-center py-4 bg-[#4B4B4B] bg-opacity-80 m-8">
       {/* <a href="/">
         <Image src={Logo} alt="logo" width={250} height={70} />
       </a> */}
