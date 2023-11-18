@@ -1,17 +1,20 @@
 const { useState, useEffect } = require("react");
 import { Fragment } from "react";
-import Link from "next/link";
+import { Button } from "@/components/ui/button"
 import Navbar from "@/components/navbar";
 import Card from "../public/card.png";
 import Img_dum from "../public/image_dummy.jpg";
 import React from 'react';
-import Popup from 'reactjs-popup';
-import 'reactjs-popup/dist/index.css';
 import Image from 'next/image';
+import {toDateString} from 'date';
 
 const ClassPage = () => {
   const [classes, setClasses] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+
+  const handleCloseModal = () => setShowModal(false);
+  const handleShowModal = () => setShowModal(true);
 
   useEffect(() => {
     setLoading(true);
@@ -29,21 +32,21 @@ const ClassPage = () => {
       <h1 className="text-6xl font-bold text-center my-[10px]">Classes</h1>
       {loading && <p>Loading...</p>}
       {!loading && 
-        <div>
+        <div className="grid grid-cols-1 min-[970px]:grid-cols-2 min-[1470px]:grid-cols-3">
         {classes.map((item) => (
-          <div key={item.id} className="flex p-10 w-1/2">
+          <div key={item.id} className="flex ml-auto mr-auto mt-[30px]">
             <div className="relative">
-              <Image src = {Card} alt="Card" className="w-[55%] h-[580px]"/>
-              <div className="absolute top-[1.5vw] left-[2vw]">
-                <Image src= {Img_dum} alt = "image fitnes" className="w-[400px] h-[300px]  py-[5px] "/>
+              <Image src = {Card} alt="Card" className="w-[420px] md:w-[480px] h-[580px]"/>
+              <div className="absolute top-[20px] left-[30px] md:left-[40px] w-[360px] md:w-[400px]">
+                <Image src= {Img_dum} alt = "image fitnes" className="w-[360px] md:w-[400px]  h-[300px]  py-[5px] ml-auto mr-auto"/>
                 <div className="flex justify-between items-center">
                   <div>
-                    <h3 className="text-xl font-bold">{item.tipe}</h3>
+                    <h3 className=" text-xl font-bold">{item.tipe}</h3>
                     <p className="text-sm">{item.instruktur}</p>
                   </div>
-                  <p className="text-sm">{item.jadwal}</p>
+                  <p className="text-sm">{(item.jadwal).toString()}</p>
                 </div>
-                <hr className=" w-[380px] h-[1.5px] bg-gradient-to-r from-transparent via-white to-transparent mt-[5px]"/>
+                <hr className=" w-[360px] h-[1.5px] bg-gradient-to-r from-transparent via-white to-transparent mt-[5px]"/>
                 <p className="mt-[5px] h-[70px]">{item.deskripsi}</p>
                 
                 <div className="flex">
@@ -58,19 +61,14 @@ const ClassPage = () => {
                     <p className="mb-[10px] text-md">{item.user}/{item.kapasitas}</p>
                   </div>
                 </div>
-                <Popup trigger = 
-                  <button
-                  className="text-[#FFD700] font-sans border border-solid border-[#FFD700] rounded-lg px-8 py-2 hover:bg-[#FFD700] hover:text-black
-                             ml-[280px]"
+                <Button
+                  variant = "yellow_outline"
+                  onClick={handleShowModal}
+                  className="ml-[240px] md:ml-[280px]"
                   >
                     Details
-                  </button>
-                  modal nested
-                >
-                  <div className="bg-black h-500 w-500">
-                    <p>AAAA</p>
-                  </div>
-                </Popup>
+                </Button>
+                
               </div>
             </div>
           </div>

@@ -2,7 +2,7 @@ import { ConnectDB, insertDocument, getDocument } from "@/database/db-util";
 
 const handler = async (req, res) => {
   let client;
-
+  
   try {
     client = await ConnectDB();
   } catch (e) {
