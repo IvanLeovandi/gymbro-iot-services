@@ -4,7 +4,7 @@ export default function Biocard() {
   return (
     <div>
       <div className="bg-gray-600   rounded-md overflow-hidden shadow-md max-w-7xl mx-auto mt-10s w-11/12 max-h">
-          <div className="grid grid-cols-3 mx-2.5">
+          <div className="grid grid-cols-3 mx-2.5 mt-2">
             <div classname="text-white text-5xl">
               Nama
             </div>
@@ -42,7 +42,7 @@ export default function Biocard() {
               Email
             </p>
           </div>
-          <div className="mx-2.5">
+          <div className="mx-2.5 mb-5">
             <label classname="text-white text-5xl ml-9">
               Alamat
             </label>
