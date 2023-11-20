@@ -13,10 +13,24 @@ const RegisterPage = () => {
         <Image src={Logo} alt="logo" className="mx-auto my-16" />
         <div className="">
           <form action="">
+            <label className="">Full Name</label>
+            <Input placeholder="" className="border-none outline-none focus:outline-[#FFD700] mt-2 mb-4" required />
+            <label className="">Phone Number</label>
+            <Input className="border-none outline-none focus:outline-[#FFD700] mt-2 mb-4" required />
+            <label className="">Email</label>
+            <Input type="email" className="border-none outline-none focus:outline-[#FFD700] mt-2 mb-4" required />
+            <label className="">Address</label>
+            <Input className="border-none outline-none focus:outline-[#FFD700] mt-2 mb-4" required />
+            <label className="">Age</label>
+            <Input type="number" min="15" className="border-none outline-none focus:outline-[#FFD700] mt-2 mb-4" required />
+            <label className="">Gender</label>
+            <Input type="" className="border-none outline-none focus:outline-[#FFD700] mt-2 mb-4" required />
             <label className="">Username</label>
-            <Input placeholder="" className="border-none outline-none focus:outline-[#FFD700] mt-2 mb-4" />
+            <Input type="text" placeholder="" className="border-none outline-none focus:outline-[#FFD700] mt-2 mb-4" required />
             <label className="">Password</label>
-            <Input className="border-none outline-none focus:outline-[#FFD700] mt-2" />
+            <Input type="password" className="border-none outline-none focus:outline-[#FFD700] mt-2 mb-4" required />
+            <label className="">Confirm Password</label>
+            <Input type="password" className="border-none outline-none focus:outline-[#FFD700] mt-2 mb-4" required />
             <div className="flex justify-center">
               <Button variant="ghost" className="my-8 w-1/2">
                 Register

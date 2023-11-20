@@ -31,7 +31,7 @@ export default function Biocard() {
           </div>
           <div className="mx-2.5">
             <label classname="pl-3 text-white text-5xl">
-              Nomor Telefon
+              Nomor Telepon
             </label>
             <p className="bg-white mt-3 mb-3 text-black mr-2 ml-2 mx-auto rounded pl-3">
               (+62) xxx xxx xx
