@@ -5,7 +5,7 @@ const AdminClassesPage = () => {
   return (
     <Fragment>
       <Navbar />
-      <h1>Admin Classes Page</h1>;
+      <h1>Admin Classes Page</h1>
     </Fragment>
   );
 };
