@@ -23,3 +23,11 @@ export async function getDocument(client, collection, sort) {
 
   return documents;
 }
+
+export async function getUserProfile (client, collection, useremail) {
+  const db = client.db();
+
+  const document = await db.collection(collection).findOne({email: useremail});
+
+  return document
+}
