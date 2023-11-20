@@ -2,9 +2,43 @@ import Image from "next/image";
 import Card from "../public/card.png";
 import Img_dum from "../public/image_dummy.jpg";
 import { Button } from "@/components/ui/button";
-import { toDateString } from "date";
+import { Input } from "@/components/ui/input";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
 
 const ClassCard = (props) => {
+
+  const submitHandler = async (event) => {
+    event.preventDefault();
+
+    /*
+    const enteredUsername = usernameRef.current.value;
+    const enteredPassword = passwordRef.current.value;
+
+    const result = await signIn("credentials", {
+      redirect: false,
+      username: enteredUsername,
+      password: enteredPassword,
+    });
+
+    console.log(result);
+
+    //       if (!result.error) {
+    //         const role = result.user.role;
+    //         const userId = result.user._id;
+    // ;       router.replace(`/${role}/${userId}`);
+    //       }
+    */
+  };
+
   return (
     <div key={props.id} className="flex ml-auto mr-auto mt-[30px]">
       <div className="relative">
@@ -42,13 +76,67 @@ const ClassCard = (props) => {
               </p>
             </div>
           </div>
-          <Button
-            variant="yellow_outline"
-            onClick={props.handleShowModal}
-            className="ml-[240px] md:ml-[280px]"
-          >
-            Details
-          </Button>
+          <Dialog>
+            <DialogTrigger asChild>
+            <Button
+              type = "button"
+              variant="yellow_outline"
+              onClick={props.handleShowModal}
+              className="ml-[240px] md:ml-[280px]"
+            >
+              Daftar
+            </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-md">
+              <DialogHeader>
+                <DialogTitle>{props.tipe}</DialogTitle>
+                <DialogDescription>
+                  {props.instruktur}
+                </DialogDescription>
+              </DialogHeader>
+              <hr></hr>
+              <p className="text-lg mt-[20px]">
+                {props.deskripsi}
+              </p>
+              <div className="flex justify-between mt-[40px]">
+                <p className="font-bold">Jadwal</p>
+                <p>{props.jadwal}</p>
+              </div>
+              <div className="flex justify-between ">
+                <p className="font-bold">Harga</p>
+                <p>{props.harga}</p>
+              </div>
+              <div class="inline-flex items-center justify-center w-full mt-[10px]">
+                  <hr class="w-64 h-px my-8 bg-gray-200 border-0 dark:bg-gray-700"/>
+                  <span class="absolute px-3  font-medium bg-black -translate-x-[4px] text-white ">Daftar</span>
+              </div>
+              <form className="mt-[10px]" onSubmit={submitHandler}>
+                <label className="">Nama Lengkap</label>
+                <Input
+                  className="bg-white border-none outline-none focus:outline-[#FFD700] mt-2 mb-4"
+    
+                />
+                <label className="">Nomor Telepon</label>
+                <Input
+                  className="bg-white border-none outline-none focus:outline-[#FFD700] mt-2"
+                  
+                />
+                <div className="flex justify-center">
+                  <Button variant="yellow_full" className="my-8 w-1/2" type="submit">
+                    Daftar
+                  </Button>
+                </div>
+              </form>
+              <DialogFooter className="sm:justify-start">
+                <DialogClose asChild>
+                  <Button type="button" variant="yellow_outline">
+                    Close
+                  </Button>
+                </DialogClose>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+          
         </div>
       </div>
     </div>
