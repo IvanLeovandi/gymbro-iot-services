@@ -4,11 +4,12 @@ import { useRouter } from "next/router";
 
 export default function Biocard() {
   const { data: session, status } = useSession();
-  const router = useRouter()
+  const router = useRouter();
   if (!session) {
     router.replace('/');
     return;
   }
+
   const [profile, setProfile] = useState({});
   const [loading, setLoading] = useState(false);
 
