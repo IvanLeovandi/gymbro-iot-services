@@ -3,8 +3,8 @@ import { Fragment } from "react";
 import Navbar from "@/components/navbar";
 import React from "react";
 import { toDateString } from "date";
-
 import ClassCard from "@/components/classcard";
+import { AddClassModal } from "@/components/AddClassModal";
 
 const ClassPage = () => {
   const [classes, setClasses] = useState([]);
@@ -28,20 +28,14 @@ const ClassPage = () => {
     <Fragment>
       <Navbar />
       <h1 className="text-6xl font-bold text-center my-[10px]">Classes</h1>
+      <div className="text-right px-20">
+        <AddClassModal></AddClassModal>
+      </div>
       {loading && <p>Loading...</p>}
       {!loading && (
         <div className="grid grid-cols-1 min-[970px]:grid-cols-2 min-[1470px]:grid-cols-3">
           {classes.map((item) => (
-            <ClassCard
-              tipe={item.tipe}
-              instruktur={item.instruktur}
-              jadwal={item.jadwal}
-              deskripsi={item.deskripsi}
-              harga={item.harga}
-              user={item.user}
-              kapasitas={item.kapasitas}
-              handleShowModal = {handleShowModal}
-            />
+            <ClassCard tipe={item.tipe} instruktur={item.instruktur} jadwal={item.jadwal} deskripsi={item.deskripsi} harga={item.harga} user={item.user} kapasitas={item.kapasitas} handleShowModal={handleShowModal} />
           ))}
         </div>
       )}
