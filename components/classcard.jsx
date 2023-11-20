@@ -110,30 +110,25 @@ const ClassCard = (props) => {
                   <hr class="w-64 h-px my-8 bg-gray-200 border-0 dark:bg-gray-700"/>
                   <span class="absolute px-3  font-medium bg-black -translate-x-[4px] text-white ">Daftar</span>
               </div>
-              <form className="mt-[10px]" onSubmit={submitHandler}>
+              <form className="mt-[5px]" onSubmit={submitHandler}>
                 <label className="">Nama Lengkap</label>
                 <Input
                   className="bg-white border-none outline-none focus:outline-[#FFD700] mt-2 mb-4"
-    
                 />
                 <label className="">Nomor Telepon</label>
                 <Input
+                  className="bg-white border-none outline-none focus:outline-[#FFD700] mt-2 mb-4" 
+                />
+                <label className="">Email</label>
+                <Input
                   className="bg-white border-none outline-none focus:outline-[#FFD700] mt-2"
-                  
                 />
                 <div className="flex justify-center">
-                  <Button variant="yellow_full" className="my-8 w-1/2" type="submit">
-                    Daftar
+                  <Button variant="yellow_full"  className="my-[40px] w-full py-3" type="submit">
+                    Lanjut ke Pembayaran
                   </Button>
                 </div>
               </form>
-              <DialogFooter className="sm:justify-start">
-                <DialogClose asChild>
-                  <Button type="button" variant="yellow_outline">
-                    Close
-                  </Button>
-                </DialogClose>
-              </DialogFooter>
             </DialogContent>
           </Dialog>
           
