@@ -1,5 +1,6 @@
 import { Fragment, useEffect, useState } from "react";
 import Navbar from "@/components/navbar";
+import Membercard from "@/components/membercard";
 
 const AdminMembersPage = () => {
   const [users, setUsers] = useState([]);
@@ -18,6 +19,7 @@ const AdminMembersPage = () => {
   return (
     <Fragment>
       <Navbar />
+      <Membercard item={users} className="ml-44"/>
       {loading && <p>Loading...</p>}
       {!loading && 
         <ul>
