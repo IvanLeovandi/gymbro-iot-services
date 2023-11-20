@@ -7,13 +7,8 @@ export default function Biocard() {
   return (
     <div>
       <div className="bg-gray-600   rounded-md overflow-hidden shadow-md max-w-7xl mx-auto mt-10s w-11/12 max-h">
-<<<<<<< HEAD
-          <div className="grid grid-cols-3 mx-2.5">
-            <label classname="text-white text-5xl">
-=======
           <div className="grid grid-cols-3 mx-2.5 mt-2">
-            <div classname="text-white text-5xl">
->>>>>>> 6e4f6866a83d911ca055cca748885eb1ac107496
+            <label classname="text-white text-5xl">
               Nama
             </label>
             <label classname="text-white text-5xl">
