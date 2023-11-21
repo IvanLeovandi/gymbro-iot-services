@@ -40,7 +40,7 @@ const ClassCard = (props) => {
   };
 
   return (
-    <div key={props.id} className="flex ml-auto mr-auto mt-[30px]">
+    <div key={props.id} className="flex ml-auto mr-auto mb-[30px]">
       <div className="relative">
         <Image
           src={Card}

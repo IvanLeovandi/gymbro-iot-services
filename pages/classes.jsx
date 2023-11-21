@@ -27,7 +27,7 @@ const ClassPage = () => {
   return (
     <Fragment>
       <Navbar />
-      <h1 className="text-6xl font-bold text-center my-[10px]">Classes</h1>
+      <h1 className="text-6xl font-bold text-center mt-[10px] mb-[30px]">Classes</h1>
       {loading && <p>Loading...</p>}
       {!loading && (
         <div className="grid grid-cols-1 min-[970px]:grid-cols-2 min-[1470px]:grid-cols-3">
