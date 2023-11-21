@@ -2,17 +2,12 @@ const { useState, useEffect } = require("react");
 import { Fragment } from "react";
 import Navbar from "@/components/navbar";
 import React from "react";
-import { toDateString } from "date";
 
 import ClassCard from "@/components/classcard";
 
 const ClassPage = () => {
   const [classes, setClasses] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [showModal, setShowModal] = useState(false);
-
-  const handleCloseModal = () => setShowModal(false);
-  const handleShowModal = () => setShowModal(true);
 
   useEffect(() => {
     setLoading(true);
@@ -40,7 +35,6 @@ const ClassPage = () => {
               harga={item.harga}
               user={item.user}
               kapasitas={item.kapasitas}
-              handleShowModal = {handleShowModal}
             />
           ))}
         </div>

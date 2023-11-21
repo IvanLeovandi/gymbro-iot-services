@@ -12,10 +12,9 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
+} from "@/components/ui/dialog";
 
 const ClassCard = (props) => {
-
   const submitHandler = async (event) => {
     event.preventDefault();
 
@@ -76,62 +75,69 @@ const ClassCard = (props) => {
               </p>
             </div>
           </div>
-          <Dialog>
-            <DialogTrigger asChild>
+
+          {props.user === props.kapasitas ? (
             <Button
-              type = "button"
-              variant="yellow_outline"
-              onClick={props.handleShowModal}
-              className="ml-[240px] md:ml-[280px]"
+            type="button"
+            variant="destructive"
+            size="lg"
+            className="ml-[180px] md:ml-[200px] w-1/2 mt-[10px]"
             >
-              Daftar
+              Kelas Penuh
             </Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-md">
-              <DialogHeader>
-                <DialogTitle>{props.tipe}</DialogTitle>
-                <DialogDescription>
-                  {props.instruktur}
-                </DialogDescription>
-              </DialogHeader>
-              <hr></hr>
-              <p className="text-lg mt-[20px]">
-                {props.deskripsi}
-              </p>
-              <div className="flex justify-between mt-[40px]">
-                <p className="font-bold">Jadwal</p>
-                <p>{props.jadwal}</p>
-              </div>
-              <div className="flex justify-between ">
-                <p className="font-bold">Harga</p>
-                <p>{props.harga}</p>
-              </div>
-              <div class="inline-flex items-center justify-center w-full mt-[10px]">
-                  <hr class="w-64 h-px my-8 bg-gray-200 border-0 dark:bg-gray-700"/>
-                  <span class="absolute px-3  font-medium bg-black -translate-x-[4px] text-white ">Daftar</span>
-              </div>
-              <form className="mt-[5px]" onSubmit={submitHandler}>
-                <label className="">Nama Lengkap</label>
-                <Input
-                  className="bg-white border-none outline-none focus:outline-[#FFD700] mt-2 mb-4"
-                />
-                <label className="">Nomor Telepon</label>
-                <Input
-                  className="bg-white border-none outline-none focus:outline-[#FFD700] mt-2 mb-4" 
-                />
-                <label className="">Email</label>
-                <Input
-                  className="bg-white border-none outline-none focus:outline-[#FFD700] mt-2"
-                />
-                <div className="flex justify-center">
-                  <Button variant="yellow_full"  className="my-[40px] w-full py-3" type="submit">
-                    Lanjut ke Pembayaran
-                  </Button>
+          ) : (
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button
+                  type="button"
+                  variant="yellow_outline"
+                  onClick={props.handleShowModal}
+                  className="ml-[240px] md:ml-[280px]"
+                >
+                  Daftar
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-md">
+                <DialogHeader>
+                  <DialogTitle>{props.tipe}</DialogTitle>
+                  <DialogDescription>{props.instruktur}</DialogDescription>
+                </DialogHeader>
+                <hr></hr>
+                <p className="text-lg mt-[20px]">{props.deskripsi}</p>
+                <div className="flex justify-between mt-[40px]">
+                  <p className="font-bold">Jadwal</p>
+                  <p>{props.jadwal}</p>
                 </div>
-              </form>
-            </DialogContent>
-          </Dialog>
-          
+                <div className="flex justify-between ">
+                  <p className="font-bold">Harga</p>
+                  <p>{props.harga}</p>
+                </div>
+                <div class="inline-flex items-center justify-center w-full mt-[10px]">
+                  <hr class="w-64 h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
+                  <span class="absolute px-3  font-medium bg-black -translate-x-[4px] text-white ">
+                    Daftar
+                  </span>
+                </div>
+                <form className="mt-[5px]" onSubmit={submitHandler}>
+                  <label className="">Nama Lengkap</label>
+                  <Input className="bg-white border-none outline-none focus:outline-[#FFD700] mt-2 mb-4" />
+                  <label className="">Nomor Telepon</label>
+                  <Input className="bg-white border-none outline-none focus:outline-[#FFD700] mt-2 mb-4" />
+                  <label className="">Email</label>
+                  <Input className="bg-white border-none outline-none focus:outline-[#FFD700] mt-2" />
+                  <div className="flex justify-center">
+                    <Button
+                      variant="yellow_full"
+                      className="my-[40px] w-full py-3"
+                      type="submit"
+                    >
+                      Lanjut ke Pembayaran
+                    </Button>
+                  </div>
+                </form>
+              </DialogContent>
+            </Dialog>
+          )}
         </div>
       </div>
     </div>
