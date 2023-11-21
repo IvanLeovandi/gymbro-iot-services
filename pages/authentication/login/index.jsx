@@ -5,10 +5,12 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useRef } from "react";
 import { signIn } from "next-auth/react";
+import { useRouter } from "next/router";
 
 const LoginPage = () => {
   const usernameRef = useRef();
   const passwordRef = useRef();
+  const router = useRouter();
 
   const submitHandler = async (event) => {
     event.preventDefault();
@@ -22,13 +24,9 @@ const LoginPage = () => {
       password: enteredPassword,
     });
 
-    console.log(result);
-
-    //       if (!result.error) {
-    //         const role = result.user.role;
-    //         const userId = result.user._id;
-    // ;       router.replace(`/${role}/${userId}`);
-    //       }
+    if (!result.error) {
+      router.replace('/user/member/userId');
+    }
   };
   return (
     <div className="">

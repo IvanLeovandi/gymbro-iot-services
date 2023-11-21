@@ -4,7 +4,7 @@ import { Fragment } from "react";
 import Biocard from "@/components/biocard";
 import Userpic from "@/components/userpic";
 import ClassCard from "@/components/classcard";
-import { useSession } from "next-auth/react";
+import { getSession, useSession } from "next-auth/react";
 
 const MemberDetailPage = () => {
   const { data: session, status } = useSession();
@@ -89,5 +89,22 @@ const MemberDetailPage = () => {
     </Fragment>
   );
 };
+
+export async function getServerSideProps(context) {
+  const session = await getSession({ req: context.req });
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: { session },
+  };
+}
 
 export default MemberDetailPage;

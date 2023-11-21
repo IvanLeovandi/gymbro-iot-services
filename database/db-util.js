@@ -31,3 +31,11 @@ export async function getUserProfile (client, collection, useremail) {
 
   return document
 }
+
+export async function getUsername (client, collection, userUsername) {
+  const db = client.db();
+
+  const document = await db.collection(collection).findOne({username: userUsername});
+
+  return document
+}
