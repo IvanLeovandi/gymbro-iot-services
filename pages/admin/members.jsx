@@ -19,24 +19,29 @@ const AdminMembersPage = () => {
   return (
     <Fragment>
       <Navbar />
-      <Membercard item={users} className="ml-44"/>
+      <div className="flex flex-wrap justify-around">
+        {users.map((user) => (
+          <Membercard item={user} />
+        ))}
+      </div>
       {loading && <p>Loading...</p>}
-      {!loading && 
+      {!loading && (
         <ul>
           {users.map((item) => (
-          <li key={item._id}>
-            <p>{item.nama}</p>
-            <p>{item.email}</p>
-            <p>{item.telepon}</p>
-            <p>{item.usia}</p>
-            <p>{item.alamat}</p>
-            <p>{item.jenisKelamin}</p>
-            <p>{item.username}</p>
-            <p>{item.password}</p>
-            <p>{item.role}</p>
-          </li>
+            <li key={item._id}>
+              <p>{item.nama}</p>
+              <p>{item.email}</p>
+              <p>{item.telepon}</p>
+              <p>{item.usia}</p>
+              <p>{item.alamat}</p>
+              <p>{item.jenisKelamin}</p>
+              <p>{item.username}</p>
+              <p>{item.password}</p>
+              <p>{item.role}</p>
+            </li>
           ))}
-        </ul>}
+        </ul>
+      )}
     </Fragment>
   );
 };
