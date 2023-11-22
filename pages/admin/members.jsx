@@ -1,6 +1,7 @@
 import { Fragment, useEffect, useState } from "react";
 import Navbar from "@/components/navbar";
 import Membercard from "@/components/membercard";
+import { getSession } from "next-auth/react";
 
 const AdminMembersPage = () => {
   const [users, setUsers] = useState([]);
@@ -47,3 +48,19 @@ const AdminMembersPage = () => {
 };
 
 export default AdminMembersPage;
+export async function getServerSideProps(context) {
+  const session = await getSession({ req: context.req });
+  
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: { session },
+  };
+}
