@@ -118,8 +118,7 @@ const AdminClassPage = () => {
 
   return (
     <Fragment>
-      {role !== "Admin" && <Navbar />}
-      {role === "Admin" && <AdminNavbar />}
+      <AdminNavbar />
       <h1 className="text-6xl font-bold text-center my-[10px]">Classes</h1>
       {classLoading && userLoading && <p>Loading...</p>}
       {role === "Admin" && !classLoading && !userLoading && (
@@ -150,8 +149,17 @@ const AdminClassPage = () => {
 
 export async function getServerSideProps(context) {
   const session = await getSession({ req: context.req });
-  
+
   if (!session) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+  
+  if (session.user.email !== "admingymbro@gmail.com") {
     return {
       redirect: {
         destination: "/",
