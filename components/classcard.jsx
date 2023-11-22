@@ -66,6 +66,14 @@ const ClassCard = (props) => {
               </p>
             </div>
           </div>
+          {props.user === props.kapasitas ? (
+            <Button
+            type="button"
+            variant="destructive"
+            size="lg"
+            className="ml-[180px] md:ml-[200px] w-1/2 mt-[10px]">
+              Kelas Penuh
+            </Button> ):(
           <Dialog>
             <DialogTrigger asChild>
               <Button
@@ -119,6 +127,7 @@ const ClassCard = (props) => {
               </form>
             </DialogContent>
           </Dialog>
+            )}
         </div>
       </div>
     </div>
