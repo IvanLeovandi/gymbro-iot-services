@@ -32,7 +32,7 @@ export default function navbar() {
             {session && (
               <li>
                 <Link
-                  href="/user/member/userid"
+                  href="/user"
                   className="hover:text-[#FFD700]"
                 >
                   My Profile
@@ -44,15 +44,10 @@ export default function navbar() {
                 Classes
               </Link>
             </li>
-            <li>
-              <Link href="/admin" className="hover:text-[#FFD700]">
-                Admin
-              </Link>
-            </li>
           </ul>
         </div>
         <div className="flex justify-evenly gap-6">
-          {!session && status !== "loading" && (
+          {!session &&  (
             <Link
               href="/authentication/login"
               className="hidden md:block text-[#FFD700] font-sans border border-solid border-[#FFD700] rounded-lg px-8 py-2 hover:bg-[#FFD700] hover:text-black"
@@ -60,7 +55,7 @@ export default function navbar() {
               Login
             </Link>
           )}
-          {!session && status !== "loading" && (
+          {!session  && (
             <Link
               href="/authentication/register"
               className="hidden md:block text-white font-sans border border-solid border-white rounded-lg px-6 py-2 hover:bg-white hover:text-black"
@@ -147,7 +142,7 @@ export default function navbar() {
                   <li onClick={handleNav} className="p-4">
                     <Link
                       href="/"
-                      OnClick={logoutHandler}
+                      onClick={logoutHandler}
                       className="hover:opacity-70 hover:text-[#FFD700]"
                     >
                       Logout

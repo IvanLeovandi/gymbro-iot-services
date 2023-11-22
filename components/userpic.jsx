@@ -24,15 +24,6 @@ export default function Userpic(props) {
   //       setLoading(false);
   //     });
   // }, []);
-  let userRole;
-
-  if (props.role === "NM") {
-    userRole = "Non-Member";
-  } else if (props.role === "M") {
-    userRole = "Member";
-  } else {
-    userRole = "Undefined";
-  }
 
   return (
     <Fragment>
@@ -46,7 +37,7 @@ export default function Userpic(props) {
               }}
             ></div>
             <div className="bg-white w-36 mx-auto text-black rounded my-5">
-              {userRole}
+              {props.role}
             </div>
           </div>
       </div>
