@@ -20,7 +20,7 @@ const MemberDetailPage = () => {
 
   useEffect(() => {
     setClassLoading(true);
-    fetch("http://localhost:3000/api/classes")
+    fetch("/api/classes")
       .then((response) => response.json())
       .then((data) => {
         setClasses(data.classes);
@@ -30,7 +30,7 @@ const MemberDetailPage = () => {
 
   useEffect(() => {
     setUserLoading(true);
-    fetch("http://localhost:3000/api/profile")
+    fetch("/api/profile")
       .then((response) => response.json())
       .then((data) => {
         setProfile(data.user);
@@ -129,7 +129,7 @@ const MemberDetailPage = () => {
 
 export async function getServerSideProps(context) {
   const session = await getSession({ req: context.req });
-
+  
   if (!session) {
     return {
       redirect: {
