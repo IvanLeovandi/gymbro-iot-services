@@ -7,7 +7,8 @@ import ClassCard from "@/components/classcard";
 import { AddClassModal } from "@/components/AddClassModal";
 import { useContext } from "react";
 import NotificationContext from "@/context/notification-context";
-import { getSession } from "next-auth/react";
+import { getSession } from "next-auth/react"
+import AdminNavbar from "@/components/adminnavbar";
 
 
 const AdminClassPage = () => {
@@ -117,7 +118,8 @@ const AdminClassPage = () => {
 
   return (
     <Fragment>
-      <Navbar />
+      {role !== "Admin" && <Navbar />}
+      {role === "Admin" && <AdminNavbar />}
       <h1 className="text-6xl font-bold text-center my-[10px]">Classes</h1>
       {classLoading && userLoading && <p>Loading...</p>}
       {role === "Admin" && !classLoading && !userLoading && (
