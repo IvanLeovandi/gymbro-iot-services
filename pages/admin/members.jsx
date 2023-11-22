@@ -42,28 +42,13 @@ const AdminMembersPage = () => {
     <Fragment>
       {role !== "Admin" && <Navbar />}
       {role === "Admin" && <AdminNavbar />}
-      <div className="flex flex-wrap justify-around">
-        {users.map((user) => (
-          <Membercard item={user} />
-        ))}
-      </div>
       {loading && <p>Loading...</p>}
       {!loading && (
-        <ul>
-          {users.map((item) => (
-            <li key={item._id}>
-              <p>{item.nama}</p>
-              <p>{item.email}</p>
-              <p>{item.telepon}</p>
-              <p>{item.usia}</p>
-              <p>{item.alamat}</p>
-              <p>{item.jenisKelamin}</p>
-              <p>{item.username}</p>
-              <p>{item.password}</p>
-              <p>{item.role}</p>
-            </li>
-          ))}
-        </ul>
+        <div className="grid grid-cols-1 min-[970px]:grid-cols-2 min-[1470px]:grid-cols-3">
+        {users.map((user, index) => (
+          <Membercard item={user} key={index}/>
+        ))}
+      </div>
       )}
     </Fragment>
   );

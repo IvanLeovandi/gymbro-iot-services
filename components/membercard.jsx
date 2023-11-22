@@ -10,7 +10,7 @@ import { SendNotificationModal } from "./SendNotificationModal";
 
 export default function Membercard({ item }) {
   return (
-    <div className="relative w-[28%] h-[570px]">
+    <div className="relative w-[400px] h-[570px] mx-auto mt-[30px]">
       <Image src={Card} alt="Card" className="w-full h-full" />
       <div className="absolute top-[1.5vw] left-[2vw] right-[2vw]">
         <Image src={Dummy} alt="image fitnes" className="w-[300px] h-[300px] mx-auto py-2" />

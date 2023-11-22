@@ -66,6 +66,8 @@ const AdminClassPage = () => {
     const jadwalKelas = new Date(`${tanggal}T${waktu}`);
 
     const kelasBaru = {
+      gambar: newClass.gambar,
+      judul: newClass.judul,
       jadwal: jadwalKelas,
       deskripsi: newClass.deskripsi,
       harga: newClass.harga,
@@ -106,6 +108,7 @@ const AdminClassPage = () => {
           message: "Kelas berhasil ditambahkan",
           status: "success",
         });
+        location.reload();
       })
       .catch((error) => {
         notificationCtx.showNotification({
@@ -132,6 +135,8 @@ const AdminClassPage = () => {
           {classes.map((item) => (
             <ClassCard
               key={item._id}
+              gambar={item.gambar}
+              judul={item.judul}
               tipe={item.tipe}
               instruktur={item.instruktur}
               jadwal={item.jadwal}

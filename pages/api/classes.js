@@ -11,10 +11,12 @@ const handler = async (req, res) => {
   }
 
   if (req.method === "POST") {
-    const { jadwal, deskripsi, harga, instruktur, kapasitas, tipe, user } =
+    const { gambar, judul, jadwal, deskripsi, harga, instruktur, kapasitas, tipe, user } =
       req.body;
 
     const newClass = {
+      gambar: gambar,
+      judul: judul,
       jadwal: jadwal,
       deskripsi: deskripsi,
       harga: harga,
