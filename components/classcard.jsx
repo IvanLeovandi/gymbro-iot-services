@@ -1,8 +1,8 @@
 import Image from "next/image";
 import Card from "../public/card.png";
 import Img_dum from "../public/image_dummy.jpg";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Button } from "components/ui/button";
+import { Input } from "components/ui/input";
 import {
   Dialog,
   DialogClose,
@@ -12,7 +12,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
+} from "components/ui/dialog";
 
 const ClassCard = (props) => {
   const submitHandler = async (event) => {
@@ -57,7 +57,7 @@ const ClassCard = (props) => {
               <h3 className=" text-xl font-bold">{props.tipe}</h3>
               <p className="text-sm">{props.instruktur}</p>
             </div>
-            <p className="text-sm">{props.jadwal.toString()}</p>
+            <p className="text-sm">{props.jadwal}</p>
           </div>
           <hr className=" w-[360px] h-[1.5px] bg-gradient-to-r from-transparent via-white to-transparent mt-[5px]" />
           <p className="mt-[5px] h-[70px]">{props.deskripsi}</p>

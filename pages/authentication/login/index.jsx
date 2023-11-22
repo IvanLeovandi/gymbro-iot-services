@@ -1,8 +1,8 @@
 import Image from "next/image";
-import Navbar from "@/components/navbar";
+import Navbar from "components/navbar";
 import Logo from "../../../public/logo.png";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { Input } from "components/ui/input";
+import { Button } from "components/ui/button";
 import { useRef } from "react";
 import { signIn } from "next-auth/react";
 

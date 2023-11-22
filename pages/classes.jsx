@@ -1,9 +1,8 @@
 const { useState, useEffect } = require("react");
 import { Fragment } from "react";
-import Navbar from "@/components/navbar";
+import Navbar from "components/navbar";
 import React from "react";
-
-import ClassCard from "@/components/classcard";
+import ClassCard from "components/classcard";
 
 const ClassPage = () => {
   const [classes, setClasses] = useState([]);
@@ -18,7 +17,6 @@ const ClassPage = () => {
         setLoading(false);
       });
   }, []);
-
   return (
     <Fragment>
       <Navbar />

@@ -1,55 +1,72 @@
 import NextAuth from "next-auth/next";
-import { ConnectDB } from "@/database/db-util";
-import Credentials from "next-auth/providers/credentials";
-
-export const authNext = {
-  secret: '12345678910',
+import { ConnectDB } from "database/db-util";
+import { compare } from 'bcryptjs'
+import CredentialsProvider from "next-auth/providers/credentials"
+import { redirect } from "next/dist/server/api-utils";
+export default NextAuth({
   session: {
-    jwt: true,
+      strategy: "jwt",
   },
   providers: [
-    Credentials({
-      async authorize(credentials) {
-        const client = await ConnectDB();
+      CredentialsProvider({
+          type: "credentials",
+          credentials: {},
+          async authorize(credentials, res) {
+              const client = await ConnectDB();
+              const usersCollection = client.db().collection("User");
 
-        const usersCollection = client.db().collection("User");
-        const user = await usersCollection.findOne({
-          username: credentials.username,
-        });
+              const { username, password } = credentials;
+              console.log(credentials)
+              if (!username) {
+                  throw new Error("Username is required");
+              }
 
-        if (!user) {
-          client.close();
-          throw new Error("No user found");
-        }
+              const user = await usersCollection.findOne({ username });
 
-        // const isValid = await verifyPassword(
-        //   credentials.password,
-        //   user.password
-        // );
+              if (!user) {
+                  throw new Error("User does not exist");
+              }
+              
+              if (!password) {
+                  throw new Error("Password is required");
+              }
 
-        const isValid = (user.password === credentials.password);
+              
+              const isPasswordValid = (password === user.password);
 
-        if (!isValid) {
-          client.close();
-          throw new Error("Could not log you in");
-        }
+              if (!isPasswordValid) {
+                  throw new Error("Invalid password");
+              }
 
-        client.close();
-        return { 
-          id : user._id,
-          nama: user.nama,
-          alamat: user.alamat,
-          email:user.email,
-          jenisKelamin: user.jenisKelamin,
-          password: user.password,
-          role: user.role,
-          telepon: user.telepon,
-          username:user.username,
-          usia:user.usia
-         };
-      },
-    }),
+              return user;
+
+          }
+      })
   ],
-};
+  pages: {
+      signIn: "/authentication/login",
+  },
+  secret: process.env.NEXTAUTH_SECRET,
+  callbacks: {
+      async jwt({ token, user }) {
+          if (user && user._id) {
+              token._id = user._id;
+          }
 
-export default NextAuth(authNext);
+          if (user) {
+              token.role = user.role;
+              token.email = user.email;
+          }
+          return token;
+      },  
+      async session({ session, token }) {
+          if (token._id) {
+              session.user._id = token._id;
+              session.user.role = token.role;
+              session.user.email = token.email;
+          }
+        
+          return session;
+      },
+  }
+})

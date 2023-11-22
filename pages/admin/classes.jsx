@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import Navbar from "@/components/navbar";
+import Navbar from "components/navbar";
 
 const AdminClassesPage = () => {
   return (

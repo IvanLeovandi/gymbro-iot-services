@@ -1,4 +1,4 @@
-import { ConnectDB, getUserProfile } from "@/database/db-util";
+import { ConnectDB, getUserProfile } from "database/db-util";
 import { getServerSession } from "next-auth";
 import { authNext } from "./auth/[...nextauth]";
 

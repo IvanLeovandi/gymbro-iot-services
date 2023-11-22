@@ -1,7 +1,7 @@
-import Navbar from "@/components/navbar";
+import Navbar from "components/navbar";
 import { Fragment } from "react";
-import Userpic from "@/components/userpic";
-import Biocard from "@/components/biocard";
+import Userpic from "components/userpic";
+import Biocard from "components/biocard";
 import Link from "next/link"
 
 const AdminMenuPage = () => {

@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useState } from "react";
-import Navbar from "@/components/navbar";
+import Navbar from "components/navbar";
 
 const AdminMembersPage = () => {
   const [users, setUsers] = useState([]);

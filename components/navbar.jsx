@@ -1,14 +1,21 @@
+
 import Image from "next/image";
 import Logo from "../public/logo.png";
 import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
 import { Fragment } from "react";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 
 export default function navbar() {
-  const { data: session, status } = useSession();
+const { data: session, status } = useSession();
 
+let userRole = ""
+if (session){
+  userRole = session.user.role
+}
+
+console.log(userRole)
   const logoutHandler = () => {
     signOut();
   };
@@ -44,11 +51,13 @@ export default function navbar() {
                 Classes
               </Link>
             </li>
+            {(userRole === "admin" &&
             <li>
               <Link href="/admin" className="hover:text-[#FFD700]">
                 Admin
               </Link>
             </li>
+            )}
           </ul>
         </div>
         <div className="flex justify-evenly gap-6">
@@ -112,6 +121,7 @@ export default function navbar() {
                   Classes
                 </Link>
               </li>
+              {(userRole === "admin") &&
               <li onClick={handleNav} className="p-4">
                 <Link
                   href="/admin"
@@ -120,6 +130,7 @@ export default function navbar() {
                   Admin
                 </Link>
               </li>
+              }
 
               {!session && (
                 <ul>

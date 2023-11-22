@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import Navbar from "@/components/navbar";
+import Navbar from "components/navbar";
 
 const NonMemberDetailPage = () => {
   const router = useRouter();

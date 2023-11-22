@@ -1,9 +1,9 @@
 const { useState, useEffect } = require("react");
-import Navbar from "@/components/navbar";
+import Navbar from "components/navbar";
 import { Fragment } from "react";
-import Biocard from "@/components/biocard";
-import Userpic from "@/components/userpic";
-import ClassCard from "@/components/classcard";
+import Biocard from "components/biocard";
+import Userpic from "components/userpic";
+import ClassCard from "components/classcard";
 import { useSession } from "next-auth/react";
 
 const MemberDetailPage = () => {
@@ -79,7 +79,6 @@ const MemberDetailPage = () => {
                   harga={item.harga}
                   user={item.user}
                   kapasitas={item.kapasitas}
-                  handleShowModal={handleShowModal}
                 />
               ))}
             </div>
