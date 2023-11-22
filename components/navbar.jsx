@@ -32,7 +32,7 @@ export default function navbar() {
             {session && (
               <li>
                 <Link
-                  href="/user/userid"
+                  href="/user"
                   className="hover:text-[#FFD700]"
                 >
                   My Profile
@@ -142,7 +142,7 @@ export default function navbar() {
                   <li onClick={handleNav} className="p-4">
                     <Link
                       href="/"
-                      OnClick={logoutHandler}
+                      onClick={logoutHandler}
                       className="hover:opacity-70 hover:text-[#FFD700]"
                     >
                       Logout

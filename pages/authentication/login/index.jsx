@@ -25,7 +25,7 @@ const LoginPage = () => {
     });
 
     if (!result.error) {
-      router.replace('/user/userId');
+      router.replace(`/user`);
     }
   };
   return (
