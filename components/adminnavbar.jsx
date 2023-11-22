@@ -6,7 +6,7 @@ import { Fragment } from "react";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import { useState } from "react";
 
-export default function navbar() {
+export default function adminnavbar() {
   const { data: session, status } = useSession();
 
   const logoutHandler = () => {
@@ -40,10 +40,20 @@ export default function navbar() {
               </li>
             )}
             <li>
-              <Link href="/classes" className="hover:text-[#FFD700]">
+              <Link href="/admin/classes" className="hover:text-[#FFD700]">
                 Classes
               </Link>
             </li>
+            {session && (
+              <li>
+                <Link
+                  href="/admin/members"
+                  className="hover:text-[#FFD700]"
+                >
+                  Members
+                </Link>
+              </li>
+            )}
           </ul>
         </div>
         <div className="flex justify-evenly gap-6">
@@ -101,10 +111,18 @@ export default function navbar() {
               )}
               <li onClick={handleNav} className="p-4">
                 <Link
-                  href="/classes"
+                  href="/admin/classes"
                   className="hover:opacity-70 hover:text-[#FFD700]"
                 >
                   Classes
+                </Link>
+              </li>
+              <li onClick={handleNav} className="p-4">
+                <Link
+                  href="/admin/members"
+                  className="hover:opacity-70 hover:text-[#FFD700]"
+                >
+                  Members
                 </Link>
               </li>
 
