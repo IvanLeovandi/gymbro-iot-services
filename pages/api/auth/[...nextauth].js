@@ -35,7 +35,18 @@ export const authNext = {
         }
 
         client.close();
-        return { user: user };
+        return { 
+          id : user._id,
+          nama: user.nama,
+          alamat: user.alamat,
+          email:user.email,
+          jenisKelamin: user.jenisKelamin,
+          password: user.password,
+          role: user.role,
+          telepon: user.telepon,
+          username:user.username,
+          usia:user.usia
+         };
       },
     }),
   ],
