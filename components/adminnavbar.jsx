@@ -44,6 +44,16 @@ export default function adminnavbar() {
                 Classes
               </Link>
             </li>
+            {session && (
+              <li>
+                <Link
+                  href="/admin/members"
+                  className="hover:text-[#FFD700]"
+                >
+                  Members
+                </Link>
+              </li>
+            )}
           </ul>
         </div>
         <div className="flex justify-evenly gap-6">
@@ -92,7 +102,7 @@ export default function adminnavbar() {
               {session && (
                 <li onClick={handleNav} className="p-4">
                   <Link
-                    href="/user/member/userid"
+                    href="/user"
                     className="hover:opacity-70 hover:text-[#FFD700]"
                   >
                     My Profile
@@ -109,10 +119,10 @@ export default function adminnavbar() {
               </li>
               <li onClick={handleNav} className="p-4">
                 <Link
-                  href="/admin"
+                  href="/admin/members"
                   className="hover:opacity-70 hover:text-[#FFD700]"
                 >
-                  Admin
+                  Members
                 </Link>
               </li>
 
