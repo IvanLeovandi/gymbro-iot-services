@@ -6,6 +6,7 @@ import Userpic from "@/components/userpic";
 import ClassCard from "@/components/classcard";
 import { getSession, useSession } from "next-auth/react";
 import Link from "next/link";
+import AdminNavbar from "@/components/adminnavbar";
 
 const MemberDetailPage = () => {
   const { data: session, status } = useSession();
@@ -51,7 +52,8 @@ const MemberDetailPage = () => {
 
   return (
     <Fragment>
-      <Navbar />
+      {role !== "Admin" && <Navbar />}
+      {role === "Admin" && <AdminNavbar />}
       {(classLoading || userLoading) && <p>Loading...</p>}
       {!classLoading && !userLoading && (
         <div className="px-20 py-10">
@@ -89,6 +91,7 @@ const MemberDetailPage = () => {
               <div className="grid grid-cols-1 min-[970px]:grid-cols-2 min-[1470px]:grid-cols-3">
                 {classes.map((item) => (
                   <ClassCard
+                    key = {item._id}
                     tipe={item.tipe}
                     instruktur={item.instruktur}
                     jadwal={item.jadwal}
