@@ -91,7 +91,9 @@ const MemberDetailPage = () => {
               <div className="grid grid-cols-1 min-[970px]:grid-cols-2 min-[1470px]:grid-cols-3">
                 {classes.map((item) => (
                   <ClassCard
-                    key = {item._id}
+                    key={item._id}
+                    gambar={item.gambar}
+                    judul={item.judul}
                     tipe={item.tipe}
                     instruktur={item.instruktur}
                     jadwal={item.jadwal}
