@@ -40,8 +40,7 @@ const AdminMembersPage = () => {
 
   return (
     <Fragment>
-      {role !== "Admin" && <Navbar />}
-      {role === "Admin" && <AdminNavbar />}
+      <AdminNavbar />
       <div className="flex flex-wrap justify-around">
         {users.map((user) => (
           <Membercard item={user} />
@@ -72,8 +71,17 @@ const AdminMembersPage = () => {
 export default AdminMembersPage;
 export async function getServerSideProps(context) {
   const session = await getSession({ req: context.req });
-  
+
   if (!session) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+  
+  if (session.user.email !== "admingymbro@gmail.com") {
     return {
       redirect: {
         destination: "/",
