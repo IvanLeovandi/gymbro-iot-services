@@ -3,6 +3,8 @@ import Card from "../public/card.png";
 import Img_dum from "../public/image_dummy.jpg";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import Link from "next/link";
+import { useState, useEffect } from "react";
 import {
   Dialog,
   DialogClose,
@@ -15,13 +17,30 @@ import {
 } from "@/components/ui/dialog";
 
 const ClassCard = (props) => {
+
+  const [profile, setProfile] = useState({});
+
+  useEffect(() => {
+    fetch("/api/profile")
+      .then((response) => response.json())
+      .then((data) => {
+        setProfile(data.user);
+      });
+  }, []);
+
+
+
   const jadwalKelas = new Date(props.jadwal);
+
+  const idKelas = props.id.toString();
+  const paymentLink = `/payment/${idKelas}`
 
   const tahunKelas = jadwalKelas.getFullYear();
   const bulanKelas = jadwalKelas.getMonth();
   const tanggalKelas = jadwalKelas.getDate();
   const jamKelas = jadwalKelas.getHours();
-  const menitKelas = (jadwalKelas.getMinutes() < 10 ? '0': '')+jadwalKelas.getMinutes();;
+  const menitKelas =
+    (jadwalKelas.getMinutes() < 10 ? "0" : "") + jadwalKelas.getMinutes();
 
   const jadwalfix = `${tanggalKelas}-${bulanKelas}-${tahunKelas} ${jamKelas}:${menitKelas}`;
 
@@ -66,59 +85,75 @@ const ClassCard = (props) => {
               </p>
             </div>
           </div>
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button
-                type="button"
-                variant="yellow_outline"
-                onClick={props.handleShowModal}
-                className="ml-[240px] md:ml-[280px]"
-              >
-                Daftar
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-md">
-              <DialogHeader>
-                <DialogTitle>{props.tipe}</DialogTitle>
-                <DialogDescription>{props.instruktur}</DialogDescription>
-              </DialogHeader>
-              <hr></hr>
-              <p className="text-lg mt-[20px]">{props.deskripsi}</p>
-              <div className="flex justify-between mt-[40px]">
-                <p className="font-bold">Jadwal</p>
-                <p>
-                  {tanggalKelas} {bulanKelas} {tahunKelas}
-                </p>
-              </div>
-              <div className="flex justify-between ">
-                <p className="font-bold">Harga</p>
-                <p>{props.harga}</p>
-              </div>
-              <div class="inline-flex items-center justify-center w-full mt-[10px]">
-                <hr class="w-64 h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
-                <span class="absolute px-3  font-medium bg-black -translate-x-[4px] text-white ">
+          {props.user === props.kapasitas ? (
+            <Button
+              type="button"
+              variant="destructive"
+              size="lg"
+              className="ml-[180px] md:ml-[200px] w-1/2 mt-[10px]"
+            >
+              Kelas Penuh
+            </Button>
+          ) : (
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button
+                  type="button"
+                  variant="yellow_outline"
+                  onClick={props.handleShowModal}
+                  className="ml-[240px] md:ml-[280px]"
+                >
                   Daftar
-                </span>
-              </div>
-              <form className="mt-[5px]" onSubmit={submitHandler}>
-                <label className="">Nama Lengkap</label>
-                <Input className="bg-white border-none outline-none focus:outline-[#FFD700] mt-2 mb-4" />
-                <label className="">Nomor Telepon</label>
-                <Input className="bg-white border-none outline-none focus:outline-[#FFD700] mt-2 mb-4" />
-                <label className="">Email</label>
-                <Input className="bg-white border-none outline-none focus:outline-[#FFD700] mt-2" />
-                <div className="flex justify-center">
-                  <Button
-                    variant="yellow_full"
-                    className="my-[40px] w-full py-3"
-                    type="submit"
-                  >
-                    Lanjut ke Pembayaran
-                  </Button>
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-md">
+                <DialogHeader>
+                  <DialogTitle>{props.tipe}</DialogTitle>
+                  <DialogDescription>{props.instruktur}</DialogDescription>
+                </DialogHeader>
+                <hr></hr>
+                <p className="text-lg mt-[20px]">{props.deskripsi}</p>
+                <div className="flex justify-between mt-[40px]">
+                  <p className="font-bold">Jadwal</p>
+                  <p>
+                    {tanggalKelas} {bulanKelas} {tahunKelas}
+                  </p>
                 </div>
-              </form>
-            </DialogContent>
-          </Dialog>
+                <div className="flex justify-between ">
+                  <p className="font-bold">Harga</p>
+                  <p>{props.harga}</p>
+                </div>
+                <div class="inline-flex items-center justify-center w-full mt-[10px]">
+                  <hr class="w-64 h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
+                  <span class="absolute px-3  font-medium bg-black -translate-x-[4px] text-white ">
+                    Daftar
+                  </span>
+                </div>
+                <form className="" onSubmit={submitHandler}>
+                  <div className="flex justify-center">
+                  {!profile|| profile.role === "NM"  ?
+                    <Link href={paymentLink}>
+                      <Button
+                        variant="yellow_full"
+                        className=" w-full py-3"
+                        type="submit"
+                      >
+                        Lanjut ke Pembayaran
+                      </Button>
+                    </Link> :
+                    <Button
+                      variant="yellow_full"
+                      className=" w-full py-3"
+                      type="submit"
+                    >
+                      Daftar
+                      </Button>
+                  }
+                  </div>
+                </form>
+              </DialogContent>
+            </Dialog>
+          )}
         </div>
       </div>
     </div>
