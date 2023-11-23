@@ -1,4 +1,12 @@
-import { ConnectDB, insertDocument, getDocument } from "@/database/db-util";
+import {
+  ConnectDB,
+  insertDocument,
+  getDocument,
+  getUserProfile,
+  updateProfileData,
+} from "@/database/db-util";
+import { getServerSession } from "next-auth";
+import { authNext } from "./auth/[...nextauth]";
 
 const handler = async (req, res) => {
   let client;
@@ -11,8 +19,17 @@ const handler = async (req, res) => {
   }
 
   if (req.method === "POST") {
-    const { nama, email, telepon, usia, alamat, jenisKelamin, username, password, role } =
-      req.body;
+    const {
+      nama,
+      email,
+      telepon,
+      usia,
+      alamat,
+      jenisKelamin,
+      username,
+      password,
+      role,
+    } = req.body;
 
     //kalo perlu validasi data disini
 
@@ -20,7 +37,7 @@ const handler = async (req, res) => {
       nama: nama,
       email: email,
       telepon: telepon,
-      usia:usia,
+      usia: usia,
       alamat: alamat,
       jenisKelamin: jenisKelamin,
       username: username,
@@ -43,10 +60,42 @@ const handler = async (req, res) => {
     try {
       const documents = await getDocument(client, "User", { _id: -1 });
       res.status(200).json({ users: documents });
-      
     } catch (error) {
       res.status(500).json({ message: "Failed to get data" });
     }
+  }
+
+  if (req.method === "PATCH") {
+    const session = await getServerSession(req, res, authNext);
+
+    if (!session) {
+      res.status(401).json("Not Admin");
+      return;
+    }
+
+    const { nama, telepon, email, alamat, currentEmail } = req.body;
+
+    const client = await ConnectDB();
+
+    const user = await getUserProfile(client, "User", currentEmail);
+
+    if (!user) {
+      res.status(404).json({ message: "User not found" });
+      client.close();
+      return;
+    }
+
+    const dataUpdate = {
+      nama: nama,
+      telepon: telepon,
+      email: email,
+      alamat: alamat,
+    };
+
+    const result = await updateProfileData(client, currentEmail, dataUpdate);
+
+    client.close();
+    res.status(200).json({message: "User updated!"})
   }
 };
 

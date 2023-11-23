@@ -8,7 +8,7 @@ import { Dice1 } from "lucide-react";
 import { EditMemberModal } from "./EditMemberModal";
 import { SendNotificationModal } from "./SendNotificationModal";
 
-export default function Membercard({ item }) {
+export default function Membercard({ item, editMemberHandler }) {
   return (
     <div className="relative w-[28%] h-[570px]">
       <Image src={Card} alt="Card" className="w-full h-full" />
@@ -20,7 +20,7 @@ export default function Membercard({ item }) {
             <div className="flex-col justify-center items">
               <p className="font-bold mb-2">{item.nama}</p>
             </div>
-            <EditMemberModal user={item} />
+            <EditMemberModal user={item} onEditMember={editMemberHandler} />
             <Button
               variant="yellow_outline"
               // onClick={props.handleShowModal}
