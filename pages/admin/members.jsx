@@ -94,13 +94,7 @@ const AdminMembersPage = () => {
 
   return (
     <Fragment>
-      {role !== "Admin" && <Navbar />}
-      {role === "Admin" && <AdminNavbar />}
-      <div className="flex flex-wrap justify-around">
-        {users.map((user) => (
-          <Membercard item={user} editMemberHandler={editMember}/>
-        ))}
-      </div>
+      <AdminNavbar />
       {loading && <p>Loading...</p>}
       {!loading && (
         <div className="grid grid-cols-1 min-[970px]:grid-cols-2 min-[1470px]:grid-cols-3">

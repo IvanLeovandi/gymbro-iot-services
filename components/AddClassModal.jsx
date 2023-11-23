@@ -2,7 +2,6 @@ import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogClose,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -61,7 +60,7 @@ const [open, setOpen] = useState(false);
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="bg-[#FFD700] py-4 text-black hover:bg-[#c4a80c]">
+        <Button className="bg-[#FFD700] py-3 md:py-4 text-black hover:bg-[#c4a80c] mt-4">
           Add Class
         </Button>
       </DialogTrigger>
@@ -217,11 +216,7 @@ const [open, setOpen] = useState(false);
             </div>
           </div>
           <DialogFooter>
-            <DialogClose asChild>
-              <Button type="submit" onClick={()=> {
-                setOpen(false)
-              }}>Add Class</Button>
-            </DialogClose>
+            <Button type="submit">Add Class</Button>
           </DialogFooter>
         </form>
       </DialogContent>

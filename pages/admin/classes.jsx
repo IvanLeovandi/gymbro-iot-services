@@ -42,6 +42,7 @@ const AdminClassPage = () => {
         setUserLoading(false);
       });
   }, []);
+  
   let role;
   if (profile.role === "NM") {
     role = "Non-Member";
@@ -116,6 +117,9 @@ const AdminClassPage = () => {
           message: error.message || "Something went wrong",
           status: "error",
         });
+      })
+      .then(()=>{
+        location.reload();
       });
   };
 

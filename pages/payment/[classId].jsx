@@ -119,11 +119,14 @@ export async function getServerSideProps(context) {
   if (!session) {
     return {
       redirect: {
-        destination: "/",
+        destination: "/authentication/login",
         permanent: false,
       },
     };
   }
+  return {
+    props: { session },
+  };
 }
 
 export default PaymentPage;

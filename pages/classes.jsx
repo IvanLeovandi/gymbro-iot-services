@@ -22,6 +22,8 @@ const ClassPage = () => {
         setClassLoading(false);
       });
   }, []);
+
+  console.log(classes);
   return (
     <Fragment>
       <Navbar />
@@ -31,15 +33,17 @@ const ClassPage = () => {
         <div className="grid grid-cols-1 min-[970px]:grid-cols-2 min-[1470px]:grid-cols-3">
           {classes.map((item) => (
             <ClassCard
-              key={item._id}
-              id = {item._id}
-              tipe={item.tipe}
-              instruktur={item.instruktur}
-              jadwal={item.jadwal}
-              deskripsi={item.deskripsi}
-              harga={item.harga}
-              user={item.user}
-              kapasitas={item.kapasitas}
+            key={item._id}
+            gambar={item.gambar}
+            judul={item.judul}
+            id = {item._id}
+            tipe={item.tipe}
+            instruktur={item.instruktur}
+            jadwal={item.jadwal}
+            deskripsi={item.deskripsi}
+            harga={item.harga}
+            user={item.user}
+            kapasitas={item.kapasitas}
             />
           ))}
         </div>
