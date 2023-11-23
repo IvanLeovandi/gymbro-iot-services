@@ -7,6 +7,7 @@ import { Link } from "lucide-react";
 import { useContext, useRef } from "react";
 import NotificationContext from "@/context/notification-context";
 import { useState } from "react";
+import { useRouter } from "next/router";
 
 const RegisterPage = () => {
   const namaRef = useRef();
@@ -22,6 +23,8 @@ const RegisterPage = () => {
   const [success, setSuccess] = useState(false);
 
   const notificationCtx = useContext(NotificationContext);
+
+  const router = useRouter();
 
   const submitHandler = (event) => {
     event.preventDefault();
@@ -93,6 +96,8 @@ const RegisterPage = () => {
           message: error.message || "Something went wrong|",
           status: "error",
         });
+      }).then(() => {
+        router.replace('/authentication/login')
       });
   };
 
