@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useRouter } from "next/router";
-import { useSession } from "next-auth/react";
+import { useSession, getSession } from "next-auth/react";
 
 const PaymentPage = (props) => {
   const [kelas, setKelas] = useState([]);
@@ -16,7 +16,7 @@ const PaymentPage = (props) => {
   const {data:session, status} = useSession();
   
   const router = useRouter();
-  
+
   if(!session) {
     router.replace('/authentication/login');
   }
@@ -113,35 +113,19 @@ const PaymentPage = (props) => {
   );
 };
 
-// export async function getStaticProps(context) {
-//   const classId = context.params.classId;
-
-//   const response = await fetch("/api/class", {
-//     body: JSON.stringify(classId),
-//   });
-
-//   const data = await response.json();
-
-//   return {
-//     props: {
-//       classProperty: data.class,
-//     },
-//     revalidate: 2000,
-//   };
-// }
-
-// export async function getStaticPaths() {
-//   const response = await fetch("api/classes");
-//   const data = await response.json();
-//   const classlist = data.classes.toArray();
-
-//   return {
-//     paths: classlist.map((kelas) => ({
-//       params: { classId: kelas._id.toString() },
-//     })),
-
-//     fallback: false,
-//   };
-// }
+export async function getServerSideProps(context) {
+  const session = await getSession({ req: context.req });
+  
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+}
 
 export default PaymentPage;
+
+
