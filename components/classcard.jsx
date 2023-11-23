@@ -32,6 +32,9 @@ const ClassCard = (props) => {
 
   const jadwalKelas = new Date(props.jadwal);
 
+  const idKelas = props.id.toString();
+  const paymentLink = `/payment/${idKelas}`
+
   const tahunKelas = jadwalKelas.getFullYear();
   const bulanKelas = jadwalKelas.getMonth();
   const tanggalKelas = jadwalKelas.getDate();
@@ -128,8 +131,8 @@ const ClassCard = (props) => {
                 </div>
                 <form className="" onSubmit={submitHandler}>
                   <div className="flex justify-center">
-                  {(profile.role === "NM") ?
-                    <Link href="/payment">
+                  {!profile|| profile.role === "NM"  ?
+                    <Link href={paymentLink}>
                       <Button
                         variant="yellow_full"
                         className=" w-full py-3"

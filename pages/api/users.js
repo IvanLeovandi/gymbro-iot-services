@@ -75,8 +75,6 @@ const handler = async (req, res) => {
 
     const { nama, telepon, email, alamat, currentEmail } = req.body;
 
-    const client = await ConnectDB();
-
     const user = await getUserProfile(client, "User", currentEmail);
 
     if (!user) {
