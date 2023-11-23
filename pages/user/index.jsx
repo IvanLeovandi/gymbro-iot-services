@@ -74,13 +74,13 @@ const MemberDetailPage = () => {
             </div>
           )}
           {role !== "Admin" && (
-            <div class="flex items-center p-4">
-              <h2 class="mt-5 mb-5 font-bold text-5xl pl-4">Classes</h2>
-              <div class="outline-white ml-10 mt-2.5">
-                <button class="px-4 py-2 bg-[#D9D9D9] text-black">
+            <div className="flex items-center p-4">
+              <h2 className="mt-5 mb-5 font-bold text-5xl pl-4">Classes</h2>
+              <div className="outline-white ml-10 mt-2.5">
+                <button className="px-4 py-2 bg-[#D9D9D9] text-black">
                   Upcoming Classes
                 </button>
-                <button class="px-4 py-2 bg-[#625959] text-white">
+                <button className="px-4 py-2 bg-[#625959] text-white">
                   Completed Classes
                 </button>
               </div>
@@ -91,8 +91,9 @@ const MemberDetailPage = () => {
               <div className="grid grid-cols-1 min-[970px]:grid-cols-2 min-[1470px]:grid-cols-3">
                 {classes.map((item) => (
                   <ClassCard
-                    key = {item._id}
-                    id = {item._id}
+                    key={item._id}
+                    gambar={item.gambar}
+                    judul={item.judul}
                     tipe={item.tipe}
                     instruktur={item.instruktur}
                     jadwal={item.jadwal}

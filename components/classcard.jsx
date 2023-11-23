@@ -54,22 +54,27 @@ const ClassCard = (props) => {
         <Image
           src={Card}
           alt="Card"
-          className="w-[420px] md:w-[480px] h-[580px]"
+          className="w-[420px] md:w-[480px] h-[620px]"
         />
         <div className="absolute top-[20px] left-[30px] md:left-[40px] w-[360px] md:w-[400px]">
           <Image
-            src={Img_dum}
+            src={props.gambar}
             alt="image fitnes"
+            width={1000}
+            height={1000}
             className="w-[360px] md:w-[400px]  h-[300px]  py-[5px] ml-auto mr-auto"
           />
-          <div className="flex justify-between items-center">
-            <div>
-              <h3 className=" text-xl font-bold">{props.tipe}</h3>
-              <p className="text-sm">{props.instruktur}</p>
+          <div className="flex justify-between items-center my-2">
+            <div className="">
+              <h3 className=" text-xl font-bold">{props.judul}</h3>
             </div>
             <p className="text-sm">{jadwalfix}</p>
           </div>
-          <hr className=" w-[360px] h-[1.5px] bg-gradient-to-r from-transparent via-white to-transparent mt-[5px]" />
+          <div className="flex justify-between mt-2">
+            <p className="text-sm">{props.tipe}</p>
+            <p className="text-sm">{props.instruktur}</p>
+          </div>
+          <hr className=" w-[360px] h-[1.5px] my-4 bg-gradient-to-r from-transparent via-white to-transparent" />
           <p className="mt-[5px] h-[70px]">{props.deskripsi}</p>
 
           <div className="flex">
