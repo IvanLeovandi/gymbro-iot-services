@@ -8,7 +8,7 @@ import { Dice1 } from "lucide-react";
 import { EditMemberModal } from "./EditMemberModal";
 import { SendNotificationModal } from "./SendNotificationModal";
 
-export default function Membercard({ item, editMemberHandler }) {
+export default function Membercard({ item, editMemberHandler, addNotification }) {
   return (
     <div className="relative w-[400px] h-[570px] mx-auto mt-[30px]">
       <Image src={Card} alt="Card" className="w-full h-full" />
@@ -28,7 +28,8 @@ export default function Membercard({ item, editMemberHandler }) {
             >
               Check Payment
             </Button>
-            <SendNotificationModal />
+            <SendNotificationModal item={item}
+              onAddNotification={addNotification}/>
           </div>
         </div>
       </div>

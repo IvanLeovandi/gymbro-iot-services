@@ -24,7 +24,6 @@ const  handler = async(req,res) => {
     try {
       const documents = await getUserProfile(client, 'User', userEmail);
       res.status(200).json({ user: documents });
-      
     } catch (error) {
       res.status(500).json({ message: "Failed to get data" });
     }

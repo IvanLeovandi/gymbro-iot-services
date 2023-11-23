@@ -21,8 +21,6 @@ export default function ActionClassButton({ props, profile }) {
   const bulanKelas = jadwalKelas.getMonth();
   const tanggalKelas = jadwalKelas.getDate();
 
-  console.log(profile);
-
   return (
     <div>
       <Dialog>
