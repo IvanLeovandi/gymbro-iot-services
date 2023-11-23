@@ -6,14 +6,17 @@ import { Button } from "@/components/ui/button";
 import { useRef } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
+import { useState } from "react";
 
 const LoginPage = () => {
   const usernameRef = useRef();
   const passwordRef = useRef();
   const router = useRouter();
+  const [incorrectPass, setIncorrectPass] = useState(false);
 
   const submitHandler = async (event) => {
     event.preventDefault();
+    setIncorrectPass(true);
 
     const enteredUsername = usernameRef.current.value;
     const enteredPassword = passwordRef.current.value;
@@ -26,6 +29,11 @@ const LoginPage = () => {
 
     if (!result.error) {
       router.replace(`/user`);
+    }
+
+    if (result.error) {
+      setIncorrectPass(true);
+      passwordRef.current.value = "";
     }
   };
   return (
@@ -46,6 +54,9 @@ const LoginPage = () => {
               className="bg-white border-none outline-none focus:outline-[#FFD700] mt-2"
               ref={passwordRef}
             />
+            {incorrectPass && (
+              <p className="text-red-700">Username atau password salah</p>
+            )}
             <div className="flex justify-center">
               <Button variant="ghost" className="my-8 w-1/2" type="submit">
                 Login
