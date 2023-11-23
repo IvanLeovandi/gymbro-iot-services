@@ -87,7 +87,59 @@ const AdminMembersPage = () => {
           message: error.message || "Something went wrong!",
           status: "error",
         });
-      }).then(() => {
+      })
+      .then(() => {
+        router.reload();
+      });
+  };
+
+  const addNotificationHandler = (newNotification) => {
+    console.log(newNotification)
+    notificationCtx.showNotification({
+      title: "Send Notification",
+      message: "Mengirim Notifikasi...",
+      status: "pending",
+    });
+    fetch("/api/notification", {
+      method: "POST",
+      body: JSON.stringify(newNotification),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+
+        response
+          .json()
+          .then((data) => {
+            throw new Error(data.message || "Something went wrong");
+          })
+          .catch((error) => {
+            notificationCtx.showNotification({
+              title: "error",
+              message: error.message || "Error mengirimkan notifikas",
+              status: "error",
+            });
+          });
+      })
+      .then((data) => {
+        notificationCtx.showNotification({
+          title: "Pengiriman berhasil!",
+          message: "Notifikasi berhasil dikirim",
+          status: "success",
+        });
+      })
+      .catch((error) => {
+        notificationCtx.showNotification({
+          title: "Error",
+          message: error.message || "Something went wrong!",
+          status: "error",
+        });
+      })
+      .then(() => {
         router.reload();
       });
   };
@@ -98,10 +150,14 @@ const AdminMembersPage = () => {
       {loading && <p>Loading...</p>}
       {!loading && (
         <div className="grid grid-cols-1 min-[970px]:grid-cols-2 min-[1470px]:grid-cols-3">
-        {users.map((user, index) => (
-          <Membercard item={user} key={index}/>
-        ))}
-      </div>
+          {users.map((user, index) => (
+            <Membercard
+              item={user}
+              key={index}
+              addNotification={addNotificationHandler}
+            />
+          ))}
+        </div>
       )}
     </Fragment>
   );

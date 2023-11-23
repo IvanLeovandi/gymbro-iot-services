@@ -19,8 +19,6 @@ const ClassCard = (props) => {
       });
   }, []);
 
-  console.log(profile);
-
   const jadwalKelas = new Date(props.jadwal);
   const tahunKelas = jadwalKelas.getFullYear();
   const bulanKelas = jadwalKelas.getMonth();

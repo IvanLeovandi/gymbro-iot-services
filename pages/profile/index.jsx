@@ -1,4 +1,4 @@
-const { useState, useEffect } = require("react");
+const { useState, useEffect, useContext } = require("react");
 import Navbar from "@/components/navbar";
 import { Fragment } from "react";
 import Biocard from "@/components/biocard";
@@ -8,16 +8,23 @@ import { getSession, useSession } from "next-auth/react";
 import Link from "next/link";
 import AdminNavbar from "@/components/adminnavbar";
 import { Button } from "@/components/ui/button";
-import { BellIcon } from "@radix-ui/react-icons";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import NotificationAlert from "@/components/NotificationAlert";
+import DeleteNotificationAlert from "@/components/DeleteNotificationAlert";
+import NotificationContext from "@/context/notification-context";
+import { useRouter } from "next/router";
 
 const MemberDetailPage = () => {
   const { data: session, status } = useSession();
   const [classes, setClasses] = useState([]);
   const [classLoading, setClassLoading] = useState(false);
   const [userLoading, setUserLoading] = useState(false);
+  const [notificationLoading, setNotificationLoading] = useState(false);
   const [profile, setProfile] = useState({});
   const [notificationBox, setNofiticationBox] = useState(false);
+  const [notification, setNotification] = useState([]);
+
+  const notificationCtx = useContext(NotificationContext);
+  const router = useRouter();
 
   useEffect(() => {
     setClassLoading(true);
@@ -39,6 +46,16 @@ const MemberDetailPage = () => {
       });
   }, []);
 
+  useEffect(() => {
+    setUserLoading(true);
+    fetch("/api/notification")
+      .then((response) => response.json())
+      .then((data) => {
+        setNotification(data.user);
+        setNotificationLoading(false);
+      });
+    }, []);
+    
   let role;
   if (profile.role === "NM") {
     role = "Non-Member";
@@ -48,6 +65,52 @@ const MemberDetailPage = () => {
     role = "Admin";
   } else {
     role = undefined;
+  }
+
+  const deleteNotificationHandler = () => {
+    notificationCtx.showNotification({
+      title: "Hapus Notifikasi",
+      message: "Sedang menghapus Notifikasi...",
+      status: "pending",
+    });
+    fetch("/api/notification", {
+      method: "DELETE",
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+
+        response
+          .json()
+          .then((data) => {
+            throw new Error(data.message || "Something went wrong");
+          })
+          .catch((error) => {
+            notificationCtx.showNotification({
+              title: "error",
+              message: error.message || "Error menghapus notifikasi",
+              status: "error",
+            });
+          });
+      })
+      .then((data) => {
+        notificationCtx.showNotification({
+          title: "Penghapusan berhasil!",
+          message: "Notifikasi berhasil dihapus",
+          status: "success",
+        });
+      })
+      .catch((error) => {
+        notificationCtx.showNotification({
+          title: "Error",
+          message: error.message || "Something went wrong!",
+          status: "error",
+        });
+      })
+      .then(() => {
+        router.reload();
+      });
   }
 
   return (
@@ -75,10 +138,10 @@ const MemberDetailPage = () => {
           )}
           {role !== "Admin" && (
             <Fragment>
-              <div className="flex items-center p-4 gap-12">
+              <div className="flex items-center gap-12">
                 <Button
                   variant="yellow_outline"
-                  className="mt-5 mb-5 font-bold text-5xl"
+                  className="my-5 font-bold text-3xl lg:text-5xl"
                   onClick={() => {
                     setNofiticationBox(false);
                   }}
@@ -87,7 +150,7 @@ const MemberDetailPage = () => {
                 </Button>
                 <Button
                   variant="yellow_outline"
-                  className="mt-5 mb-5 font-bold text-5xl"
+                  className="my-5 font-bold text-3xl lg:text-5xl"
                   onClick={() => {
                     setNofiticationBox(true);
                   }}
@@ -114,14 +177,15 @@ const MemberDetailPage = () => {
                   ))}
                 </div>
               ) : (
-                <div className="w-1/2">
-                  <Alert>
-                    <BellIcon className="h-4 w-4" />
-                    <AlertTitle>Heads up!</AlertTitle>
-                    <AlertDescription>
-                      You can add components to your app using the cli.
-                    </AlertDescription>
-                  </Alert>
+                <div className="w-3/4 lg:w-1/2">
+                  {notification.length > 0 ? (
+                  <DeleteNotificationAlert onDeleteNotification = {deleteNotificationHandler}/>
+                  ) : (
+                    <p className="text-lg text-slate-400">There's no notification</p>
+                  )}
+                  {notification.map((item, index) => (
+                    <NotificationAlert notification={item} key={index}/>
+                  ))}
                 </div>
               )}
             </Fragment>
