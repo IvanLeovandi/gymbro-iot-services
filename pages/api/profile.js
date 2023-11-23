@@ -6,7 +6,7 @@ const  handler = async(req,res) => {
   const session = await getServerSession (req,res, authNext);
 
   if (!session) {
-    res.status(401).json("Not Authenticated!");
+    // res.status(401).json("Not Authenticated!");
     return;
   }
 

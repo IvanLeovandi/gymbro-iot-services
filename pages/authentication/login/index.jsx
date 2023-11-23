@@ -16,7 +16,6 @@ const LoginPage = () => {
 
   const submitHandler = async (event) => {
     event.preventDefault();
-    setIncorrectPass(true);
 
     const enteredUsername = usernameRef.current.value;
     const enteredPassword = passwordRef.current.value;
@@ -28,7 +27,7 @@ const LoginPage = () => {
     });
 
     if (!result.error) {
-      router.replace(`/user`);
+      router.replace(`/profile`);
     }
 
     if (result.error) {
@@ -47,11 +46,13 @@ const LoginPage = () => {
             <label className="">Username</label>
             <Input
               className="bg-white border-none outline-none focus:outline-[#FFD700] mt-2 mb-4"
+              type="text"
               ref={usernameRef}
             />
             <label className="">Password</label>
             <Input
               className="bg-white border-none outline-none focus:outline-[#FFD700] mt-2"
+              type="password"
               ref={passwordRef}
             />
             {incorrectPass && (

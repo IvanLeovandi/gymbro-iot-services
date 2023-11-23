@@ -5,16 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import ActionClassButton from "./ActionClassButton";
 
 const ClassCard = (props) => {
 
@@ -28,13 +19,9 @@ const ClassCard = (props) => {
       });
   }, []);
 
-
+  console.log(profile);
 
   const jadwalKelas = new Date(props.jadwal);
-
-  const idKelas = props.id.toString();
-  const paymentLink = `/payment/${idKelas}`
-
   const tahunKelas = jadwalKelas.getFullYear();
   const bulanKelas = jadwalKelas.getMonth();
   const tanggalKelas = jadwalKelas.getDate();
@@ -43,10 +30,6 @@ const ClassCard = (props) => {
     (jadwalKelas.getMinutes() < 10 ? "0" : "") + jadwalKelas.getMinutes();
 
   const jadwalfix = `${tanggalKelas}-${bulanKelas}-${tahunKelas} ${jamKelas}:${menitKelas}`;
-
-  const submitHandler = async (event) => {
-    event.preventDefault();
-  };
 
   return (
     <div key={props.id} className="flex ml-auto mr-auto mt-[30px]">
@@ -90,7 +73,11 @@ const ClassCard = (props) => {
               </p>
             </div>
           </div>
-          {props.user === props.kapasitas ? (
+
+          {/* bukan admin dan menangani kapasitas berlebih */}
+          {/* admin dan munculin delete + ilangin register button*/}
+
+          {/* {props.user === props.kapasitas ? (
             <Button
               type="button"
               variant="destructive"
@@ -100,65 +87,19 @@ const ClassCard = (props) => {
               Kelas Penuh
             </Button>
           ) : (
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button
-                  type="button"
-                  variant="yellow_outline"
-                  onClick={props.handleShowModal}
-                  className="ml-[240px] md:ml-[280px]"
-                >
-                  Daftar
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-md">
-                <DialogHeader>
-                  <DialogTitle>{props.tipe}</DialogTitle>
-                  <DialogDescription>{props.instruktur}</DialogDescription>
-                </DialogHeader>
-                <hr></hr>
-                <p className="text-lg mt-[20px]">{props.deskripsi}</p>
-                <div className="flex justify-between mt-[40px]">
-                  <p className="font-bold">Jadwal</p>
-                  <p>
-                    {tanggalKelas} {bulanKelas} {tahunKelas}
-                  </p>
-                </div>
-                <div className="flex justify-between ">
-                  <p className="font-bold">Harga</p>
-                  <p>{props.harga}</p>
-                </div>
-                <div class="inline-flex items-center justify-center w-full mt-[10px]">
-                  <hr class="w-64 h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
-                  <span class="absolute px-3  font-medium bg-black -translate-x-[4px] text-white ">
-                    Daftar
-                  </span>
-                </div>
-                <form className="" onSubmit={submitHandler}>
-                  <div className="flex justify-center">
-                  {!profile|| profile.role === "NM"  ?
-                    <Link href={paymentLink}>
-                      <Button
-                        variant="yellow_full"
-                        className=" w-full py-3"
-                        type="submit"
-                      >
-                        Lanjut ke Pembayaran
-                      </Button>
-                    </Link> :
-                    <Button
-                      variant="yellow_full"
-                      className=" w-full py-3"
-                      type="submit"
-                    >
-                      Daftar
-                      </Button>
-                  }
-                  </div>
-                </form>
-              </DialogContent>
-            </Dialog>
+            {profile && (<ActionClassButton props={props} profile={profile}/>)}
+          )} */}
+          {props.user === props.kapasitas && (
+            <Button
+            type="button"
+            variant="destructive"
+            size="lg"
+            className="ml-[180px] md:ml-[200px] w-1/2 mt-[10px]"
+          >
+            Kelas Penuh
+          </Button>
           )}
+          {profile && <ActionClassButton props={props} profile={profile}/> }
         </div>
       </div>
     </div>

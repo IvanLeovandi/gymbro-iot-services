@@ -7,17 +7,17 @@ import ClassCard from "@/components/classcard";
 import { getSession, useSession } from "next-auth/react";
 import Link from "next/link";
 import AdminNavbar from "@/components/adminnavbar";
+import { Button } from "@/components/ui/button";
+import { BellIcon } from "@radix-ui/react-icons";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 const MemberDetailPage = () => {
   const { data: session, status } = useSession();
   const [classes, setClasses] = useState([]);
   const [classLoading, setClassLoading] = useState(false);
   const [userLoading, setUserLoading] = useState(false);
-  const [showModal, setShowModal] = useState(false);
   const [profile, setProfile] = useState({});
-
-  const handleCloseModal = () => setShowModal(false);
-  const handleShowModal = () => setShowModal(true);
+  const [notificationBox, setNofiticationBox] = useState(false);
 
   useEffect(() => {
     setClassLoading(true);
@@ -74,39 +74,59 @@ const MemberDetailPage = () => {
             </div>
           )}
           {role !== "Admin" && (
-            <div className="flex items-center p-4">
-              <h2 className="mt-5 mb-5 font-bold text-5xl pl-4">Classes</h2>
-              <div className="outline-white ml-10 mt-2.5">
-                <button className="px-4 py-2 bg-[#D9D9D9] text-black">
-                  Upcoming Classes
-                </button>
-                <button className="px-4 py-2 bg-[#625959] text-white">
-                  Completed Classes
-                </button>
+            <Fragment>
+              <div className="flex items-center p-4 gap-12">
+                <Button
+                  variant="yellow_outline"
+                  className="mt-5 mb-5 font-bold text-5xl"
+                  onClick={() => {
+                    setNofiticationBox(false);
+                  }}
+                >
+                  Classes
+                </Button>
+                <Button
+                  variant="yellow_outline"
+                  className="mt-5 mb-5 font-bold text-5xl"
+                  onClick={() => {
+                    setNofiticationBox(true);
+                  }}
+                >
+                  Notification
+                </Button>
               </div>
-            </div>
+              {!notificationBox ? (
+                <div className="grid grid-cols-1 min-[970px]:grid-cols-2 min-[1470px]:grid-cols-3">
+                  {classes.map((item) => (
+                    <ClassCard
+                      key={item._id}
+                      gambar={item.gambar}
+                      judul={item.judul}
+                      id={item._id}
+                      tipe={item.tipe}
+                      instruktur={item.instruktur}
+                      jadwal={item.jadwal}
+                      deskripsi={item.deskripsi}
+                      harga={item.harga}
+                      user={item.user}
+                      kapasitas={item.kapasitas}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <div className="w-1/2">
+                  <Alert>
+                    <BellIcon className="h-4 w-4" />
+                    <AlertTitle>Heads up!</AlertTitle>
+                    <AlertDescription>
+                      You can add components to your app using the cli.
+                    </AlertDescription>
+                  </Alert>
+                </div>
+              )}
+            </Fragment>
           )}
-          {role !== "Admin" && (
-            <div>
-              <div className="grid grid-cols-1 min-[970px]:grid-cols-2 min-[1470px]:grid-cols-3">
-                {classes.map((item) => (
-                  <ClassCard
-                    key={item._id}
-                    gambar={item.gambar}
-                    judul={item.judul}
-                    tipe={item.tipe}
-                    instruktur={item.instruktur}
-                    jadwal={item.jadwal}
-                    deskripsi={item.deskripsi}
-                    harga={item.harga}
-                    user={item.user}
-                    kapasitas={item.kapasitas}
-                    handleShowModal={handleShowModal}
-                  />
-                ))}
-              </div>
-            </div>
-          )}
+
           {role === "Admin" && (
             <Fragment>
               <h1 className="mt-5 mb-5 font-bold text-5xl pl-4">Settings</h1>
@@ -134,7 +154,7 @@ const MemberDetailPage = () => {
 
 export async function getServerSideProps(context) {
   const session = await getSession({ req: context.req });
-  
+
   if (!session) {
     return {
       redirect: {
