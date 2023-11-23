@@ -131,6 +131,7 @@ const AdminClassPage = () => {
           {classes.map((item) => (
             <ClassCard
               key={item._id}
+              id = {item._id}
               tipe={item.tipe}
               instruktur={item.instruktur}
               jadwal={item.jadwal}
