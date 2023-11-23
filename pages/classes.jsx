@@ -4,18 +4,12 @@ import Navbar from "@/components/navbar";
 import React from "react";
 import { toDateString } from "date";
 import ClassCard from "@/components/classcard";
-import { AddClassModal } from "@/components/AddClassModal";
 import { useContext } from "react";
 import NotificationContext from "@/context/notification-context";
 
 const ClassPage = () => {
   const [classes, setClasses] = useState([]);
-  const [profile, setProfile] = useState([]);
   const [classLoading, setClassLoading] = useState(false);
-  const [showModal, setShowModal] = useState(false);
-
-  const handleCloseModal = () => setShowModal(false);
-  const handleShowModal = () => setShowModal(true);
 
   const notificationCtx = useContext(NotificationContext);
 
@@ -28,7 +22,6 @@ const ClassPage = () => {
         setClassLoading(false);
       });
   }, []);
-
   return (
     <Fragment>
       <Navbar />
@@ -46,7 +39,6 @@ const ClassPage = () => {
               harga={item.harga}
               user={item.user}
               kapasitas={item.kapasitas}
-              handleShowModal={handleShowModal}
             />
           ))}
         </div>
