@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import * as DialogPrimitive from "@radix-ui/react-dialog";
 import {
   Dialog,
   DialogClose,
@@ -17,7 +18,6 @@ import {
 } from "@/components/ui/dialog";
 
 const ClassCard = (props) => {
-
   const [profile, setProfile] = useState({});
 
   useEffect(() => {
@@ -27,8 +27,6 @@ const ClassCard = (props) => {
         setProfile(data.user);
       });
   }, []);
-
-
 
   const jadwalKelas = new Date(props.jadwal);
 
@@ -41,8 +39,53 @@ const ClassCard = (props) => {
 
   const jadwalfix = `${tanggalKelas}-${bulanKelas}-${tahunKelas} ${jamKelas}:${menitKelas}`;
 
-  const submitHandler = async (event) => {
-    event.preventDefault();
+  const submitHandler = async () => {
+
+    const kelasBaru = {
+      jadwal: props.jadwal,
+      instruktur: props.instruktur,
+      username: profile.username
+    };
+
+    fetch("/api/classesEnrolled", {
+      method: "POST",
+      body: JSON.stringify(kelasBaru),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+
+        response
+          .json()
+          .then((data) => {
+            throw new Error(data.message || "Something went wrong");
+          })
+          .catch((error) => {
+            notificationCtx.showNotification({
+              title: "Error",
+              message: error.message || "Something went wrong",
+              status: "error",
+            });
+          });
+      })
+      .then((data) => {
+        notificationCtx.showNotification({
+          title: "Success",
+          message: "Kelas berhasil ditambahkan",
+          status: "success",
+        });
+      })
+      .catch((error) => {
+        notificationCtx.showNotification({
+          title: "Error",
+          message: error.message || "Something went wrong",
+          status: "error",
+        });
+      });
   };
 
   return (
@@ -128,24 +171,28 @@ const ClassCard = (props) => {
                 </div>
                 <form className="" onSubmit={submitHandler}>
                   <div className="flex justify-center">
-                  {(profile.role === "NM") ?
-                    <Link href="/payment">
-                      <Button
-                        variant="yellow_full"
-                        className=" w-full py-3"
-                        type="submit"
-                      >
-                        Lanjut ke Pembayaran
-                      </Button>
-                    </Link> :
-                    <Button
-                      variant="yellow_full"
-                      className=" w-full py-3"
-                      type="submit"
-                    >
-                      Daftar
-                      </Button>
-                  }
+                    {profile.role === "NM" ? (
+                      <Link href="/payment">
+                        <Button
+                          variant="yellow_full"
+                          className=" w-full py-3"
+                          type="submit"
+                        >
+                          Lanjut ke Pembayaran
+                        </Button>
+                      </Link>
+                    ) : (
+                      <DialogPrimitive.Close>
+                        <Button
+                          variant="yellow_full"
+                          className=" w-full py-3"
+                          type="submit"
+                          onClick = {submitHandler}
+                        >
+                          Daftar
+                        </Button>
+                      </DialogPrimitive.Close>
+                    )}
                   </div>
                 </form>
               </DialogContent>
