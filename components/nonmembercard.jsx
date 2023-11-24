@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Image from "next/image";
 // import { Button } from './ui/button'
 import Dummy from "../public/image_dummy.jpg";
@@ -7,11 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Dice1 } from "lucide-react";
 import { EditMemberModal } from "./EditMemberModal";
 import { SendNotificationModal } from "./SendNotificationModal";
-import SeePaymentModal from "./SeePaymentModal";
 
-export default function Membercard({ item, editMemberHandler, addNotification, payment }) {
-  useEffect(() => {
-  })
+export default function NonMembercard({ item, editMemberHandler, addNotification }) {
   return (
     <div className="relative w-[400px] h-[570px] mx-auto mt-[30px]">
       <Image src={Card} alt="Card" className="w-full h-full" />
@@ -24,7 +21,6 @@ export default function Membercard({ item, editMemberHandler, addNotification, p
               <p className="font-bold mb-2">{item.nama}</p>
             </div>
             <EditMemberModal user={item} onEditMember={editMemberHandler} />
-            <SeePaymentModal user={item}/>
             <SendNotificationModal item={item}
               onAddNotification={addNotification}/>
           </div>

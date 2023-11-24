@@ -13,6 +13,11 @@ export default function ActionClassButton({ props, profile }) {
   const submitHandler = async (event) => {
     event.preventDefault();
   };
+
+  const daftarKelas = async (event) => {
+    event.preventDefault();
+  };
+
   const idKelas = props.id.toString();
   const paymentLink = `/payment/${idKelas}`;
 
@@ -79,15 +84,16 @@ export default function ActionClassButton({ props, profile }) {
                   </Button>
                 </Link>
               ) : (
-                <Link href={paymentLink}>
+                
                   <Button
                     variant="yellow_full"
                     className=" w-full py-3"
                     type="submit"
+                    onClick ={daftarKelas}
                   >
                     Daftar
                   </Button>
-                </Link>
+                
               )}
             </div>
           </form>

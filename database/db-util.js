@@ -83,3 +83,11 @@ export async function deleteAllNotification (client, userEmail) {
 
   return result;
 }
+
+export async function getLatestPayment (client,userEmail) {
+  const db = client.db();
+
+  const result = await db.collection("Payments").findOne({email:userEmail}, {} , {sort : {_id:-1}});
+
+  return result;
+}
