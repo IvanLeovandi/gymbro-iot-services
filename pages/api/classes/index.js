@@ -1,4 +1,4 @@
-import { ConnectDB, insertDocument, getDocument } from "@/database/db-util";
+import { ConnectDB, insertDocument, getDocument, incrementClass } from "@/database/db-util";
 
 const handler = async (req, res) => {
   let client;
@@ -45,6 +45,19 @@ const handler = async (req, res) => {
     } catch (error) {
       res.status(500).json({ message: "Failed to get data" });
     }
+  }
+
+  if(req.method === "PATCH"){
+    let result;
+    const { instruktur,jadwal } = req.body;
+    try {
+      result = await incrementClass(client, instruktur,jadwal);
+    } catch (error) {
+      res.status(500).json({ message: "Increment class Failed" });
+    }
+
+    client.close();
+    res.status(200).json({message: "User updated!"})
   }
 };
 

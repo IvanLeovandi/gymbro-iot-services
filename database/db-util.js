@@ -63,23 +63,46 @@ export async function updateProfileData(client, userEmail, newData) {
 export async function getClassFromID(client, id) {
   const db = client.db();
 
-  const result = await db.collection("Classes").findOne({ _id: new ObjectId(id) });
+  const result = await db
+    .collection("Classes")
+    .findOne({ _id: new ObjectId(id) });
 
   return result;
 }
 
-export async function getNotificationFromEmail (client,userEmail) {
+export async function getNotificationFromEmail(client, userEmail) {
   const db = client.db();
 
-  const result = await db.collection("Notification").find({email: userEmail}).sort({_id: -1}).toArray();
+  const result = await db
+    .collection("Notification")
+    .find({ email: userEmail })
+    .sort({ _id: -1 })
+    .toArray();
 
   return result;
 }
 
-export async function deleteAllNotification (client, userEmail) {
+export async function deleteAllNotification(client, userEmail) {
   const db = client.db();
 
-  const result = await db.collection("Notification").deleteMany({email: userEmail});
+  const result = await db
+    .collection("Notification")
+    .deleteMany({ email: userEmail });
+
+  return result;
+}
+
+export async function incrementClass(client, instruktur, jadwal) {
+  const db = client.db();
+
+  const result = await db.collection("Classes").update(
+    { $and: [{ instruktur: instruktur }, { jadwal: jadwal }] },
+    {
+      $inc: {
+        user: 1,
+      },
+    }
+  );
 
   return result;
 }

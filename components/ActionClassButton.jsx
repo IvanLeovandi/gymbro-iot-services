@@ -12,9 +12,9 @@ import Link from "next/link";
 export default function ActionClassButton({ props, profile }) {
   const submitHandler = async () => {
     const kelasBaru = {
-      jadwal:props.jadwal,
-      instruktur : props.instruktur,
-      username: profile.username
+      jadwal: props.jadwal,
+      instruktur: props.instruktur,
+      username: profile.username,
     };
     fetch("/api/classesEnrolled", {
       method: "POST",
@@ -22,28 +22,47 @@ export default function ActionClassButton({ props, profile }) {
       headers: {
         "Content-Type": "application/json",
       },
-    })
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        response
-          .json()
-          .then((data) => {
-            throw new Error(data.message || "Something went wrong");
-          })
-          .catch((error) => {
-            notificationCtx.showNotification({
-              title: "Error",
-          status: "error",
+    }).then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      response
+        .json()
+        .then((data) => {
+          throw new Error(data.message || "Something went wrong");
+        })
+        .catch((error) => {
+          notificationCtx.showNotification({
+            title: "Error",
+            status: "error",
+          });
         });
-      });
-  });
-  }
+    });
 
+    const kelasSearch = {
+      jadwal: props.jadwal,
+      instruktur: props.instruktur,
+    };
 
-  const daftarKelas = async (event) => {
-    event.preventDefault();
+    fetch("/api/classes/index", {
+      method: "PATCH",
+      body: JSON.stringify(kelasSearch),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      response
+        .json()
+        .then((data) => {
+          throw new Error(data.message || "Something went wrong");
+        })
+        .catch((error) => {
+          return;
+        });
+    });
   };
 
   const idKelas = props.id.toString();
@@ -99,30 +118,30 @@ export default function ActionClassButton({ props, profile }) {
               Daftar
             </span>
           </div>
-          
-            <div className="flex justify-center">
-              {!profile || profile.role === "NM" ? (
-                <Link href={paymentLink}>
-                  <Button
-                    variant="yellow_full"
-                    className=" w-full py-3"
-                    type="submit"
-                  >
-                    Lanjut ke Pembayaran
-                  </Button>
-                </Link>
-              ) : (
-                <form className="" onSubmit={submitHandler}>
-                  <Button
-                    variant="yellow_full"
-                    className=" w-full py-3"
-                    type="submit"
-                  >
-                    Daftar
-                  </Button>
-                </form>
-              )}
-            </div>
+
+          <div className="flex justify-center">
+            {!profile || profile.role === "NM" ? (
+              <Link href={paymentLink}>
+                <Button
+                  variant="yellow_full"
+                  className=" w-full py-3"
+                  type="submit"
+                >
+                  Lanjut ke Pembayaran
+                </Button>
+              </Link>
+            ) : (
+              <form className="" onSubmit={submitHandler}>
+                <Button
+                  variant="yellow_full"
+                  className=" w-full py-3"
+                  type="submit"
+                >
+                  Daftar
+                </Button>
+              </form>
+            )}
+          </div>
         </DialogContent>
       </Dialog>
     </div>
