@@ -10,9 +10,37 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 export default function ActionClassButton({ props, profile }) {
-  const submitHandler = async (event) => {
-    event.preventDefault();
-  };
+  const submitHandler = async () => {
+    const kelasBaru = {
+      jadwal:props.jadwal,
+      instruktur : props.instruktur,
+      username: profile.username
+    };
+    fetch("/api/classesEnrolled", {
+      method: "POST",
+      body: JSON.stringify(kelasBaru),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        response
+          .json()
+          .then((data) => {
+            throw new Error(data.message || "Something went wrong");
+          })
+          .catch((error) => {
+            notificationCtx.showNotification({
+              title: "Error",
+          status: "error",
+        });
+      });
+  });
+  }
+
 
   const daftarKelas = async (event) => {
     event.preventDefault();
@@ -71,7 +99,7 @@ export default function ActionClassButton({ props, profile }) {
               Daftar
             </span>
           </div>
-          <form className="" onSubmit={submitHandler}>
+          
             <div className="flex justify-center">
               {!profile || profile.role === "NM" ? (
                 <Link href={paymentLink}>
@@ -84,19 +112,17 @@ export default function ActionClassButton({ props, profile }) {
                   </Button>
                 </Link>
               ) : (
-                
+                <form className="" onSubmit={submitHandler}>
                   <Button
                     variant="yellow_full"
                     className=" w-full py-3"
                     type="submit"
-                    onClick ={daftarKelas}
                   >
                     Daftar
                   </Button>
-                
+                </form>
               )}
             </div>
-          </form>
         </DialogContent>
       </Dialog>
     </div>
