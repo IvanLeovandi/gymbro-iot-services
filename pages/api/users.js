@@ -29,6 +29,7 @@ const handler = async (req, res) => {
       username,
       password,
       role,
+      profileImage,
     } = req.body;
 
     //kalo perlu validasi data disini
@@ -43,6 +44,7 @@ const handler = async (req, res) => {
       username: username,
       password: password,
       role: role,
+      profileImage: profileImage,
     };
 
     let result;

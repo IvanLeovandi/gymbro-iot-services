@@ -45,7 +45,8 @@ export const authNext = {
           role: user.role,
           telepon: user.telepon,
           username:user.username,
-          usia:user.usia
+          usia:user.usia,
+          profileImage:user.profileImage
          };
       },
     }),

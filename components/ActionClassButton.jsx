@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import DeleteClassAlert from "./DeleteClassAlert";
 
 export default function ActionClassButton({ props, profile }) {
   const submitHandler = async (event) => {
@@ -40,13 +41,7 @@ export default function ActionClassButton({ props, profile }) {
             </Button>
           </DialogTrigger>
         ) : (
-          <Button
-            type="button"
-            variant="destructive"
-            className="ml-[240px] md:ml-[280px]"
-          >
-            Delete
-          </Button>
+          <DeleteClassAlert />
         )}
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
