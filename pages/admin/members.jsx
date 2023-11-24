@@ -77,7 +77,6 @@ const AdminMembersPage = () => {
   };
 
   const addNotificationHandler = (newNotification) => {
-    console.log(newNotification);
     notificationCtx.showNotification({
       title: "Send Notification",
       message: "Mengirim Notifikasi...",

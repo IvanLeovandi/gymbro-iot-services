@@ -22,7 +22,7 @@ const ClassCard = (props) => {
 
   const jadwalKelas = new Date(props.jadwal);
   const tahunKelas = jadwalKelas.getFullYear();
-  const bulanKelas = jadwalKelas.getMonth();
+  const bulanKelas = jadwalKelas.getMonth() + 1;
   const tanggalKelas = jadwalKelas.getDate();
   const jamKelas = jadwalKelas.getHours();
   const menitKelas =

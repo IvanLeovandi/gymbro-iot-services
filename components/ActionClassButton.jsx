@@ -25,7 +25,7 @@ export default function ActionClassButton({ props, profile, onDeleteClass }) {
   };
 
   const idKelas = props.id.toString();
-  const paymentLink = `/payment/${idKelas}`;
+  const paymentLink = `/payment/class/${idKelas}`;
 
   const jadwalKelas = new Date(props.jadwal);
   const tahunKelas = jadwalKelas.getFullYear();
