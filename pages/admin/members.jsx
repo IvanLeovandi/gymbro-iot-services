@@ -5,11 +5,13 @@ import { getSession } from "next-auth/react";
 import AdminNavbar from "@/components/adminnavbar";
 import NotificationContext from "@/context/notification-context";
 import { useRouter } from "next/router";
+import NonMembercard from "@/components/nonmembercard";
 
 const AdminMembersPage = () => {
-  const [users, setUsers] = useState([]);
+  const [member, setMember] = useState([]);
+  const [nonMember, setNonMember] = useState([]);
+  const [admin, setAdmin] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [profile, setProfile] = useState({});
 
   const notificationCtx = useContext(NotificationContext);
   const router = useRouter();
@@ -19,29 +21,12 @@ const AdminMembersPage = () => {
     fetch("/api/users")
       .then((response) => response.json())
       .then((data) => {
-        setUsers(data.users);
+        setMember(data.member);
+        setNonMember(data.nonMember);
+        setAdmin(data.admin);
         setLoading(false);
       });
   }, []);
-
-  useEffect(() => {
-    fetch("/api/profile")
-      .then((response) => response.json())
-      .then((data) => {
-        setProfile(data.user);
-      });
-  }, []);
-
-  let role;
-  if (profile.role === "NM") {
-    role = "Non-Member";
-  } else if (profile.role === "M") {
-    role = "Member";
-  } else if (profile.role === "admin") {
-    role = "Admin";
-  } else {
-    role = undefined;
-  }
 
   const editMember = (newData) => {
     notificationCtx.showNotification({
@@ -94,7 +79,7 @@ const AdminMembersPage = () => {
   };
 
   const addNotificationHandler = (newNotification) => {
-    console.log(newNotification)
+    console.log(newNotification);
     notificationCtx.showNotification({
       title: "Send Notification",
       message: "Mengirim Notifikasi...",
@@ -149,15 +134,41 @@ const AdminMembersPage = () => {
       <AdminNavbar />
       {loading && <p>Loading...</p>}
       {!loading && (
-        <div className="grid grid-cols-1 min-[970px]:grid-cols-2 min-[1470px]:grid-cols-3">
-          {users.map((user, index) => (
-            <Membercard
-              item={user}
-              key={index}
-              addNotification={addNotificationHandler}
-            />
-          ))}
-        </div>
+        <Fragment>
+          <h1 className="text-6xl font-bold text-center my-[10px]">Members</h1>
+          <div className="grid grid-cols-1 min-[970px]:grid-cols-2 min-[1470px]:grid-cols-3">
+            {member.map((user, index) => (
+              <Membercard
+                item={user}
+                key={index}
+                addNotification={addNotificationHandler}
+                editMemberHandler={editMember}
+              />
+            ))}
+          </div>
+          <h1 className="text-6xl font-bold text-center my-[10px]">Non Members</h1>
+          <div className="grid grid-cols-1 min-[970px]:grid-cols-2 min-[1470px]:grid-cols-3">
+            {nonMember.map((user, index) => (
+              <NonMembercard
+                item={user}
+                key={index}
+                addNotification={addNotificationHandler}
+                editMemberHandler={editMember}
+              />
+            ))}
+          </div>
+          <h1 className="text-6xl font-bold text-center my-[10px]">Admin</h1>
+          <div className="grid grid-cols-1 min-[970px]:grid-cols-2 min-[1470px]:grid-cols-3">
+            {admin.map((user, index) => (
+              <NonMembercard
+                item={user}
+                key={index}
+                addNotification={addNotificationHandler}
+                editMemberHandler={editMember}
+              />
+            ))}
+          </div>
+        </Fragment>
       )}
     </Fragment>
   );
