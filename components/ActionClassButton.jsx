@@ -8,8 +8,11 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { useContext } from "react";
+import NotificationContext from "@/context/notification-context";
 
-export default function ActionClassButton({ props, profile }) {
+export default function ActionClassButton({ props, profile, onDeleteClass }) {
+  const notificationCtx = useContext(NotificationContext);
   const submitHandler = async (event) => {
     event.preventDefault();
   };
@@ -17,6 +20,15 @@ export default function ActionClassButton({ props, profile }) {
   const daftarKelas = async (event) => {
     event.preventDefault();
   };
+  
+  const deleteClassHandler = async () => {
+    notificationCtx.showNotification({
+      title: "Menghapus kelas",
+      message: "Kelas sedang dihapus...",
+      status: "pending",
+    })
+    fetch
+  }
 
   const idKelas = props.id.toString();
   const paymentLink = `/payment/${idKelas}`;
@@ -79,6 +91,7 @@ export default function ActionClassButton({ props, profile }) {
                     variant="yellow_full"
                     className=" w-full py-3"
                     type="submit"
+                    onClick={onDeleteClass}
                   >
                     Lanjut ke Pembayaran
                   </Button>
@@ -93,7 +106,6 @@ export default function ActionClassButton({ props, profile }) {
                   >
                     Daftar
                   </Button>
-                
               )}
             </div>
           </form>

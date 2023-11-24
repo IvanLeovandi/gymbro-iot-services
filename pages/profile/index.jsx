@@ -8,16 +8,11 @@ import { getSession, useSession } from "next-auth/react";
 import Link from "next/link";
 import AdminNavbar from "@/components/adminnavbar";
 import { Button } from "@/components/ui/button";
-<<<<<<< HEAD
-import { BellIcon } from "@radix-ui/react-icons";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import UpgradeMemberModal from "@/components/UpgradeMemberModal";
-=======
 import NotificationAlert from "@/components/NotificationAlert";
 import DeleteNotificationAlert from "@/components/DeleteNotificationAlert";
 import NotificationContext from "@/context/notification-context";
 import { useRouter } from "next/router";
->>>>>>> main
+import UpgradeMemberModal from "@/components/UpgradeMemberModal";
 
 const MemberDetailPage = () => {
   const { data: session, status } = useSession();

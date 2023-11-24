@@ -97,7 +97,7 @@ const ClassCard = (props) => {
             Kelas Penuh
           </Button>
           )}
-          {profile && <ActionClassButton props={props} profile={profile}/> }
+          {profile && <ActionClassButton props={props} profile={profile} /> }
         </div>
       </div>
     </div>

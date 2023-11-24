@@ -19,6 +19,15 @@ const handler = async (req, res) => {
       res.status(402).json({ message: "Failed to get data" });
     }
   }
+
+  if (req.method === "DELETE") {
+    try {
+      const result = await deleteClass(client, classId)
+      res.status(201).json({message : result})
+    } catch (error) {
+      res.status(500).json({message: "Failed to delete class"})
+    }
+  }
 };
 
 export default handler;

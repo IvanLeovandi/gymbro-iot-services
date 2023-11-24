@@ -91,3 +91,10 @@ export async function getLatestPayment (client,userEmail) {
 
   return result;
 }
+
+export async function deleteClass(client, id) {
+  const db = client.db();
+
+  const result = await db.collection("Classes").deleteOne({_id: new ObjectId(id)});
+  return result;
+}
