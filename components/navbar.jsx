@@ -32,7 +32,7 @@ export default function navbar() {
             {session && (
               <li>
                 <Link
-                  href="/user"
+                  href="/profile"
                   className="hover:text-[#FFD700]"
                 >
                   My Profile
@@ -92,7 +92,7 @@ export default function navbar() {
               {session && (
                 <li onClick={handleNav} className="p-4">
                   <Link
-                    href="/user"
+                    href="/profile"
                     className="hover:opacity-70 hover:text-[#FFD700]"
                   >
                     My Profile

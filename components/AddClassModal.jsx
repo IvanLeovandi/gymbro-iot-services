@@ -2,7 +2,6 @@ import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -11,9 +10,14 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import Image from "next/image"
+import { UploadDropzone } from "@/src/utils/uploadthing";
 
 export function AddClassModal(props) {
+const [imageUrl, setImageUrl] = useState("")
+const [open, setOpen] = useState(false);
+
   const imageRef = useRef();
   const titleRef = useRef();
   const instructorRef = useRef();
@@ -27,7 +31,7 @@ export function AddClassModal(props) {
   const submitHandler = (event) => {
     event.preventDefault();
 
-    const enteredImage = imageRef.current.value;
+    const enteredImage = imageUrl;
     const enteredTitle = titleRef.current.value;
     const enteredInstructor = instructorRef.current.value;
     const enteredDate = dateRef.current.value;
@@ -39,6 +43,7 @@ export function AddClassModal(props) {
 
     const newClass = {
       gambar: enteredImage,
+      judul: enteredTitle,
       waktu: enteredTime,
       tanggal: enteredDate,
       deskripsi: enteredDescription,
@@ -53,9 +58,9 @@ export function AddClassModal(props) {
   };
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="bg-[#FFD700] py-4 text-black hover:bg-[#c4a80c]">
+        <Button className="bg-[#FFD700] py-3 md:py-4 text-black hover:bg-[#c4a80c] mt-4">
           Add Class
         </Button>
       </DialogTrigger>
@@ -66,8 +71,45 @@ export function AddClassModal(props) {
           </DialogHeader>
           <div className="grid grid-cols-2 gap-4 py-4">
             <div className="items-center gap-4">
-              <Label htmlFor="picture">Picture</Label>
-              <Input id="picture" type="file" ref={imageRef} />
+              {/* <Label htmlFor="picture">Picture</Label>
+              <Input id="picture" type="file" ref={imageRef} /> */}
+
+              {imageUrl ? (
+                <Image 
+                  src={imageUrl} 
+                  alt="Class Image"
+                  width={1000}
+                  height={1000}
+                  className="w-full h-5/6 object-cover mt-3"/>
+              ) : (
+                <UploadDropzone
+                  required
+                  className="bg-slate-200 h-full"
+                  endpoint="imageUploader"
+                  onClientUploadComplete={(res) => {
+                    // Do something with the response
+                    console.log("Files: ", res[0].url);
+                    setImageUrl(res[0].url)
+                    alert("Upload Completed");
+                  }}
+                  onUploadError={(error) => {
+                    // Do something with the error.
+                    alert(`ERROR! ${error.message}`);
+                  }}
+                />
+              )}
+
+              {imageUrl && (
+                <div className="mt-4 flex justify-center">
+                  <Button
+                    onClick={() => setImageUrl("")}
+                    variant="yellow_outline"
+                  >
+                    Change Image
+                  </Button>
+                </div>
+              )}
+
             </div>
             <div className="grid grid-cols-2 items-center gap-4">
               <div className="col-span-2">
@@ -82,7 +124,7 @@ export function AddClassModal(props) {
                   ref={titleRef}
                 />
                 <Label htmlFor="instructor" className="text-right">
-                  Class Instrucutre
+                  Class Instructure
                 </Label>
                 <Input
                   id="instructor"
@@ -155,6 +197,7 @@ export function AddClassModal(props) {
                   placeholder="Class Price"
                   type="number"
                   min="50000"
+                  step="5000"
                   required
                   ref={priceRef}
                 />

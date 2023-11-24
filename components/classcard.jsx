@@ -5,17 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import * as DialogPrimitive from "@radix-ui/react-dialog";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import ActionClassButton from "./ActionClassButton";
 
 const ClassCard = (props) => {
   const [profile, setProfile] = useState({});
@@ -29,7 +19,6 @@ const ClassCard = (props) => {
   }, []);
 
   const jadwalKelas = new Date(props.jadwal);
-
   const tahunKelas = jadwalKelas.getFullYear();
   const bulanKelas = jadwalKelas.getMonth();
   const tanggalKelas = jadwalKelas.getDate();
@@ -39,77 +28,33 @@ const ClassCard = (props) => {
 
   const jadwalfix = `${tanggalKelas}-${bulanKelas}-${tahunKelas} ${jamKelas}:${menitKelas}`;
 
-  const submitHandler = async () => {
-
-    const kelasBaru = {
-      jadwal: props.jadwal,
-      instruktur: props.instruktur,
-      username: profile.username
-    };
-
-    fetch("/api/classesEnrolled", {
-      method: "POST",
-      body: JSON.stringify(kelasBaru),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-
-        response
-          .json()
-          .then((data) => {
-            throw new Error(data.message || "Something went wrong");
-          })
-          .catch((error) => {
-            notificationCtx.showNotification({
-              title: "Error",
-              message: error.message || "Something went wrong",
-              status: "error",
-            });
-          });
-      })
-      .then((data) => {
-        notificationCtx.showNotification({
-          title: "Success",
-          message: "Kelas berhasil ditambahkan",
-          status: "success",
-        });
-      })
-      .catch((error) => {
-        notificationCtx.showNotification({
-          title: "Error",
-          message: error.message || "Something went wrong",
-          status: "error",
-        });
-      });
-  };
-
   return (
     <div key={props.id} className="flex ml-auto mr-auto mt-[30px]">
       <div className="relative">
         <Image
           src={Card}
           alt="Card"
-          className="w-[420px] md:w-[480px] h-[580px]"
+          className="w-[420px] md:w-[480px] h-[620px]"
         />
         <div className="absolute top-[20px] left-[30px] md:left-[40px] w-[360px] md:w-[400px]">
           <Image
-            src={Img_dum}
+            src={props.gambar}
             alt="image fitnes"
+            width={1000}
+            height={1000}
             className="w-[360px] md:w-[400px]  h-[300px]  py-[5px] ml-auto mr-auto"
           />
-          <div className="flex justify-between items-center">
-            <div>
-              <h3 className=" text-xl font-bold">{props.tipe}</h3>
-              <p className="text-sm">{props.instruktur}</p>
+          <div className="flex justify-between items-center my-2">
+            <div className="">
+              <h3 className=" text-xl font-bold">{props.judul}</h3>
             </div>
             <p className="text-sm">{jadwalfix}</p>
           </div>
-          <hr className=" w-[360px] h-[1.5px] bg-gradient-to-r from-transparent via-white to-transparent mt-[5px]" />
+          <div className="flex justify-between mt-2">
+            <p className="text-sm">{props.tipe}</p>
+            <p className="text-sm">{props.instruktur}</p>
+          </div>
+          <hr className=" w-[360px] h-[1.5px] my-4 bg-gradient-to-r from-transparent via-white to-transparent" />
           <p className="mt-[5px] h-[70px]">{props.deskripsi}</p>
 
           <div className="flex">
@@ -125,7 +70,11 @@ const ClassCard = (props) => {
               </p>
             </div>
           </div>
-          {props.user === props.kapasitas ? (
+
+          {/* bukan admin dan menangani kapasitas berlebih */}
+          {/* admin dan munculin delete + ilangin register button*/}
+
+          {/* {props.user === props.kapasitas ? (
             <Button
               type="button"
               variant="destructive"
@@ -135,69 +84,19 @@ const ClassCard = (props) => {
               Kelas Penuh
             </Button>
           ) : (
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button
-                  type="button"
-                  variant="yellow_outline"
-                  onClick={props.handleShowModal}
-                  className="ml-[240px] md:ml-[280px]"
-                >
-                  Daftar
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-md">
-                <DialogHeader>
-                  <DialogTitle>{props.tipe}</DialogTitle>
-                  <DialogDescription>{props.instruktur}</DialogDescription>
-                </DialogHeader>
-                <hr></hr>
-                <p className="text-lg mt-[20px]">{props.deskripsi}</p>
-                <div className="flex justify-between mt-[40px]">
-                  <p className="font-bold">Jadwal</p>
-                  <p>
-                    {tanggalKelas} {bulanKelas} {tahunKelas}
-                  </p>
-                </div>
-                <div className="flex justify-between ">
-                  <p className="font-bold">Harga</p>
-                  <p>{props.harga}</p>
-                </div>
-                <div class="inline-flex items-center justify-center w-full mt-[10px]">
-                  <hr class="w-64 h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
-                  <span class="absolute px-3  font-medium bg-black -translate-x-[4px] text-white ">
-                    Daftar
-                  </span>
-                </div>
-                <form className="" onSubmit={submitHandler}>
-                  <div className="flex justify-center">
-                    {profile.role === "NM" ? (
-                      <Link href="/payment">
-                        <Button
-                          variant="yellow_full"
-                          className=" w-full py-3"
-                          type="submit"
-                        >
-                          Lanjut ke Pembayaran
-                        </Button>
-                      </Link>
-                    ) : (
-                      <DialogPrimitive.Close>
-                        <Button
-                          variant="yellow_full"
-                          className=" w-full py-3"
-                          type="submit"
-                          onClick = {submitHandler}
-                        >
-                          Daftar
-                        </Button>
-                      </DialogPrimitive.Close>
-                    )}
-                  </div>
-                </form>
-              </DialogContent>
-            </Dialog>
+            {profile && (<ActionClassButton props={props} profile={profile}/>)}
+          )} */}
+          {props.user === props.kapasitas && (
+            <Button
+            type="button"
+            variant="destructive"
+            size="lg"
+            className="ml-[180px] md:ml-[200px] w-1/2 mt-[10px]"
+          >
+            Kelas Penuh
+          </Button>
           )}
+          {profile && <ActionClassButton props={props} profile={profile}/> }
         </div>
       </div>
     </div>

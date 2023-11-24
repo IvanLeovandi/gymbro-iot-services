@@ -7,10 +7,11 @@ import { Button } from "@/components/ui/button";
 import { Dice1 } from "lucide-react";
 import { EditMemberModal } from "./EditMemberModal";
 import { SendNotificationModal } from "./SendNotificationModal";
+import SeePaymentModal from "./SeePaymentModal";
 
-export default function Membercard({ item }) {
+export default function Membercard({ item, editMemberHandler, addNotification }) {
   return (
-    <div className="relative w-[28%] h-[570px]">
+    <div className="relative w-[400px] h-[570px] mx-auto mt-[30px]">
       <Image src={Card} alt="Card" className="w-full h-full" />
       <div className="absolute top-[1.5vw] left-[2vw] right-[2vw]">
         <Image src={Dummy} alt="image fitnes" className="w-[300px] h-[300px] mx-auto py-2" />
@@ -20,15 +21,10 @@ export default function Membercard({ item }) {
             <div className="flex-col justify-center items">
               <p className="font-bold mb-2">{item.nama}</p>
             </div>
-            <EditMemberModal user={item} />
-            <Button
-              variant="yellow_outline"
-              // onClick={props.handleShowModal}
-              className="mx-auto my-2 w-60"
-            >
-              Check Payment
-            </Button>
-            <SendNotificationModal />
+            <EditMemberModal user={item} onEditMember={editMemberHandler} />
+            <SeePaymentModal/>
+            <SendNotificationModal item={item}
+              onAddNotification={addNotification}/>
           </div>
         </div>
       </div>

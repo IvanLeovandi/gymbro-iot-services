@@ -1,4 +1,4 @@
-import { MongoClient } from "mongodb";
+import { MongoClient, ObjectId } from "mongodb";
 
 export async function ConnectDB() {
   const client = await MongoClient.connect(
@@ -24,18 +24,62 @@ export async function getDocument(client, collection, sort) {
   return documents;
 }
 
-export async function getUserProfile (client, collection, useremail) {
+export async function getUserProfile(client, collection, useremail) {
   const db = client.db();
 
-  const document = await db.collection(collection).findOne({email: useremail});
+  const document = await db
+    .collection(collection)
+    .findOne({ email: useremail });
 
-  return document
+  return document;
 }
 
-export async function getUsername (client, collection, userUsername) {
+export async function getUsername(client, collection, userUsername) {
   const db = client.db();
 
-  const document = await db.collection(collection).findOne({username: userUsername});
+  const document = await db
+    .collection(collection)
+    .findOne({ username: userUsername });
 
-  return document
+  return document;
+}
+
+export async function updateProfileData(client, userEmail, newData) {
+  const db = client.db();
+  const result = await db.collection("User").updateOne(
+    { email: userEmail },
+    {
+      $set: {
+        nama: newData.nama,
+        telepon: newData.telepon,
+        email: newData.email,
+        alamat: newData.alamat,
+      },
+    }
+  );
+  return result;
+}
+
+export async function getClassFromID(client, id) {
+  const db = client.db();
+
+  const result = await db.collection("Classes").findOne({ _id: new ObjectId(id) });
+
+  return result;
+}
+
+export async function getNotificationFromEmail (client,userEmail) {
+  const db = client.db();
+
+  const result = await db.collection("Notification").find({email: userEmail}).sort({_id: -1}).toArray();
+
+  return result;
+}
+
+export async function deleteAllNotification (client, userEmail) {
+  const db = client.db();
+
+  const result = await db.collection("Notification").deleteMany({email: userEmail});
+
+  return result;
 }
