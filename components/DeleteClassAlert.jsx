@@ -23,7 +23,7 @@ export default function DeleteClassAlert(props) {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel className="bg-white text-black">Batalkan</AlertDialogCancel>
-            <AlertDialogAction onClick={props.onDeleteNotification} className="bg-red-500 text-white">Hapus</AlertDialogAction>
+            <AlertDialogAction onClick={props.onDeleteClass} className="bg-red-500 text-white">Hapus</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

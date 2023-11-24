@@ -1,4 +1,4 @@
-const { ConnectDB, getClassFromID } = require("@/database/db-util");
+const { ConnectDB, getClassFromID, deleteClass } = require("@/database/db-util");
 
 const handler = async (req, res) => {
   let client;
@@ -25,7 +25,7 @@ const handler = async (req, res) => {
       const result = await deleteClass(client, classId)
       res.status(201).json({message : result})
     } catch (error) {
-      res.status(500).json({message: "Failed to delete class"})
+      res.status(500).json({message: error.message})
     }
   }
 };
