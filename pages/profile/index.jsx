@@ -140,7 +140,6 @@ const MemberDetailPage = () => {
             <Fragment>
               <div className="flex items-center gap-12">
                 <Button
-                  variant="yellow_outline"
                   className="my-5 font-bold text-3xl lg:text-5xl"
                   onClick={() => {
                     setNofiticationBox(false);
@@ -149,7 +148,7 @@ const MemberDetailPage = () => {
                   Classes
                 </Button>
                 <Button
-                  variant="yellow_outline"
+                  variant = "default"
                   className="my-5 font-bold text-3xl lg:text-5xl"
                   onClick={() => {
                     setNofiticationBox(true);
