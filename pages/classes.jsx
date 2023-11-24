@@ -23,7 +23,6 @@ const ClassPage = () => {
       });
   }, []);
 
-  console.log(classes);
   return (
     <Fragment>
       <Navbar />

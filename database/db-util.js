@@ -67,3 +67,19 @@ export async function getClassFromID(client, id) {
 
   return result;
 }
+
+export async function getNotificationFromEmail (client,userEmail) {
+  const db = client.db();
+
+  const result = await db.collection("Notification").find({email: userEmail}).sort({_id: -1}).toArray();
+
+  return result;
+}
+
+export async function deleteAllNotification (client, userEmail) {
+  const db = client.db();
+
+  const result = await db.collection("Notification").deleteMany({email: userEmail});
+
+  return result;
+}
