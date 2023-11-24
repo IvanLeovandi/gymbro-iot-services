@@ -131,10 +131,24 @@ const MemberDetailPage = () => {
               <Biocard profile={profile} email={session.user.email} />
             </div>
           </div>
-          {role !== "Admin" && (
+          {role === "Member" && (
             <div className="text-right mr-[50px] mt-6">
               Valid Until : DD/MM/YYYY
             </div>
+          )}
+          {role === "Non-Member" && (
+            <Fragment>
+              <div className="float-right">
+                <Button
+                  variant="yellow_outline"
+                  className="mt-6"
+                  onClick={() => {
+                  }}
+                >
+                  Upgrade Membership
+                </Button>
+              </div>
+            </Fragment>
           )}
           {role !== "Admin" && (
             <Fragment>
