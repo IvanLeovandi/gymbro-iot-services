@@ -10,7 +10,6 @@ import NonMembercard from "@/components/nonmembercard";
 const AdminMembersPage = () => {
   const [member, setMember] = useState([]);
   const [nonMember, setNonMember] = useState([]);
-  const [admin, setAdmin] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const notificationCtx = useContext(NotificationContext);
@@ -23,7 +22,6 @@ const AdminMembersPage = () => {
       .then((data) => {
         setMember(data.member);
         setNonMember(data.nonMember);
-        setAdmin(data.admin);
         setLoading(false);
       });
   }, []);
@@ -136,7 +134,7 @@ const AdminMembersPage = () => {
       {!loading && (
         <Fragment>
           <h1 className="text-6xl font-bold text-center my-[10px]">Members</h1>
-          <div className="grid grid-cols-1 min-[970px]:grid-cols-2 min-[1470px]:grid-cols-3">
+          <div className="grid grid-cols-1 min-[970px]:grid-cols-2 min-[1470px]:grid-cols-3 my-4">
             {member.map((user, index) => (
               <Membercard
                 item={user}
@@ -147,19 +145,8 @@ const AdminMembersPage = () => {
             ))}
           </div>
           <h1 className="text-6xl font-bold text-center my-[10px]">Non Members</h1>
-          <div className="grid grid-cols-1 min-[970px]:grid-cols-2 min-[1470px]:grid-cols-3">
+          <div className="grid grid-cols-1 min-[970px]:grid-cols-2 min-[1470px]:grid-cols-3 my-4">
             {nonMember.map((user, index) => (
-              <NonMembercard
-                item={user}
-                key={index}
-                addNotification={addNotificationHandler}
-                editMemberHandler={editMember}
-              />
-            ))}
-          </div>
-          <h1 className="text-6xl font-bold text-center my-[10px]">Admin</h1>
-          <div className="grid grid-cols-1 min-[970px]:grid-cols-2 min-[1470px]:grid-cols-3">
-            {admin.map((user, index) => (
               <NonMembercard
                 item={user}
                 key={index}

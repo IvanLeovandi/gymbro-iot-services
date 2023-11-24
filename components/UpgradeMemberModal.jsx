@@ -3,6 +3,7 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogClose,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -25,21 +26,21 @@ export default function UpgradeMemberModal() {
             <DialogHeader>
               <DialogTitle>Upgrade ke Member</DialogTitle>
             </DialogHeader>
-            <div className="grid gap-4 py-4">
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="name" className="text-right">
-                  Berapa lama
-                </Label>
-                <Input
-                  id="name"
-                  className="col-span-3"
-                  type="text"
-                />
+              <div className="py-8">
+                <p className="text-white">
+                Apakah anda yakin ingin upgrade ke Member untuk 1 bulan ke
+                depan?
+                </p>
               </div>
-            </div>
-
             <DialogFooter>
-              <Button type="submit">Save changes</Button>
+              <DialogClose asChild>
+                <Button type="button" variant="destructive">
+                  Batal
+                </Button>
+              </DialogClose>
+              <Button type="submit" variant="yellow_outline">
+                Konfirmasi
+              </Button>
             </DialogFooter>
           </form>
         </DialogContent>
