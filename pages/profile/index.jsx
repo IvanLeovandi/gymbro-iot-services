@@ -1,4 +1,4 @@
-const { useState, useEffect, useContext } = require("react");
+const { useState, useEffect } = require("react");
 import Navbar from "@/components/navbar";
 import { Fragment } from "react";
 import Biocard from "@/components/biocard";
@@ -8,16 +8,11 @@ import { getSession, useSession } from "next-auth/react";
 import Link from "next/link";
 import AdminNavbar from "@/components/adminnavbar";
 import { Button } from "@/components/ui/button";
-<<<<<<< HEAD
-import { BellIcon } from "@radix-ui/react-icons";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import UpgradeMemberModal from "@/components/UpgradeMemberModal";
-=======
 import NotificationAlert from "@/components/NotificationAlert";
 import DeleteNotificationAlert from "@/components/DeleteNotificationAlert";
 import NotificationContext from "@/context/notification-context";
 import { useRouter } from "next/router";
->>>>>>> main
+import UpgradeMemberModal from "@/components/UpgradeMemberModal";
 
 const MemberDetailPage = () => {
   const { data: session, status } = useSession();
@@ -146,6 +141,7 @@ const MemberDetailPage = () => {
           {role === "Non-Member" && (
             <div className="text-right mr-[50px] mt-6">
               <UpgradeMemberModal />
+              {/* ni perlu diganti tipe inputnya...tolong ye gw hrs otw dlu */}
             </div>
           )}
           {role !== "Admin" && (
