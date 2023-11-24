@@ -134,7 +134,7 @@ const AdminClassPage = () => {
         </div>
       )}
       {!classLoading && !userLoading && (
-        <div className="grid grid-cols-1 min-[970px]:grid-cols-2 min-[1470px]:grid-cols-3">
+        <div className="grid grid-cols-1 min-[970px]:grid-cols-2 min-[1470px]:grid-cols-3 pb-12">
           {classes.map((item) => (
             <ClassCard
               key={item._id}

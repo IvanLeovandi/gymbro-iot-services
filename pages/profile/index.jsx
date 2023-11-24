@@ -114,6 +114,7 @@ const MemberDetailPage = () => {
       });
   }
 
+  console.log(profile)
   return (
     <Fragment>
       {role !== "Admin" && <Navbar />}
@@ -126,7 +127,7 @@ const MemberDetailPage = () => {
           </h1>
           <div className="grid grid-cols-4">
             <div className="col-span-1">
-              <Userpic role={role} />
+              <Userpic props={profile} role={role} />
             </div>
             <div className="col-span-3">
               <Biocard profile={profile} email={session.user.email} />
@@ -141,6 +142,7 @@ const MemberDetailPage = () => {
           {role === "Non-Member" && (
             <div className="text-right mr-[50px] mt-6">
               <UpgradeMemberModal />
+              {/* ni perlu diganti tipe inputnya...tolong ye gw hrs otw dlu */}
             </div>
           )}
           {role !== "Admin" && (

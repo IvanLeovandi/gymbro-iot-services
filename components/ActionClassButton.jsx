@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import DeleteClassAlert from "./DeleteClassAlert";
 import { useContext } from "react";
 import NotificationContext from "@/context/notification-context";
 
@@ -20,15 +21,6 @@ export default function ActionClassButton({ props, profile, onDeleteClass }) {
   const daftarKelas = async (event) => {
     event.preventDefault();
   };
-  
-  const deleteClassHandler = async () => {
-    notificationCtx.showNotification({
-      title: "Menghapus kelas",
-      message: "Kelas sedang dihapus...",
-      status: "pending",
-    })
-    fetch
-  }
 
   const idKelas = props.id.toString();
   const paymentLink = `/payment/${idKelas}`;
@@ -52,13 +44,7 @@ export default function ActionClassButton({ props, profile, onDeleteClass }) {
             </Button>
           </DialogTrigger>
         ) : (
-          <Button
-            type="button"
-            variant="destructive"
-            className="ml-[240px] md:ml-[280px]"
-          >
-            Delete
-          </Button>
+          <DeleteClassAlert />
         )}
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
