@@ -10,6 +10,7 @@ import AdminNavbar from "@/components/adminnavbar";
 import { Button } from "@/components/ui/button";
 import { BellIcon } from "@radix-ui/react-icons";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import UpgradeMemberModal from "@/components/UpgradeMemberModal";
 
 const MemberDetailPage = () => {
   const { data: session, status } = useSession();
@@ -68,9 +69,15 @@ const MemberDetailPage = () => {
               <Biocard profile={profile} email={session.user.email} />
             </div>
           </div>
-          {role !== "Admin" && (
+          {role === "Member" && (
             <div className="text-right mr-[50px] mt-6">
               Valid Until : DD/MM/YYYY
+            </div>
+          )}
+
+          {role === "Non-Member" && (
+            <div className="text-right mr-[50px] mt-6">
+              <UpgradeMemberModal />
             </div>
           )}
           {role !== "Admin" && (
