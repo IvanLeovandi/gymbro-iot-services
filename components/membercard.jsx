@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Dice1 } from "lucide-react";
 import { EditMemberModal } from "./EditMemberModal";
 import { SendNotificationModal } from "./SendNotificationModal";
+import SeePaymentModal from "./SeePaymentModal";
 
 export default function Membercard({ item, editMemberHandler, addNotification }) {
   return (
@@ -21,13 +22,7 @@ export default function Membercard({ item, editMemberHandler, addNotification })
               <p className="font-bold mb-2">{item.nama}</p>
             </div>
             <EditMemberModal user={item} onEditMember={editMemberHandler} />
-            <Button
-              variant="yellow_outline"
-              // onClick={props.handleShowModal}
-              className="mx-auto my-2 w-60"
-            >
-              Check Payment
-            </Button>
+            <SeePaymentModal/>
             <SendNotificationModal item={item}
               onAddNotification={addNotification}/>
           </div>
