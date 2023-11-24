@@ -58,10 +58,16 @@ const MemberDetailPage = () => {
     }, []);
     
   let role;
+  let jadwalExpired, tahunExpired, bulanExpired, tanggalExpired;
   if (profile.role === "NM") {
     role = "Non-Member";
   } else if (profile.role === "M") {
     role = "Member";
+    jadwalExpired = new Date(profile.expiredDate);
+    tahunExpired = jadwalExpired.getFullYear();
+    bulanExpired = jadwalExpired.getMonth() + 1;
+    tanggalExpired = jadwalExpired.getDate();
+
   } else if (profile.role === "admin") {
     role = "Admin";
   } else {
@@ -114,7 +120,6 @@ const MemberDetailPage = () => {
       });
   }
 
-  console.log(profile)
   return (
     <Fragment>
       {role !== "Admin" && <Navbar />}
@@ -135,13 +140,13 @@ const MemberDetailPage = () => {
           </div>
           {role === "Member" && (
             <div className="text-right mr-[50px] mt-6">
-              Valid Until : DD/MM/YYYY
+              Valid Until : {tanggalExpired}/{bulanExpired}/{tahunExpired}
             </div>
           )}
 
           {role === "Non-Member" && (
             <div className="text-right mr-[50px] mt-6">
-              <UpgradeMemberModal />
+              <UpgradeMemberModal id = {profile._id.toString()}/>
               {/* ni perlu diganti tipe inputnya...tolong ye gw hrs otw dlu */}
             </div>
           )}

@@ -71,6 +71,7 @@ const handler = async (req, res) => {
       username: username,
       usia: usia,
       profileImage: profileImage,
+      expiredDate: null,
     };
     const result = await insertDocument(client, "User", newUser);
 

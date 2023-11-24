@@ -1,7 +1,7 @@
 import Navbar from "@/components/navbar";
 import { Fragment } from "react";
 import Image from "next/image";
-import Card from "../../public/card.png";
+import Card from "../../../public/card.png";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Button } from "@/components/ui/button";
 import { useEffect } from "react";
@@ -12,6 +12,7 @@ import { useSession, getSession } from "next-auth/react";
 const PaymentPage = (props) => {
   const [kelas, setKelas] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [payment, setPayment] = useState("QRIS");
 
   const {data:session, status} = useSession();
   
@@ -37,6 +38,10 @@ const PaymentPage = (props) => {
 
   const total = kelas.harga + kelas.harga * 0.1;
 
+  const submitHandler =(e) => {
+    e.preventDefault();
+  }
+
   return (
     <Fragment>
       <Navbar />
@@ -55,8 +60,8 @@ const PaymentPage = (props) => {
                 <hr className=" w-[950px] h-[2.5px] bg-gradient-to-r from-transparent via-white to-transparent     mx-auto mb-5" />
                 <div className="grid grid-cols-4">
                   <div className="col-span-3">
-                    <h3 className="font-semibold text-3xl mb-4">{kelas.tipe}</h3>
-                    <p className="text-xl">{kelas.deskripsi}</p>
+                    <h3 className="font-semibold text-3xl mb-4">Item</h3>
+                    <p className="text-xl">{kelas.judul}</p>
                     <p className="text-xl">Service Charge</p>
                   </div>
                   <div className="col-span-1">
@@ -79,7 +84,7 @@ const PaymentPage = (props) => {
                 <h2 className="col-span-1  h-[35 0px] text-3xl font-bold mx-auto my-5">
                   Payment Option
                 </h2>
-                <RadioGroup defaultValue="QRIS" className="ml-4">
+                <RadioGroup onChange={(event)=>{setPayment(event.target.value)}} defaultValue="QRIS" className="ml-4">
                   <div className="flex items-center space-x-2 mt-3">
                     <RadioGroupItem value="QRIS" id="QRIS" />
                     <p>QRIS</p>
@@ -96,14 +101,17 @@ const PaymentPage = (props) => {
                     <p>Virtual Account</p>
                   </div>
                 </RadioGroup>
+                <form onSubmit={submitHandler}>
                 <div className="flex items-center justify-center">
                   <Button
                     variant="yellow_outline"
-                    className="mx-auto my-10 w-80 flex- justify-center"
+                    className="mx-auto my-10 w-80 flex justify-center"
+                    type = "submit"
                   >
                     Proceed to Payment
                   </Button>
                 </div>
+                </form>
               </div>
             </div>
           </div>{" "}

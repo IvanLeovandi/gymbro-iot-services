@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 export default function NotificationAlert(props) {
   const jadwalNotification = new Date(props.notification.tanggal);
   const tahunNotification = jadwalNotification.getFullYear();
-  const bulanNotification = jadwalNotification.getMonth();
+  const bulanNotification = jadwalNotification.getMonth() + 1;
   const tanggalNotification = jadwalNotification.getDate();
   const jamNotification = jadwalNotification.getHours();
   const menitNotification =
