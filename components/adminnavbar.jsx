@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 
 export default function adminnavbar() {
   const { data: session, status } = useSession();
-  const router = useRouter;
+  const router = useRouter();
 
   const logoutHandler = () => {
     signOut({

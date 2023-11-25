@@ -18,13 +18,13 @@ export default function ActionClassButton({ props, profile, classesEnrolled }) {
   const [classEnrolled, setClassEnrolled] = useState([])
   const router = useRouter();
 
-  useEffect(()=>{
-    fetch("/api/classesEnrolled")
-    .then((response) => response.json())
-    .then((data) => {
-      setClassEnrolled(data.classesEnrolled)
-    })
-  },[])
+  // useEffect(()=>{
+  //   fetch("/api/classesEnrolled")
+  //   .then((response) => response.json())
+  //   .then((data) => {
+  //     setClassEnrolled(data.classesEnrolled)
+  //   })
+  // },[])
 
   const submitHandler = async () => {
     const kelasBaru = {
@@ -109,7 +109,7 @@ export default function ActionClassButton({ props, profile, classesEnrolled }) {
   };
 
   const daftarHandler = async () => {
-    const filteredClassEnrolled = classEnrolled.filter((kelas) => {
+    const filteredClassEnrolled = classesEnrolled.filter((kelas) => {
       return (
         kelas.classId === props.id.toString() && kelas.email === profile.email
       );
