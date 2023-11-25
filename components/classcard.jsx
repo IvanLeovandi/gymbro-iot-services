@@ -7,6 +7,15 @@ import { Fragment } from "react";
 
 const ClassCard = (props) => {
   const [profile, setProfile] = useState({});
+  const [classesEnrolled, setClassesEnrolled] = useState([]);
+
+  useEffect(() => {
+    fetch("/api/classesEnrolled")
+      .then((response) => response.json())
+      .then((data) => {
+        setClassesEnrolled(data.classesEnrolled);
+      });
+  }, []);
 
   useEffect(() => {
     fetch("/api/profile")
@@ -79,7 +88,7 @@ const ClassCard = (props) => {
                 Kelas Penuh
               </Button>
             )}
-            {profile && <ActionClassButton props={props} profile={profile} />}
+            {profile && classesEnrolled && <ActionClassButton props={props} profile={profile} classesEnrolled={classesEnrolled} />}
           </div>
         </div>
       </div>
