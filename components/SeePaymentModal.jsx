@@ -17,7 +17,7 @@ export default function SeePaymentModal({ user }) {
   const [paymentData, setPaymentData] = useState({});
   const [loading, setLoading] = useState(false);
 
-  const fetchData = `/api/payment/` + user.email;
+  const fetchData = `/api/payment/member/` + user.email;
 
   useEffect(() => {
     setLoading(true);

@@ -1,4 +1,4 @@
-const { ConnectDB, getClassFromID, deleteClass } = require("@/database/db-util");
+const { ConnectDB, getClassFromID, deleteClass, incrementClass } = require("@/database/db-util");
 
 const handler = async (req, res) => {
   let client;
@@ -28,6 +28,25 @@ const handler = async (req, res) => {
       res.status(500).json({message: error.message})
     }
   }
+
+  if(req.method === "PATCH"){
+    let result;
+    const { user } = req.body;
+
+    const newClassData = {
+      user: user,
+    }
+    
+    try {
+      result = await incrementClass(client, classId, newClassData);
+      res.status(200).json({message: "User updated!"})
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+
+    client.close();
+  }
+  
 };
 
 export default handler;

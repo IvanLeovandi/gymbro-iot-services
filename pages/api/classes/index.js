@@ -1,4 +1,4 @@
-import { ConnectDB, insertDocument, getDocument } from "@/database/db-util";
+import { ConnectDB, insertDocument, getDocument, incrementClass } from "@/database/db-util";
 
 const handler = async (req, res) => {
   let client;
@@ -46,6 +46,7 @@ const handler = async (req, res) => {
       res.status(500).json({ message: "Failed to get data" });
     }
   }
+
 };
 
 export default handler;

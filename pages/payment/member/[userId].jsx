@@ -11,7 +11,7 @@ import { useSession, getSession } from "next-auth/react";
 import NotificationContext from "@/context/notification-context";
 import { json } from "react-router-dom";
 
-const PaymentPage = (props) => {
+const MembershipPaymentPage = (props) => {
   const [profile, setProfile] = useState({});
   const [loading, setLoading] = useState(false);
   const [payment, setPayment] = useState("QRIS");
@@ -74,7 +74,7 @@ const PaymentPage = (props) => {
         router.replace("/profile");
       });
 
-    fetch("/api/payment/" + profile.email, {
+    fetch("/api/payment/member/" + profile.email, {
       method: "POST",
       body: JSON.stringify(paymentData),
       headers: {
@@ -217,4 +217,4 @@ export async function getServerSideProps(context) {
   };
 }
 
-export default PaymentPage;
+export default MembershipPaymentPage;
