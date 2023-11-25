@@ -4,27 +4,7 @@ import Card from "../public/card.png";
 import Image from "next/image";
 import PlaceholderImage from "../public/placeholder.png";
 
-export default function Userpic({props, role}) {
-  // const [role, setRole] = useState("");
-  // const [loading, setLoading] = useState(false);
-  // useEffect(() => {
-  //   setLoading(true);
-  //   fetch("http://localhost:3000/api/profile")
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       let role;
-  //       if (data.user.role === "NM") {
-  //         role = "Non-Member";
-  //       } else if (data.user.role === "M") {
-  //         role = "Member";
-  //       } else {
-  //         role = "Undefined";
-  //       }
-
-  //       setRole(role);
-  //       setLoading(false);
-  //     });
-  // }, []);
+export default function Userpic({ props, role }) {
   const [image, setImage] = useState(PlaceholderImage);
 
   useEffect(() => {

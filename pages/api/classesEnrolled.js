@@ -2,7 +2,7 @@ import { ConnectDB, insertDocument, getDocument } from "@/database/db-util";
 
 const handler = async (req, res) => {
   let client;
-  
+
   try {
     client = await ConnectDB();
   } catch (e) {
@@ -11,12 +11,11 @@ const handler = async (req, res) => {
   }
 
   if (req.method === "POST") {
-    const { email, classId } =
-      req.body;
+    const { email, classId } = req.body;
 
     const newClassEnroll = {
       email: email,
-      classId: classId
+      classId: classId,
     };
 
     let result;
@@ -34,7 +33,6 @@ const handler = async (req, res) => {
     try {
       const documents = await getDocument(client, "ClassEnrolled", { _id: -1 });
       res.status(200).json({ classesEnrolled: documents });
-      
     } catch (error) {
       res.status(500).json({ message: "Failed to get data" });
     }

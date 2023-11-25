@@ -23,7 +23,7 @@ export const NotificationContextProvider = (props) => {
         clearTimeout(timer);
       };
     }
-  },[activeNotification]);
+  }, [activeNotification]);
 
   function showNotificationHandler(notificationData) {
     setActiveNotification({

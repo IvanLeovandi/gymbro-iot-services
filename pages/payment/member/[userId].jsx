@@ -9,7 +9,6 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import { useSession, getSession } from "next-auth/react";
 import NotificationContext from "@/context/notification-context";
-import { json } from "react-router-dom";
 
 const MembershipPaymentPage = (props) => {
   const [profile, setProfile] = useState({});

@@ -1,10 +1,7 @@
 import { useState } from "react";
 import Image from "next/image";
-// import { Button } from './ui/button'
 import PlaceholderImage from "../public/placeholder.png";
 import Card from "../public/card.png";
-import { Button } from "@/components/ui/button";
-import { Dice1 } from "lucide-react";
 import { EditMemberModal } from "./EditMemberModal";
 import { SendNotificationModal } from "./SendNotificationModal";
 import { useEffect } from "react";

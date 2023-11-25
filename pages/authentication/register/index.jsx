@@ -24,8 +24,6 @@ const RegisterPage = () => {
   const passwordRef = useRef();
   const confirmPasswordRef = useRef();
 
-  const [success, setSuccess] = useState(false);
-
   const notificationCtx = useContext(NotificationContext);
 
   const router = useRouter();
@@ -94,7 +92,6 @@ const RegisterPage = () => {
           message: "Akun berhasil didaftarkan",
           status: "success",
         });
-        setSuccess(true);
       })
       .catch((error) => {
         notificationCtx.showNotification({

@@ -32,8 +32,6 @@ const handler = async (req, res) => {
       profileImage,
     } = req.body;
 
-    //kalo perlu validasi data disini
-
     const newUser = {
       nama: nama,
       email: email,
@@ -71,13 +69,11 @@ const handler = async (req, res) => {
         return user.role === "admin";
       });
 
-      res
-        .status(200)
-        .json({
-          nonMember: nonMemberResult,
-          member: memberResult,
-          admin: adminResult,
-        });
+      res.status(200).json({
+        nonMember: nonMemberResult,
+        member: memberResult,
+        admin: adminResult,
+      });
     } catch (error) {
       res.status(500).json({ message: "Failed to get data" });
     }
