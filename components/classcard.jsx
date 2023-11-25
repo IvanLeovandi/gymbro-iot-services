@@ -7,18 +7,20 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import ActionClassButton from "./ActionClassButton";
 import { Fragment } from "react";
+import PageLoader from "./PageLoader";
 
 const ClassCard = (props) => {
+  const [loading, setLoading] = useState(true)
+  // const [profile, setProfile] = useState({})
 
-  const [profile, setProfile] = useState({})
-
-  useEffect(() => {
-    fetch("/api/profile")
-      .then((response) => response.json())
-      .then((data) => {
-        setProfile(data.user);
-      });
-  }, []);
+  // useEffect(() => {
+  //   fetch("/api/profile")
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       setProfile(data.user);
+  //       setLoading(false);
+  //     });
+  // }, []);
 
   const jadwalKelas = new Date(props.jadwal);
   const tahunKelas = jadwalKelas.getFullYear();
@@ -32,6 +34,9 @@ const ClassCard = (props) => {
 
   return (
     <Fragment>
+      {/* {loading ? (
+        <PageLoader/>
+      ) : ( */}
         <div key={props.id} className="flex ml-auto mr-auto mt-[30px]">
           <div className="relative">
             <Image
@@ -74,21 +79,6 @@ const ClassCard = (props) => {
                 </div>
               </div>
 
-              {/* bukan admin dan menangani kapasitas berlebih */}
-              {/* admin dan munculin delete + ilangin register button*/}
-
-              {/* {props.user === props.kapasitas ? (
-            <Button
-              type="button"
-              variant="destructive"
-              size="lg"
-              className="ml-[180px] md:ml-[200px] w-1/2 mt-[10px]"
-            >
-              Kelas Penuh
-            </Button>
-          ) : (
-            {profile && (<ActionClassButton props={props} profile={profile}/>)}
-          )} */}
               {props.user === props.kapasitas && (
                 <Button
                   type="button"
@@ -99,10 +89,11 @@ const ClassCard = (props) => {
                   Kelas Penuh
                 </Button>
               )}
-              {profile && <ActionClassButton props={props} profile={profile} />}
+              {props.profile && <ActionClassButton props={props} profile={props.profile} />}
             </div>
           </div>
         </div>
+      {/* )} */}
     </Fragment>
   );
 };

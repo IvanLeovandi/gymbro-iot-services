@@ -9,13 +9,14 @@ import { EditMemberModal } from "./EditMemberModal";
 import { SendNotificationModal } from "./SendNotificationModal";
 import SeePaymentModal from "./SeePaymentModal";
 import { useState } from "react";
+import PageLoader from "./PageLoader";
 
-export default function Membercard({ item, editMemberHandler, addNotification, payment }) {
+export default function Membercard({ user, editMemberHandler, addNotification }) {
   const [image, setImage] = useState(PlaceholderImage);
 
   useEffect(() => {
-    if (item.profileImage) {
-      setImage(item.profileImage);
+    if (user.profileImage) {
+      setImage(user.profileImage);
     }
   });
 
@@ -28,11 +29,11 @@ export default function Membercard({ item, editMemberHandler, addNotification, p
         <div className="relative flex-col justify-center items-center text-center">
           <div className="my-5">
             <div className="flex-col justify-center items">
-              <p className="font-bold mb-2">{item.nama}</p>
+              <p className="font-bold mb-2">{user.nama}</p>
             </div>
-            <EditMemberModal user={item} onEditMember={editMemberHandler} />
-            <SeePaymentModal user={item}/>
-            <SendNotificationModal item={item}
+            <EditMemberModal user={user} onEditMember={editMemberHandler} />
+            <SeePaymentModal user={user}/>
+            <SendNotificationModal user={user}
               onAddNotification={addNotification}/>
           </div>
         </div>

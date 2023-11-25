@@ -6,23 +6,23 @@ import AdminNavbar from "@/components/adminnavbar";
 import NotificationContext from "@/context/notification-context";
 import { useRouter } from "next/router";
 import NonMembercard from "@/components/nonmembercard";
+import PageLoader from "@/components/PageLoader";
 
 const AdminMembersPage = () => {
   const [member, setMember] = useState([]);
   const [nonMember, setNonMember] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [userLoading, setUserLoading] = useState(true);
 
   const notificationCtx = useContext(NotificationContext);
   const router = useRouter();
 
   useEffect(() => {
-    setLoading(true);
     fetch("/api/users")
       .then((response) => response.json())
       .then((data) => {
         setMember(data.member);
         setNonMember(data.nonMember);
-        setLoading(false);
+        setUserLoading(false);
       });
   }, []);
 
@@ -128,15 +128,15 @@ const AdminMembersPage = () => {
 
   return (
     <Fragment>
-      <AdminNavbar />
-      {loading && <p>Loading...</p>}
-      {!loading && (
+      {userLoading && <PageLoader />}
+      {!userLoading && (
         <Fragment>
+          <AdminNavbar />
           <h1 className="text-6xl font-bold text-center my-[10px]">Members</h1>
           <div className="grid grid-cols-1 min-[970px]:grid-cols-2 min-[1470px]:grid-cols-3 my-4">
             {member.map((user, index) => (
               <Membercard
-                item={user}
+                user={user}
                 key={index}
                 addNotification={addNotificationHandler}
                 editMemberHandler={editMember}

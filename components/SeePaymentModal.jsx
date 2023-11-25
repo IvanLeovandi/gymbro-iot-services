@@ -29,6 +29,10 @@ export default function SeePaymentModal({ user }) {
       });
   },[]);
 
+  console.log(user)
+
+  console.log(paymentData);
+
   let modalOutput;
 
   if (loading) {
