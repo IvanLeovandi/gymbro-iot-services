@@ -39,14 +39,10 @@ export default function ActionClassButton({ props, profile }) {
         });
     });
 
-    const kelasSearch = {
-      jadwal: props.jadwal,
-      instruktur: props.instruktur,
-    };
 
     fetch("/api/classes/index", {
       method: "PATCH",
-      body: JSON.stringify(kelasSearch),
+      body: JSON.stringify({ id: props._id }),
       headers: {
         "Content-Type": "application/json",
       },

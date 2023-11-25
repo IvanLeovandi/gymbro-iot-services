@@ -49,9 +49,9 @@ const handler = async (req, res) => {
 
   if(req.method === "PATCH"){
     let result;
-    const { instruktur,jadwal } = req.body;
+    const {id} = req.body;
     try {
-      result = await incrementClass(client, instruktur,jadwal);
+      result = await incrementClass(client, id);
     } catch (error) {
       res.status(500).json({ message: "Increment class Failed" });
     }

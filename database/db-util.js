@@ -92,11 +92,11 @@ export async function deleteAllNotification(client, userEmail) {
   return result;
 }
 
-export async function incrementClass(client, instruktur, jadwal) {
+export async function incrementClass(client, id) {
   const db = client.db();
 
-  const result = await db.collection("Classes").update(
-    { $and: [{ instruktur: instruktur }, { jadwal: jadwal }] },
+  const result = await db.collection("Classes").updateOne(
+    { _id:id },
     {
       $inc: {
         user: 1,
