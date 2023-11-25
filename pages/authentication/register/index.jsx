@@ -9,7 +9,7 @@ import NotificationContext from "@/context/notification-context";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { UploadDropzone } from "@/src/utils/uploadthing";
-import { Label } from "@/components/ui/Label";
+import { Label } from "@/components/ui/label";
 
 const RegisterPage = () => {
   const [imageUrl, setImageUrl] = useState("");
