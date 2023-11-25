@@ -1,8 +1,12 @@
-import { ConnectDB, insertDocument, getDocument } from "@/database/db-util";
+import {
+  ConnectDB,
+  insertDocument,
+  getDocument,
+} from "@/database/db-util";
 
 const handler = async (req, res) => {
   let client;
-  
+
   try {
     client = await ConnectDB();
   } catch (e) {
@@ -11,8 +15,17 @@ const handler = async (req, res) => {
   }
 
   if (req.method === "POST") {
-    const { gambar, judul, jadwal, deskripsi, harga, instruktur, kapasitas, tipe, user } =
-      req.body;
+    const {
+      gambar,
+      judul,
+      jadwal,
+      deskripsi,
+      harga,
+      instruktur,
+      kapasitas,
+      tipe,
+      user,
+    } = req.body;
 
     const newClass = {
       gambar: gambar,
@@ -41,7 +54,6 @@ const handler = async (req, res) => {
     try {
       const documents = await getDocument(client, "Classes", { _id: -1 });
       res.status(200).json({ classes: documents });
-      
     } catch (error) {
       res.status(500).json({ message: "Failed to get data" });
     }

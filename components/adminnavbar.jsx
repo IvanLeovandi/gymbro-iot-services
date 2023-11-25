@@ -5,12 +5,18 @@ import { signOut, useSession } from "next-auth/react";
 import { Fragment } from "react";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import { useState } from "react";
+import { useRouter } from "next/router";
 
 export default function adminnavbar() {
   const { data: session, status } = useSession();
+  const router = useRouter;
 
   const logoutHandler = () => {
-    signOut();
+    signOut({
+      redirect: false
+    }).then(() => {
+      router.push("/")
+    });
   };
 
   const [nav, setNav] = useState(false);
@@ -21,9 +27,6 @@ export default function adminnavbar() {
   return (
     <Fragment>
       <div className="flex justify-around items-center py-4 bg-[#4B4B4B] bg-opacity-80 m-8">
-        {/* <a href="/">
-        <Image src={Logo} alt="logo" width={250} height={70} />
-        </a> */}
         <Link href="/">
           <Image src={Logo} alt="logo" className=" w-[250px] h-[70px]" />
         </Link>
@@ -31,10 +34,7 @@ export default function adminnavbar() {
           <ul className="hidden md:flex justify-evenly gap-12">
             {session && (
               <li>
-                <Link
-                  href="/profile"
-                  className="hover:text-[#FFD700]"
-                >
+                <Link href="/profile" className="hover:text-[#FFD700]">
                   My Profile
                 </Link>
               </li>
@@ -46,10 +46,7 @@ export default function adminnavbar() {
             </li>
             {session && (
               <li>
-                <Link
-                  href="/admin/members"
-                  className="hover:text-[#FFD700]"
-                >
+                <Link href="/admin/members" className="hover:text-[#FFD700]">
                   Members
                 </Link>
               </li>
@@ -57,7 +54,7 @@ export default function adminnavbar() {
           </ul>
         </div>
         <div className="flex justify-evenly gap-6">
-          {!session &&  (
+          {!session && (
             <Link
               href="/authentication/login"
               className="hidden md:block text-[#FFD700] font-sans border border-solid border-[#FFD700] rounded-lg px-8 py-2 hover:bg-[#FFD700] hover:text-black"
@@ -65,7 +62,7 @@ export default function adminnavbar() {
               Login
             </Link>
           )}
-          {!session  && (
+          {!session && (
             <Link
               href="/authentication/register"
               className="hidden md:block text-white font-sans border border-solid border-white rounded-lg px-6 py-2 hover:bg-white hover:text-black"

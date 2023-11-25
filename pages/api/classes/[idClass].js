@@ -1,4 +1,9 @@
-const { ConnectDB, getClassFromID, deleteClass } = require("@/database/db-util");
+const {
+  ConnectDB,
+  getClassFromID,
+  deleteClass,
+  incrementClass,
+} = require("@/database/db-util");
 
 const handler = async (req, res) => {
   let client;
@@ -11,7 +16,6 @@ const handler = async (req, res) => {
   }
 
   if (req.method === "GET") {
-    
     try {
       const result = await getClassFromID(client, classId);
       res.status(200).json({ classDetail: result });
@@ -22,11 +26,29 @@ const handler = async (req, res) => {
 
   if (req.method === "DELETE") {
     try {
-      const result = await deleteClass(client, classId)
-      res.status(201).json({message : result})
+      const result = await deleteClass(client, classId);
+      res.status(201).json({ message: result });
     } catch (error) {
-      res.status(500).json({message: error.message})
+      res.status(500).json({ message: error.message });
     }
+  }
+
+  if (req.method === "PATCH") {
+    let result;
+    const { user } = req.body;
+
+    const newClassData = {
+      user: user,
+    };
+
+    try {
+      result = await incrementClass(client, classId, newClassData);
+      res.status(200).json({ message: "User updated!" });
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+
+    client.close();
   }
 };
 

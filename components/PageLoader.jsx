@@ -19,7 +19,7 @@ export default function PageLoader() {
             fill="#FFD700"
           />
         </svg>
-        <span className="sr-only">Loading...</span>
+        <span className="sr-only text-white">Loading...</span>
       </div>
     </div>
   );

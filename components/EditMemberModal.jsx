@@ -2,7 +2,6 @@ import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -81,7 +80,7 @@ export function EditMemberModal({ user, onEditMember }) {
                 id="email"
                 defaultValue={user.email}
                 className="col-span-3"
-                type= "email"
+                type="email"
                 ref={emailRef}
               />
             </div>

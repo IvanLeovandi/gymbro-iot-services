@@ -1,8 +1,6 @@
 const { useState, useEffect } = require("react");
 import { Fragment } from "react";
-import Navbar from "@/components/navbar";
 import React from "react";
-import { toDateString } from "date";
 import ClassCard from "@/components/classcard";
 import { AddClassModal } from "@/components/AddClassModal";
 import { useContext } from "react";
@@ -42,6 +40,8 @@ const AdminClassPage = () => {
         setUserLoading(false);
       });
   }, []);
+
+  console.log(profile)
 
   let role;
   if (profile.role === "NM") {
@@ -170,7 +170,7 @@ export async function getServerSideProps(context) {
   if (!session) {
     return {
       redirect: {
-        destination: "/",
+        destination: "/404",
         permanent: false,
       },
     };
@@ -179,7 +179,7 @@ export async function getServerSideProps(context) {
   if (session.user.email !== "admingymbro@gmail.com") {
     return {
       redirect: {
-        destination: "/",
+        destination: "/404",
         permanent: false,
       },
     };

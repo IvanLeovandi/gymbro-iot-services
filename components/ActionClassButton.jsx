@@ -9,21 +9,51 @@ import {
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import DeleteClassAlert from "./DeleteClassAlert";
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 import NotificationContext from "@/context/notification-context";
 import { useRouter } from "next/router";
 
-export default function ActionClassButton({ props, profile, onDeleteClass }) {
+export default function ActionClassButton({ props, profile, classesEnrolled }) {
   const notificationCtx = useContext(NotificationContext);
+  const [classEnrolled, setClassEnrolled] = useState([])
   const router = useRouter();
-  const submitHandler = async (event) => {
-    event.preventDefault();
-  };
 
-  const daftarKelas = async (event) => {
-    event.preventDefault();
-  };
+  useEffect(()=>{
+    fetch("/api/classesEnrolled")
+    .then((response) => response.json())
+    .then((data) => {
+      setClassEnrolled(data.classesEnrolled)
+    })
+  },[])
 
+  const submitHandler = async () => {
+    const kelasBaru = {
+      email: profile.email,
+      classId: props.id.toString(),
+    };
+    fetch("/api/classesEnrolled", {
+      method: "POST",
+      body: JSON.stringify(kelasBaru),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      response
+        .json()
+        .then((data) => {
+          throw new Error(data.message || "Something went wrong");
+        })
+        .catch((error) => {
+          notificationCtx.showNotification({
+            title: "Error",
+            status: "error",
+          });
+        });
+    });
+  }
   const idKelas = props.id.toString();
   const paymentLink = `/payment/class/${idKelas}`;
 
@@ -38,7 +68,7 @@ export default function ActionClassButton({ props, profile, onDeleteClass }) {
       message: "Kelas sedang dihapus...",
       status: "pending",
     });
-    fetch("/api/classes/"+idKelas, {
+    fetch("/api/classes/" + idKelas, {
       method: "DELETE",
     })
       .then((response) => {
@@ -76,23 +106,95 @@ export default function ActionClassButton({ props, profile, onDeleteClass }) {
       .then(() => {
         router.reload();
       });
-  }
+  };
 
+  const daftarHandler = async () => {
+    const filteredClassEnrolled = classEnrolled.filter((kelas) => {
+      return (
+        kelas.classId === props.id.toString() && kelas.email === profile.email
+      );
+    });
+
+    if (filteredClassEnrolled.length === 0) {
+      await submitHandler();
+      const inc = props.user + 1;
+      const newData = {
+        user: inc,
+      };
+
+      notificationCtx.showNotification({
+        title: "Daftar Kelas",
+        message: "Kelas sedang didaftarkan...",
+        status: "pending",
+      });
+      fetch("/api/classes/" + idKelas, {
+        method: "PATCH",
+        body: JSON.stringify(newData),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          }
+
+          response
+            .json()
+            .then((data) => {
+              throw new Error(data.message || "Something went wrong");
+            })
+            .catch((error) => {
+              notificationCtx.showNotification({
+                title: "error",
+                message: error.message || "Error daftar kelas",
+                status: "error",
+              });
+            });
+        })
+        .then((data) => {
+          notificationCtx.showNotification({
+            title: "Daftar berhasil!",
+            message: "Berhasil mendaftar kelas",
+            status: "success",
+          });
+        })
+        .catch((error) => {
+          notificationCtx.showNotification({
+            title: "Error",
+            message: error.message || "Something went wrong!",
+            status: "error",
+          });
+        })
+        .then(() => {
+          router.reload();
+        });
+    } else {
+      notificationCtx.showNotification({
+        title: "Gagal Mendaftar di Kelas",
+        message: "Anda sudah terdaftar di kelas ini",
+        status: "error",
+      });
+    }
+  };
+
+  console.log(profile)
+  
   return (
     <div>
       <Dialog>
-        {profile.role !== "admin" ? (
+        {!profile || profile.role !== "admin" ? (
           <DialogTrigger asChild>
             <Button
               type="button"
               variant="yellow_outline"
               className="ml-[240px] md:ml-[280px]"
             >
-              Register
+              Daftar
             </Button>
           </DialogTrigger>
         ) : (
-          <DeleteClassAlert onDeleteClass = {deleteClassHandler} />
+          <DeleteClassAlert onDeleteClass={deleteClassHandler} />
         )}
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
@@ -117,32 +219,28 @@ export default function ActionClassButton({ props, profile, onDeleteClass }) {
               Daftar
             </span>
           </div>
-          <form className="" onSubmit={submitHandler}>
-            <div className="flex justify-center">
-              {!profile || profile.role === "NM" ? (
-                <Link href={paymentLink}>
-                  <Button
-                    variant="yellow_full"
-                    className=" w-full py-3"
-                    type="submit"
-                    onClick={onDeleteClass}
-                  >
-                    Lanjut ke Pembayaran
-                  </Button>
-                </Link>
-              ) : (
-                
-                  <Button
-                    variant="yellow_full"
-                    className=" w-full py-3"
-                    type="submit"
-                    onClick ={daftarKelas}
-                  >
-                    Daftar
-                  </Button>
-              )}
-            </div>
-          </form>
+          <div className="flex justify-center">
+            {profile.length === 0 || profile.role === "NM" ? (
+              <Link href={paymentLink}>
+                <Button
+                  variant="yellow_full"
+                  className=" w-full py-3"
+                  type="submit"
+                >
+                  Lanjut ke Pembayaran
+                </Button>
+              </Link>
+            ) : (
+              <Button
+                variant="yellow_full"
+                className=" w-full py-3"
+                type="submit"
+                onClick={daftarHandler}
+              >
+                Daftar
+              </Button>
+            )}
+          </div>
         </DialogContent>
       </Dialog>
     </div>

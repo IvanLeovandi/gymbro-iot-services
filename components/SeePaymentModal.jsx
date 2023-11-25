@@ -4,20 +4,17 @@ import {
   Dialog,
   DialogClose,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 
 export default function SeePaymentModal({ user }) {
   const [paymentData, setPaymentData] = useState({});
   const [loading, setLoading] = useState(false);
 
-  const fetchData = `/api/payment/` + user.email;
+  const fetchData = `/api/payment/member/` + user.email;
 
   useEffect(() => {
     setLoading(true);
@@ -27,11 +24,7 @@ export default function SeePaymentModal({ user }) {
         setPaymentData(data.payment);
         setLoading(false);
       });
-  },[]);
-
-  console.log(user)
-
-  console.log(paymentData);
+  }, []);
 
   let modalOutput;
 

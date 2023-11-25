@@ -3,7 +3,7 @@ import Navbar from "@/components/navbar";
 import { Fragment } from "react";
 import Biocard from "@/components/biocard";
 import Userpic from "@/components/userpic";
-import ClassCard from "@/components/classcard";
+import RegisteredClassCard from "@/components/RegisteredClassCard";
 import { getSession, useSession } from "next-auth/react";
 import Link from "next/link";
 import AdminNavbar from "@/components/adminnavbar";
@@ -18,6 +18,7 @@ import PageLoader from "@/components/PageLoader";
 const MemberDetailPage = () => {
   const { data: session, status } = useSession();
   const [classes, setClasses] = useState([]);
+  const [classesEnrolled, setClassesEnrolled] = useState([]);
   const [classLoading, setClassLoading] = useState(false);
   const [userLoading, setUserLoading] = useState(false);
   const [notificationLoading, setNotificationLoading] = useState(false);
@@ -39,6 +40,15 @@ const MemberDetailPage = () => {
   }, []);
 
   useEffect(() => {
+    setClassLoading(true);
+    fetch("/api/classesEnrolled")
+      .then((response) => response.json())
+      .then((data) => {
+        setClassesEnrolled(data.classesEnrolled);
+      });
+  }, []);
+
+  useEffect(() => {
     setUserLoading(true);
     fetch("/api/profile")
       .then((response) => response.json())
@@ -56,8 +66,8 @@ const MemberDetailPage = () => {
         setNotification(data.user);
         setNotificationLoading(false);
       });
-    }, []);
-    
+  }, []);
+
   let role;
   let jadwalExpired, tahunExpired, bulanExpired, tanggalExpired;
   if (profile.role === "NM") {
@@ -68,7 +78,6 @@ const MemberDetailPage = () => {
     tahunExpired = jadwalExpired.getFullYear();
     bulanExpired = jadwalExpired.getMonth() + 1;
     tanggalExpired = jadwalExpired.getDate();
-
   } else if (profile.role === "admin") {
     role = "Admin";
   } else {
@@ -119,6 +128,20 @@ const MemberDetailPage = () => {
       .then(() => {
         router.reload();
       });
+  };
+
+  const filteredClassEnrolled = classesEnrolled.filter((kelas) => {
+    return kelas.email === profile.email;
+  });
+
+  let classesResult = [];
+
+  for (const kelas of classes) {
+    for (const kelasEnrolled of filteredClassEnrolled) {
+      if (kelas._id === kelasEnrolled.classId) {
+        classesResult.push(kelas);
+      }
+    }
   }
 
   return (
@@ -138,7 +161,7 @@ const MemberDetailPage = () => {
                   <Userpic props={profile} role={role} />
                 </div>
                 <div className="col-span-3">
-                  <Biocard profile={profile} email={session.user.email} />
+                  <Biocard profile={profile} email={profile.email} />
                 </div>
               </div>
               {role === "Member" && (
@@ -174,10 +197,10 @@ const MemberDetailPage = () => {
                       Notification
                     </Button>
                   </div>
-                  {!notificationBox ? (
+                  {!notificationBox && filteredClassEnrolled.length !== 0 ? (
                     <div className="grid grid-cols-1 min-[970px]:grid-cols-2 min-[1470px]:grid-cols-3">
-                      {classes.map((item) => (
-                        <ClassCard
+                      {classesResult.map((item) => (
+                        <RegisteredClassCard
                           key={item._id}
                           gambar={item.gambar}
                           judul={item.judul}
@@ -192,12 +215,14 @@ const MemberDetailPage = () => {
                         />
                       ))}
                     </div>
+                  ) : !notificationBox && filteredClassEnrolled.length === 0 ? (
+                    <p className="text-lg text-slate-400">Anda belum mendaftar ke kelas manapun</p>
                   ) : (
                     <div className="w-3/4 lg:w-1/2">
                       {notification.length > 0 ? (
                       <DeleteNotificationAlert onDeleteNotification = {deleteNotificationHandler}/>
                       ) : (
-                        <p className="text-lg text-slate-400">There's no notification</p>
+                        <p className="text-lg text-slate-400">Anda tidak memiliki notifikasi</p>
                       )}
                       {notification.map((item, index) => (
                         <NotificationAlert notification={item} key={index}/>

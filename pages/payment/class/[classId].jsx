@@ -4,25 +4,26 @@ import Image from "next/image";
 import Card from "../../../public/card.png";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Button } from "@/components/ui/button";
-import { useEffect } from "react";
-import { useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useRouter } from "next/router";
 import { useSession, getSession } from "next-auth/react";
+import NotificationContext from "@/context/notification-context";
 
-const PaymentPage = (props) => {
+const ClassPaymentPage = (props) => {
   const [kelas, setKelas] = useState([]);
   const [loading, setLoading] = useState(false);
   const [payment, setPayment] = useState("QRIS");
+  const notificationCtx = useContext(NotificationContext);
 
-  const {data:session, status} = useSession();
-  
+  const { data: session, status } = useSession();
+
   const router = useRouter();
+  const idKelas = router.query.classId;
 
-  if(!session) {
-    router.replace('/authentication/login');
+  if (!session) {
+    router.replace("/authentication/login");
   }
 
-  
   const classId = router.query.classId;
   const fetchLink = `/api/classes/${classId}`;
 
@@ -38,9 +39,120 @@ const PaymentPage = (props) => {
 
   const total = kelas.harga + kelas.harga * 0.1;
 
-  const submitHandler =(e) => {
-    e.preventDefault();
-  }
+  const submitHandler = async () => {
+    const inc = kelas.user + 1;
+    const newData = {
+      user: inc,
+    };
+
+    notificationCtx.showNotification({
+      title: "Daftar Kelas",
+      message: "Kelas sedang didaftarkan...",
+      status: "pending",
+    });
+    fetch("/api/classes/" + idKelas, {
+      method: "PATCH",
+      body: JSON.stringify(newData),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      response
+        .json()
+        .then((data) => {
+          throw new Error(data.message || "Something went wrong");
+        })
+        .catch((error) => {
+          notificationCtx.showNotification({
+            title: "error",
+            message: error.message || "Error daftar kelas",
+            status: "error",
+          });
+        });
+    });
+    //
+    const kelasBaru = {
+      email: session.user.email,
+      classId: idKelas,
+    };
+    fetch("/api/classesEnrolled", {
+      method: "POST",
+      body: JSON.stringify(kelasBaru),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      response
+        .json()
+        .then((data) => {
+          throw new Error(data.message || "Something went wrong");
+        })
+        .catch((error) => {
+          notificationCtx.showNotification({
+            title: "Error",
+            status: "error",
+          });
+        });
+    });
+    //
+    const paymentData = {
+      judul: kelas.judul,
+      harga: total,
+      metode: payment,
+      email: session.user.email,
+    };
+
+    const now = new Date();
+    const expDate = new Date(now.setDate(now.getDate() + 30));
+
+    fetch("/api/payment/class/" + idKelas, {
+      method: "POST",
+      body: JSON.stringify(paymentData),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        response
+          .json()
+          .then((data) => {
+            throw new Error(data.message || "Something went wrong");
+          })
+          .catch((error) => {
+            notificationCtx.showNotification({
+              title: "error",
+              message: error.message || "Error payment",
+              status: "error",
+            });
+          });
+      })
+      .then((data) => {
+        notificationCtx.showNotification({
+          title: "Payment berhasil!",
+          message: "Pembayaran berhasil dilakukan",
+          status: "success",
+        });
+      })
+      .catch((error) => {
+        notificationCtx.showNotification({
+          title: "Error",
+          message: error.message || "Something went wrong!",
+          status: "error",
+        });
+      })
+      .then(() => {
+        router.replace("/profile");
+      });
+  };
 
   return (
     <Fragment>
@@ -84,7 +196,13 @@ const PaymentPage = (props) => {
                 <h2 className="col-span-1  h-[35 0px] text-3xl font-bold mx-auto my-5">
                   Payment Option
                 </h2>
-                <RadioGroup onChange={(event)=>{setPayment(event.target.value)}} defaultValue="QRIS" className="ml-4">
+                <RadioGroup
+                  onChange={(event) => {
+                    setPayment(event.target.value);
+                  }}
+                  defaultValue="QRIS"
+                  className="ml-4"
+                >
                   <div className="flex items-center space-x-2 mt-3">
                     <RadioGroupItem value="QRIS" id="QRIS" />
                     <p>QRIS</p>
@@ -101,17 +219,16 @@ const PaymentPage = (props) => {
                     <p>Virtual Account</p>
                   </div>
                 </RadioGroup>
-                <form onSubmit={submitHandler}>
                 <div className="flex items-center justify-center">
                   <Button
                     variant="yellow_outline"
                     className="mx-auto my-10 w-80 flex justify-center"
-                    type = "submit"
+                    type="submit"
+                    onClick={submitHandler}
                   >
                     Proceed to Payment
                   </Button>
                 </div>
-                </form>
               </div>
             </div>
           </div>{" "}
@@ -123,7 +240,7 @@ const PaymentPage = (props) => {
 
 export async function getServerSideProps(context) {
   const session = await getSession({ req: context.req });
-  
+
   if (!session) {
     return {
       redirect: {
@@ -137,6 +254,4 @@ export async function getServerSideProps(context) {
   };
 }
 
-export default PaymentPage;
-
-
+export default ClassPaymentPage;

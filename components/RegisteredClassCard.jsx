@@ -1,35 +1,8 @@
-import Image from "next/image";
-import Card from "../public/card.png";
-import { Button } from "@/components/ui/button";
-import { useState, useEffect } from "react";
-import ActionClassButton from "./ActionClassButton";
 import { Fragment } from "react";
-import PageLoader from "./PageLoader";
+import Card from "../public/card.png";
+import Image from "next/image";
 
-const ClassCard = (props) => {
-  // const [loading, setLoading] = useState(true)  
-  // const [profile, setProfile] = useState({});
-  const [classesEnrolled, setClassesEnrolled] = useState([]);
-
-  useEffect(() => {
-    fetch("/api/classesEnrolled")
-      .then((response) => response.json())
-      .then((data) => {
-        setClassesEnrolled(data.classesEnrolled);
-      });
-  }, []);
-
-  console.log(props.profile);
-
-  // useEffect(() => {
-  //   fetch("/api/profile")
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       setProfile(data.user);
-  //       setLoading(false);
-  //     });
-  // }, []);
-
+export default function RegisteredClassCard(props) {
   const jadwalKelas = new Date(props.jadwal);
   const tahunKelas = jadwalKelas.getFullYear();
   const bulanKelas = jadwalKelas.getMonth() + 1;
@@ -83,22 +56,9 @@ const ClassCard = (props) => {
                 </p>
               </div>
             </div>
-            {props.user === props.kapasitas && (
-              <Button
-                type="button"
-                variant="destructive"
-                size="lg"
-                className="ml-[180px] md:ml-[200px] w-1/2 mt-[10px]"
-              >
-                Kelas Penuh
-              </Button>
-            )}
-            {classesEnrolled && <ActionClassButton props={props} profile={props.profile} classesEnrolled={classesEnrolled} />}
           </div>
         </div>
       </div>
     </Fragment>
   );
-};
-
-export default ClassCard;
+}
