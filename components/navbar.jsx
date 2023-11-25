@@ -25,7 +25,7 @@ export default function navbar() {
         <Image src={Logo} alt="logo" width={250} height={70} />
         </a> */}
         <Link href="/">
-          <Image src={Logo} alt="logo" className=" w-[250px] h-[70px]" />
+          <Image src={Logo} alt="logo" className=" w-[180px] h-[55px] md:w-[250px] md:h-[70px]" />
         </Link>
         <div>
           <ul className="hidden md:flex justify-evenly gap-12">
