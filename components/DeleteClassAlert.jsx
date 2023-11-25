@@ -22,8 +22,15 @@ export default function DeleteClassAlert(props) {
             <AlertDialogTitle>Apakah kamu yakin?</AlertDialogTitle>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel className="bg-white text-black">Batalkan</AlertDialogCancel>
-            <AlertDialogAction onClick={props.onDeleteClass} className="bg-red-500 text-white">Hapus</AlertDialogAction>
+            <AlertDialogCancel className="bg-white text-black">
+              Batalkan
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={props.onDeleteClass}
+              className="bg-red-500 text-white"
+            >
+              Hapus
+            </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

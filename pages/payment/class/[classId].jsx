@@ -18,7 +18,7 @@ const ClassPaymentPage = (props) => {
   const { data: session, status } = useSession();
 
   const router = useRouter();
-  const idKelas = router.query.classId
+  const idKelas = router.query.classId;
 
   if (!session) {
     router.replace("/authentication/login");
@@ -41,40 +41,39 @@ const ClassPaymentPage = (props) => {
 
   const submitHandler = async () => {
     const inc = kelas.user + 1;
-      const newData = {
-        user : inc,
+    const newData = {
+      user: inc,
+    };
+
+    notificationCtx.showNotification({
+      title: "Daftar Kelas",
+      message: "Kelas sedang didaftarkan...",
+      status: "pending",
+    });
+    fetch("/api/classes/" + idKelas, {
+      method: "PATCH",
+      body: JSON.stringify(newData),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((response) => {
+      if (response.ok) {
+        return response.json();
       }
-  
-      notificationCtx.showNotification({
-        title: "Daftar Kelas",
-        message: "Kelas sedang didaftarkan...",
-        status: "pending",
-      });
-      fetch("/api/classes/"+idKelas, {
-        method: "PATCH",
-        body: JSON.stringify(newData),
-        headers: {
-          "Content-Type" : "application/json"
-        }
-      })
-        .then((response) => {
-          if (response.ok) {
-            return response.json();
-          }
-          response
-            .json()
-            .then((data) => {
-              throw new Error(data.message || "Something went wrong");
-            })
-            .catch((error) => {
-              notificationCtx.showNotification({
-                title: "error",
-                message: error.message || "Error daftar kelas",
-                status: "error",
-              });
-            });
+      response
+        .json()
+        .then((data) => {
+          throw new Error(data.message || "Something went wrong");
         })
-        // 
+        .catch((error) => {
+          notificationCtx.showNotification({
+            title: "error",
+            message: error.message || "Error daftar kelas",
+            status: "error",
+          });
+        });
+    });
+    //
     const kelasBaru = {
       email: session.user.email,
       classId: idKelas,
@@ -101,7 +100,7 @@ const ClassPaymentPage = (props) => {
           });
         });
     });
-    // 
+    //
     const paymentData = {
       judul: kelas.judul,
       harga: total,
@@ -154,7 +153,6 @@ const ClassPaymentPage = (props) => {
         router.replace("/profile");
       });
   };
-
 
   return (
     <Fragment>

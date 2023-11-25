@@ -1,5 +1,4 @@
 import { Fragment, useContext, useEffect, useState } from "react";
-import Navbar from "@/components/navbar";
 import Membercard from "@/components/membercard";
 import { getSession } from "next-auth/react";
 import AdminNavbar from "@/components/adminnavbar";
@@ -167,7 +166,7 @@ export async function getServerSideProps(context) {
   if (!session) {
     return {
       redirect: {
-        destination: "/",
+        destination: "/404",
         permanent: false,
       },
     };
@@ -176,7 +175,7 @@ export async function getServerSideProps(context) {
   if (session.user.email !== "admingymbro@gmail.com") {
     return {
       redirect: {
-        destination: "/",
+        destination: "/404",
         permanent: false,
       },
     };

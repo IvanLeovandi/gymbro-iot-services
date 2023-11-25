@@ -17,7 +17,7 @@ import UpgradeMemberModal from "@/components/UpgradeMemberModal";
 const MemberDetailPage = () => {
   const { data: session, status } = useSession();
   const [classes, setClasses] = useState([]);
-  const [classesEnrolled, setClassesEnrolled] = useState([])
+  const [classesEnrolled, setClassesEnrolled] = useState([]);
   const [classLoading, setClassLoading] = useState(false);
   const [userLoading, setUserLoading] = useState(false);
   const [notificationLoading, setNotificationLoading] = useState(false);
@@ -37,7 +37,7 @@ const MemberDetailPage = () => {
         setClassLoading(false);
       });
   }, []);
-  
+
   useEffect(() => {
     setClassLoading(true);
     fetch("/api/classesEnrolled")
@@ -65,8 +65,8 @@ const MemberDetailPage = () => {
         setNotification(data.user);
         setNotificationLoading(false);
       });
-    }, []);
-    
+  }, []);
+
   let role;
   let jadwalExpired, tahunExpired, bulanExpired, tanggalExpired;
   if (profile.role === "NM") {
@@ -77,7 +77,6 @@ const MemberDetailPage = () => {
     tahunExpired = jadwalExpired.getFullYear();
     bulanExpired = jadwalExpired.getMonth() + 1;
     tanggalExpired = jadwalExpired.getDate();
-
   } else if (profile.role === "admin") {
     role = "Admin";
   } else {
@@ -128,17 +127,17 @@ const MemberDetailPage = () => {
       .then(() => {
         router.reload();
       });
-  }
+  };
 
   const filteredClassEnrolled = classesEnrolled.filter((kelas) => {
     return kelas.email === profile.email;
-  })
+  });
 
   let classesResult = [];
 
   for (const kelas of classes) {
-    for (const kelasEnrolled of filteredClassEnrolled){
-      if(kelas._id === kelasEnrolled.classId) {
+    for (const kelasEnrolled of filteredClassEnrolled) {
+      if (kelas._id === kelasEnrolled.classId) {
         classesResult.push(kelas);
       }
     }
@@ -170,8 +169,7 @@ const MemberDetailPage = () => {
 
           {role === "Non-Member" && (
             <div className="text-right mr-[50px] mt-6">
-              <UpgradeMemberModal id = {profile._id.toString()}/>
-              {/* ni perlu diganti tipe inputnya...tolong ye gw hrs otw dlu */}
+              <UpgradeMemberModal id={profile._id.toString()} />
             </div>
           )}
           {role !== "Admin" && (
@@ -186,7 +184,7 @@ const MemberDetailPage = () => {
                   Classes
                 </Button>
                 <Button
-                  variant = "default"
+                  variant="default"
                   className="my-5 font-bold text-3xl lg:text-5xl"
                   onClick={() => {
                     setNofiticationBox(true);
@@ -216,12 +214,16 @@ const MemberDetailPage = () => {
               ) : (
                 <div className="w-3/4 lg:w-1/2">
                   {notification.length > 0 ? (
-                  <DeleteNotificationAlert onDeleteNotification = {deleteNotificationHandler}/>
+                    <DeleteNotificationAlert
+                      onDeleteNotification={deleteNotificationHandler}
+                    />
                   ) : (
-                    <p className="text-lg text-slate-400">There's no notification</p>
+                    <p className="text-lg text-slate-400">
+                      There's no notification
+                    </p>
                   )}
                   {notification.map((item, index) => (
-                    <NotificationAlert notification={item} key={index}/>
+                    <NotificationAlert notification={item} key={index} />
                   ))}
                 </div>
               )}

@@ -4,7 +4,6 @@ import {
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
-  AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
@@ -24,8 +23,15 @@ export default function DeleteNotificationAlert(props) {
             <AlertDialogTitle>Apakah kamu yakin?</AlertDialogTitle>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel className="bg-white text-black">Batalkan</AlertDialogCancel>
-            <AlertDialogAction onClick={props.onDeleteNotification} className="bg-red-500 text-white">Hapus</AlertDialogAction>
+            <AlertDialogCancel className="bg-white text-black">
+              Batalkan
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={props.onDeleteNotification}
+              className="bg-red-500 text-white"
+            >
+              Hapus
+            </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

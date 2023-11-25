@@ -22,11 +22,6 @@ export const authNext = {
           throw new Error("No user found");
         }
 
-        // const isValid = await verifyPassword(
-        //   credentials.password,
-        //   user.password
-        // );
-
         const isValid = (user.password === credentials.password);
 
         if (!isValid) {
