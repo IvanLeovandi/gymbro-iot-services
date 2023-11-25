@@ -91,3 +91,24 @@ export async function getLatestPayment (client,userEmail) {
 
   return result;
 }
+
+export async function deleteClass(client, id) {
+  const db = client.db();
+
+  const result = await db.collection("Classes").deleteOne({_id: new ObjectId(id)});
+  return result;
+}
+
+export async function updateProfileRole(client, userEmail, newData) {
+  const db = client.db();
+  const result = await db.collection("User").updateOne(
+    { email: userEmail },
+    {
+      $set: {
+        role: newData.role,
+        expiredDate : newData.expiredDate
+      },
+    }
+  );
+  return result;
+}

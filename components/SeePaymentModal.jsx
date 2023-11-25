@@ -36,10 +36,9 @@ export default function SeePaymentModal({ user }) {
   }
 
   if (!loading) {
-    console.log(paymentData)
     const tanggalPembayaran = new Date(paymentData.tanggal);
     const tahun = tanggalPembayaran.getFullYear();
-    const bulan = tanggalPembayaran.getMonth();
+    const bulan = tanggalPembayaran.getMonth() + 1;
     const tanggal = tanggalPembayaran.getDate();
     const jam = tanggalPembayaran.getHours();
     const menit =

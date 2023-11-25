@@ -9,8 +9,13 @@ import {
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import DeleteClassAlert from "./DeleteClassAlert";
+import { useContext } from "react";
+import NotificationContext from "@/context/notification-context";
+import { useRouter } from "next/router";
 
-export default function ActionClassButton({ props, profile }) {
+export default function ActionClassButton({ props, profile, onDeleteClass }) {
+  const notificationCtx = useContext(NotificationContext);
+  const router = useRouter();
   const submitHandler = async (event) => {
     event.preventDefault();
   };
@@ -20,12 +25,58 @@ export default function ActionClassButton({ props, profile }) {
   };
 
   const idKelas = props.id.toString();
-  const paymentLink = `/payment/${idKelas}`;
+  const paymentLink = `/payment/class/${idKelas}`;
 
   const jadwalKelas = new Date(props.jadwal);
   const tahunKelas = jadwalKelas.getFullYear();
   const bulanKelas = jadwalKelas.getMonth();
   const tanggalKelas = jadwalKelas.getDate();
+
+  const deleteClassHandler = () => {
+    notificationCtx.showNotification({
+      title: "Hapus Kelas",
+      message: "Kelas sedang dihapus...",
+      status: "pending",
+    });
+    fetch("/api/classes/"+idKelas, {
+      method: "DELETE",
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+
+        response
+          .json()
+          .then((data) => {
+            throw new Error(data.message || "Something went wrong");
+          })
+          .catch((error) => {
+            notificationCtx.showNotification({
+              title: "error",
+              message: error.message || "Error menghapus kelas",
+              status: "error",
+            });
+          });
+      })
+      .then((data) => {
+        notificationCtx.showNotification({
+          title: "Hapus berhasil!",
+          message: "Kelas berhasil dihapus",
+          status: "success",
+        });
+      })
+      .catch((error) => {
+        notificationCtx.showNotification({
+          title: "Error",
+          message: error.message || "Something went wrong!",
+          status: "error",
+        });
+      })
+      .then(() => {
+        router.reload();
+      });
+  }
 
   return (
     <div>
@@ -41,7 +92,7 @@ export default function ActionClassButton({ props, profile }) {
             </Button>
           </DialogTrigger>
         ) : (
-          <DeleteClassAlert />
+          <DeleteClassAlert onDeleteClass = {deleteClassHandler} />
         )}
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
@@ -74,6 +125,7 @@ export default function ActionClassButton({ props, profile }) {
                     variant="yellow_full"
                     className=" w-full py-3"
                     type="submit"
+                    onClick={onDeleteClass}
                   >
                     Lanjut ke Pembayaran
                   </Button>
@@ -88,7 +140,6 @@ export default function ActionClassButton({ props, profile }) {
                   >
                     Daftar
                   </Button>
-                
               )}
             </div>
           </form>

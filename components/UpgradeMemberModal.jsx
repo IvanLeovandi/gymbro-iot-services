@@ -11,8 +11,10 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import Link from "next/link";
 
-export default function UpgradeMemberModal() {
+export default function UpgradeMemberModal(props) {
+  const paymentLink = `/payment/member/${props.id}`;
   return (
     <div>
       <Dialog>
@@ -22,7 +24,6 @@ export default function UpgradeMemberModal() {
           </Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px] md:max-w-[550px]">
-          <form>
             <DialogHeader>
               <DialogTitle>Upgrade ke Member</DialogTitle>
             </DialogHeader>
@@ -38,11 +39,12 @@ export default function UpgradeMemberModal() {
                   Batal
                 </Button>
               </DialogClose>
-              <Button type="submit" variant="yellow_outline">
-                Konfirmasi
+              <Button variant="yellow_outline">
+                <Link href={paymentLink}>
+                  Konfirmasi
+                </Link>
               </Button>
             </DialogFooter>
-          </form>
         </DialogContent>
       </Dialog>
     </div>
