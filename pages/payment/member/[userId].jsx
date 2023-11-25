@@ -1,41 +1,122 @@
 import Navbar from "@/components/navbar";
-import { Fragment } from "react";
+import { Fragment, useContext } from "react";
 import Image from "next/image";
-import Card from "../../public/card.png";
+import Card from "../../../public/card.png";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Button } from "@/components/ui/button";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { useSession, getSession } from "next-auth/react";
+import NotificationContext from "@/context/notification-context";
+import { json } from "react-router-dom";
 
-const PaymentPage = (props) => {
-  const [kelas, setKelas] = useState([]);
+const MembershipPaymentPage = (props) => {
+  const [profile, setProfile] = useState({});
   const [loading, setLoading] = useState(false);
+  const [payment, setPayment] = useState("QRIS");
+  const notificationCtx = useContext(NotificationContext);
 
-  const {data:session, status} = useSession();
-  
+  const { data: session, status } = useSession();
+
   const router = useRouter();
 
-  if(!session) {
-    router.replace('/authentication/login');
+  if (!session) {
+    router.replace("/authentication/login");
   }
 
-  
-  const classId = router.query.classId;
-  const fetchLink = `/api/classes/${classId}`;
+  const fetchLink = `/api/profile/`;
 
   useEffect(() => {
     setLoading(true);
     fetch(fetchLink)
       .then((response) => response.json())
       .then((data) => {
-        setKelas(data.classDetail);
+        setProfile(data.user);
         setLoading(false);
       });
   }, []);
 
-  const total = kelas.harga + kelas.harga * 0.1;
+  const hargaMember = 300000;
+  const service = 300000 * 0.05;
+  const total = hargaMember + service;
+
+  const submitHandler = () => {
+    const paymentData = {
+      harga: total,
+      metode: payment,
+    };
+
+    const now = new Date();
+    const expDate = new Date(now.setDate(now.getDate() + 30));
+
+    notificationCtx.showNotification({
+      title: "Payment",
+      message: "Sedang proses payment...",
+      status: "pending",
+    });
+    fetch("/api/profile", {
+      method: "PATCH",
+      body: JSON.stringify({ role: "M", expiredDate: expDate }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .catch((error) => {
+        notificationCtx.showNotification({
+          title: "error",
+          message: error.message || "something went wrong!",
+          status: "error",
+        });
+      })
+      .then(() => {
+        router.replace("/profile");
+      });
+
+    fetch("/api/payment/member/" + profile.email, {
+      method: "POST",
+      body: JSON.stringify(paymentData),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+
+        response
+          .json()
+          .then((data) => {
+            throw new Error(data.message || "Something went wrong");
+          })
+          .catch((error) => {
+            notificationCtx.showNotification({
+              title: "error",
+              message: error.message || "Error payment",
+              status: "error",
+            });
+          });
+      })
+      .then((data) => {
+        notificationCtx.showNotification({
+          title: "Payment berhasil!",
+          message: "Pembayaran berhasil dilakukan",
+          status: "success",
+        });
+      })
+      .catch((error) => {
+        notificationCtx.showNotification({
+          title: "Error",
+          message: error.message || "Something went wrong!",
+          status: "error",
+        });
+      })
+      .then(() => {
+        router.replace("/profile");
+      });
+  };
 
   return (
     <Fragment>
@@ -55,14 +136,14 @@ const PaymentPage = (props) => {
                 <hr className=" w-[950px] h-[2.5px] bg-gradient-to-r from-transparent via-white to-transparent     mx-auto mb-5" />
                 <div className="grid grid-cols-4">
                   <div className="col-span-3">
-                    <h3 className="font-semibold text-3xl mb-4">{kelas.tipe}</h3>
-                    <p className="text-xl">{kelas.deskripsi}</p>
+                    <h3 className="font-semibold text-3xl mb-4">Item</h3>
+                    <p className="text-xl">Upgrade Membership</p>
                     <p className="text-xl">Service Charge</p>
                   </div>
                   <div className="col-span-1">
                     <h3 className="font-semibold text-3xl mb-4">Price</h3>
-                    <p className="text-xl">Rp {kelas.harga}</p>
-                    <p className="text-xl">Rp {kelas.harga * 0.1}</p>
+                    <p className="text-xl">Rp {hargaMember}</p>
+                    <p className="text-xl">Rp {service}</p>
                   </div>
                 </div>
                 <div className="text-right mt-10 font-bold text-3xl">
@@ -79,7 +160,13 @@ const PaymentPage = (props) => {
                 <h2 className="col-span-1  h-[35 0px] text-3xl font-bold mx-auto my-5">
                   Payment Option
                 </h2>
-                <RadioGroup defaultValue="QRIS" className="ml-4">
+                <RadioGroup
+                  onChange={(e) => {
+                    setPayment(e.target.value);
+                  }}
+                  defaultValue="QRIS"
+                  className="ml-4"
+                >
                   <div className="flex items-center space-x-2 mt-3">
                     <RadioGroupItem value="QRIS" id="QRIS" />
                     <p>QRIS</p>
@@ -98,6 +185,7 @@ const PaymentPage = (props) => {
                 </RadioGroup>
                 <div className="flex items-center justify-center">
                   <Button
+                    onClick={submitHandler}
                     variant="yellow_outline"
                     className="mx-auto my-10 w-80 flex- justify-center"
                   >
@@ -115,7 +203,7 @@ const PaymentPage = (props) => {
 
 export async function getServerSideProps(context) {
   const session = await getSession({ req: context.req });
-  
+
   if (!session) {
     return {
       redirect: {
@@ -129,6 +217,4 @@ export async function getServerSideProps(context) {
   };
 }
 
-export default PaymentPage;
-
-
+export default MembershipPaymentPage;

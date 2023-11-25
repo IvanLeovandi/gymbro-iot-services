@@ -92,17 +92,59 @@ export async function deleteAllNotification(client, userEmail) {
   return result;
 }
 
-export async function incrementClass(client, instruktur, jadwal) {
+export async function incrementClass(client, id, newData) {
   const db = client.db();
 
-  const result = await db.collection("Classes").update(
-    { $and: [{ instruktur: instruktur }, { jadwal: jadwal }] },
+  const result = await db.collection("Classes").updateOne(
+    { _id: new ObjectId(id) },
     {
-      $inc: {
-        user: 1,
+      $set: {
+        user: newData.user,
       },
     }
   );
 
+  return result;
+}
+
+export async function getLatestPayment(client, userEmail) {
+  const db = client.db();
+
+  const result = await db
+    .collection("Payments")
+    .findOne({ email: userEmail }, {}, { sort: { _id: -1 } });
+
+  return result;
+}
+export async function getLatestClassPayment(client, classId) {
+  const db = client.db();
+
+  const result = await db
+    .collection("Payments")
+    .findOne({ _id: new ObjectId(classId) }, {}, { sort: { _id: -1 } });
+
+  return result;
+}
+
+export async function deleteClass(client, id) {
+  const db = client.db();
+
+  const result = await db
+    .collection("Classes")
+    .deleteOne({ _id: new ObjectId(id) });
+  return result;
+}
+
+export async function updateProfileRole(client, userEmail, newData) {
+  const db = client.db();
+  const result = await db.collection("User").updateOne(
+    { email: userEmail },
+    {
+      $set: {
+        role: newData.role,
+        expiredDate: newData.expiredDate,
+      },
+    }
+  );
   return result;
 }

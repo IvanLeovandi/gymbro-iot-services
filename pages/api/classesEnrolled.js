@@ -11,13 +11,12 @@ const handler = async (req, res) => {
   }
 
   if (req.method === "POST") {
-    const { username,instruktur,jadwal } =
+    const { email, classId } =
       req.body;
 
     const newClassEnroll = {
-      username:username,
-      instruktur:instruktur,
-      jadwal:jadwal,
+      email: email,
+      classId: classId
     };
 
     let result;

@@ -3,13 +3,17 @@ import Navbar from "@/components/navbar";
 import Logo from "../../../public/logo.png";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Link } from "lucide-react";
+import Link from "next/link";
 import { useContext, useRef } from "react";
 import NotificationContext from "@/context/notification-context";
 import { useState } from "react";
 import { useRouter } from "next/router";
+import { UploadDropzone } from "@/src/utils/uploadthing";
+import { Label } from "@/components/ui/label";
 
 const RegisterPage = () => {
+  const [imageUrl, setImageUrl] = useState("");
+
   const namaRef = useRef();
   const teleponRef = useRef();
   const emailRef = useRef();
@@ -38,6 +42,7 @@ const RegisterPage = () => {
     const enteredUsername = usernameRef.current.value;
     const enteredPassword = passwordRef.current.value;
     const enteredConfirmPassword = confirmPasswordRef.current.value;
+    const enteredProfileImage = imageUrl;
 
     const newRegisteredUser = {
       nama: enteredNama,
@@ -49,6 +54,7 @@ const RegisterPage = () => {
       username: enteredUsername,
       password: enteredPassword,
       confirmPassword: enteredConfirmPassword,
+      profileImage: enteredProfileImage,
     };
 
     notificationCtx.showNotification({
@@ -96,8 +102,9 @@ const RegisterPage = () => {
           message: error.message || "Something went wrong|",
           status: "error",
         });
-      }).then(() => {
-        router.replace('/authentication/login')
+      })
+      .then(() => {
+        router.replace("/authentication/login");
       });
   };
 
@@ -109,21 +116,21 @@ const RegisterPage = () => {
         <Image src={Logo} alt="logo" className="mx-auto my-16" />
         <div className="">
           <form onSubmit={submitHandler} action="">
-            <label className="">Full Name</label>
+            <Label className="">Nama Lengkap</Label>
             <Input
               placeholder="Nama"
               ref={namaRef}
               className="border-none outline-none focus:outline-[#FFD700] mt-2 mb-4"
               required
             />
-            <label className="">Phone Number</label>
+            <Label className="">Nomor Telepon</Label>
             <Input
               placeholder="08..."
               ref={teleponRef}
               className="border-none outline-none focus:outline-[#FFD700] mt-2 mb-4"
               required
             />
-            <label className="">Email</label>
+            <Label className="">Email</Label>
             <Input
               placeholder="Email"
               ref={emailRef}
@@ -131,14 +138,14 @@ const RegisterPage = () => {
               className="border-none outline-none focus:outline-[#FFD700] mt-2 mb-4"
               required
             />
-            <label className="">Address</label>
+            <Label className="">Alamat</Label>
             <Input
               placeholder="Alamat"
               ref={alamatRef}
               className="border-none outline-none focus:outline-[#FFD700] mt-2 mb-4"
               required
             />
-            <label className="">Age</label>
+            <Label className="">Usia</Label>
             <Input
               placeholder="Usia (>= 15)"
               ref={usiaRef}
@@ -147,7 +154,7 @@ const RegisterPage = () => {
               className="border-none outline-none focus:outline-[#FFD700] mt-2 mb-4"
               required
             />
-            <label className="">Gender</label>
+            <Label className="">Jenis Kelamin</Label>
             <Input
               placeholder="Laki-laki / Perempuan"
               ref={jenisKelaminRef}
@@ -155,7 +162,7 @@ const RegisterPage = () => {
               className="border-none outline-none focus:outline-[#FFD700] mt-2 mb-4"
               required
             />
-            <label className="">Username</label>
+            <Label className="">Username</Label>
             <Input
               ref={usernameRef}
               type="text"
@@ -163,7 +170,7 @@ const RegisterPage = () => {
               className="border-none outline-none focus:outline-[#FFD700] mt-2 mb-4"
               required
             />
-            <label className="">Password</label>
+            <Label className="">Password</Label>
             <Input
               ref={passwordRef}
               type="password"
@@ -171,7 +178,7 @@ const RegisterPage = () => {
               required
               placeholder="password"
             />
-            <label className="">Confirm Password</label>
+            <Label className="">Confirm Password</Label>
             <Input
               ref={confirmPasswordRef}
               type="password"
@@ -179,16 +186,61 @@ const RegisterPage = () => {
               required
               placeholder="confirm password"
             />
+
+            {imageUrl ? (
+              <Image
+                src={imageUrl}
+                alt="Class Image"
+                width={1000}
+                height={1000}
+                className="w-full h-5/6 object-cover mt-3"
+              />
+            ) : (
+              <div>
+                <Label>Upload Foto Profil</Label>
+                <UploadDropzone
+                  required
+                  className="bg-slate-200 h-full"
+                  endpoint="imageUploader"
+                  onClientUploadComplete={(res) => {
+                    // Do something with the response
+                    console.log("Files: ", res[0].url);
+                    setImageUrl(res[0].url);
+                    alert("Upload Completed");
+                  }}
+                  onUploadError={(error) => {
+                    // Do something with the error.
+                    alert(`ERROR! ${error.message}`);
+                  }}
+                />
+              </div>
+            )}
+
+            {imageUrl && (
+              <div className="mt-4 flex justify-center">
+                <Button
+                  onClick={() => setImageUrl("")}
+                  variant="yellow_outline"
+                >
+                  Change Image
+                </Button>
+              </div>
+            )}
+
             <div className="flex justify-center">
-              <Button variant="ghost" className="my-8 w-1/2" type="submit">
-                Register
+              <Button
+                variant="yellow_outline"
+                className="my-8 w-1/2"
+                type="submit"
+              >
+                Daftar
               </Button>
             </div>
             <p className="text-center text-xs">
-              Already have an account?{" "}
+              Already have an account?
               <Link
                 href="/authentication/login"
-                className="text-[#FFD700] hover:text-yellow-500"
+                className="text-[#FFD700] hover:text-yellow-500 ml-2"
               >
                 Login here
               </Link>

@@ -19,6 +19,7 @@ const handler = async (req, res) => {
       username,
       password,
       confirmPassword,
+      profileImage
     } = data;
 
     if (usia < 15) {
@@ -69,6 +70,8 @@ const handler = async (req, res) => {
       telepon: telepon,
       username: username,
       usia: usia,
+      profileImage: profileImage,
+      expiredDate: null,
     };
     const result = await insertDocument(client, "User", newUser);
 

@@ -29,6 +29,7 @@ const handler = async (req, res) => {
       username,
       password,
       role,
+      profileImage,
     } = req.body;
 
     //kalo perlu validasi data disini
@@ -43,6 +44,7 @@ const handler = async (req, res) => {
       username: username,
       password: password,
       role: role,
+      profileImage: profileImage,
     };
 
     let result;
@@ -59,7 +61,23 @@ const handler = async (req, res) => {
   if (req.method === "GET") {
     try {
       const documents = await getDocument(client, "User", { _id: -1 });
-      res.status(200).json({ users: documents });
+      const nonMemberResult = documents.filter((user) => {
+        return user.role === "NM";
+      });
+      const memberResult = documents.filter((user) => {
+        return user.role === "M";
+      });
+      const adminResult = documents.filter((user) => {
+        return user.role === "admin";
+      });
+
+      res
+        .status(200)
+        .json({
+          nonMember: nonMemberResult,
+          member: memberResult,
+          admin: adminResult,
+        });
     } catch (error) {
       res.status(500).json({ message: "Failed to get data" });
     }
@@ -93,7 +111,7 @@ const handler = async (req, res) => {
     const result = await updateProfileData(client, currentEmail, dataUpdate);
 
     client.close();
-    res.status(200).json({message: "User updated!"})
+    res.status(200).json({ message: "User updated!" });
   }
 };
 

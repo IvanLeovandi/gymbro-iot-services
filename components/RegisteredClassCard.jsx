@@ -1,34 +1,18 @@
-import Image from "next/image";
-import Card from "../public/card.png";
-import Img_dum from "../public/image_dummy.jpg";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import Link from "next/link";
-import { useState, useEffect } from "react";
-import ActionClassButton from "./ActionClassButton";
 import { Fragment } from "react";
+import Card from "../public/card.png";
+import Image from "next/image";
 
-const ClassCard = (props) => {
+export default function RegisteredClassCard(props) {
 
-  const [profile, setProfile] = useState({})
-
-  useEffect(() => {
-    fetch("/api/profile")
-      .then((response) => response.json())
-      .then((data) => {
-        setProfile(data.user);
-      });
-  }, []);
-
-  const jadwalKelas = new Date(props.jadwal);
-  const tahunKelas = jadwalKelas.getFullYear();
-  const bulanKelas = jadwalKelas.getMonth() + 1;
-  const tanggalKelas = jadwalKelas.getDate();
-  const jamKelas = jadwalKelas.getHours();
-  const menitKelas =
-    (jadwalKelas.getMinutes() < 10 ? "0" : "") + jadwalKelas.getMinutes();
-
-  const jadwalfix = `${tanggalKelas}-${bulanKelas}-${tahunKelas} ${jamKelas}:${menitKelas}`;
+    const jadwalKelas = new Date(props.jadwal);
+    const tahunKelas = jadwalKelas.getFullYear();
+    const bulanKelas = jadwalKelas.getMonth() + 1;
+    const tanggalKelas = jadwalKelas.getDate();
+    const jamKelas = jadwalKelas.getHours();
+    const menitKelas =
+      (jadwalKelas.getMinutes() < 10 ? "0" : "") + jadwalKelas.getMinutes();
+  
+    const jadwalfix = `${tanggalKelas}-${bulanKelas}-${tahunKelas} ${jamKelas}:${menitKelas}`;
 
   return (
     <Fragment>
@@ -73,22 +57,9 @@ const ClassCard = (props) => {
                   </p>
                 </div>
               </div>
-              {props.user === props.kapasitas && (
-                <Button
-                  type="button"
-                  variant="destructive"
-                  size="lg"
-                  className="ml-[180px] md:ml-[200px] w-1/2 mt-[10px]"
-                >
-                  Kelas Penuh
-                </Button>
-              )}
-              {profile && <ActionClassButton props={props} profile={profile} />}
             </div>
           </div>
         </div>
     </Fragment>
-  );
-};
-
-export default ClassCard;
+  )
+}

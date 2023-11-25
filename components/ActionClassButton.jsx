@@ -8,13 +8,29 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import DeleteClassAlert from "./DeleteClassAlert";
+import { useContext } from "react";
+import NotificationContext from "@/context/notification-context";
+import { useRouter } from "next/router";
+import { useState, useEffect } from "react";
 
 export default function ActionClassButton({ props, profile }) {
+  const notificationCtx = useContext(NotificationContext);
+  const [classEnrolled, setClassEnrolled] = useState([])
+  const router = useRouter();
+
+  useEffect(()=>{
+    fetch("/api/classesEnrolled")
+    .then((response) => response.json())
+    .then((data) => {
+      setClassEnrolled(data.classesEnrolled)
+    })
+  },[])
+
   const submitHandler = async () => {
     const kelasBaru = {
-      jadwal: props.jadwal,
-      instruktur: props.instruktur,
-      username: profile.username,
+      email: profile.email,
+      classId: props.id.toString(),
     };
     fetch("/api/classesEnrolled", {
       method: "POST",
@@ -38,40 +54,130 @@ export default function ActionClassButton({ props, profile }) {
           });
         });
     });
-
-    const kelasSearch = {
-      jadwal: props.jadwal,
-      instruktur: props.instruktur,
-    };
-
-    fetch("/api/classes/index", {
-      method: "PATCH",
-      body: JSON.stringify(kelasSearch),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }).then((response) => {
-      if (response.ok) {
-        return response.json();
-      }
-      response
-        .json()
-        .then((data) => {
-          throw new Error(data.message || "Something went wrong");
-        })
-        .catch((error) => {
-          return;
-        });
-    });
   };
 
   const idKelas = props.id.toString();
-  const paymentLink = `/payment/${idKelas}`;
+  const paymentLink = `/payment/class/${idKelas}`;
 
   const jadwalKelas = new Date(props.jadwal);
   const tahunKelas = jadwalKelas.getFullYear();
   const bulanKelas = jadwalKelas.getMonth();
   const tanggalKelas = jadwalKelas.getDate();
+
+  const deleteClassHandler = () => {
+    notificationCtx.showNotification({
+      title: "Hapus Kelas",
+      message: "Kelas sedang dihapus...",
+      status: "pending",
+    });
+    fetch("/api/classes/"+idKelas, {
+      method: "DELETE",
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+
+        response
+          .json()
+          .then((data) => {
+            throw new Error(data.message || "Something went wrong");
+          })
+          .catch((error) => {
+            notificationCtx.showNotification({
+              title: "error",
+              message: error.message || "Error menghapus kelas",
+              status: "error",
+            });
+          });
+      })
+      .then((data) => {
+        notificationCtx.showNotification({
+          title: "Hapus berhasil!",
+          message: "Kelas berhasil dihapus",
+          status: "success",
+        });
+      })
+      .catch((error) => {
+        notificationCtx.showNotification({
+          title: "Error",
+          message: error.message || "Something went wrong!",
+          status: "error",
+        });
+      })
+      .then(() => {
+        router.reload();
+      });
+  }
+
+  const daftarHandler = async () => {
+
+    const filteredClassEnrolled = classEnrolled.filter((kelas) => {
+      return kelas.classId === props.id.toString() && kelas.email === profile.email;
+    })
+
+    if(filteredClassEnrolled.length === 0) {
+      await submitHandler();
+      const inc = props.user + 1;
+      const newData = {
+        user : inc,
+      }
+  
+      notificationCtx.showNotification({
+        title: "Daftar Kelas",
+        message: "Kelas sedang didaftarkan...",
+        status: "pending",
+      });
+      fetch("/api/classes/"+idKelas, {
+        method: "PATCH",
+        body: JSON.stringify(newData),
+        headers: {
+          "Content-Type" : "application/json"
+        }
+      })
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          }
+  
+          response
+            .json()
+            .then((data) => {
+              throw new Error(data.message || "Something went wrong");
+            })
+            .catch((error) => {
+              notificationCtx.showNotification({
+                title: "error",
+                message: error.message || "Error daftar kelas",
+                status: "error",
+              });
+            });
+        })
+        .then((data) => {
+          notificationCtx.showNotification({
+            title: "Daftar berhasil!",
+            message: "Berhasil mendaftar kelas",
+            status: "success",
+          });
+        })
+        .catch((error) => {
+          notificationCtx.showNotification({
+            title: "Error",
+            message: error.message || "Something went wrong!",
+            status: "error",
+          });
+        })
+        .then(() => {
+          router.reload();
+        });
+    } else {
+      notificationCtx.showNotification({
+        title: "Gagal Mendaftar di Kelas",
+        message: "Anda sudah terdaftar di kelas ini",
+        status: "error",
+      })
+    }
+  }
 
   return (
     <div>
@@ -83,17 +189,11 @@ export default function ActionClassButton({ props, profile }) {
               variant="yellow_outline"
               className="ml-[240px] md:ml-[280px]"
             >
-              Register
+              Daftar
             </Button>
           </DialogTrigger>
         ) : (
-          <Button
-            type="button"
-            variant="destructive"
-            className="ml-[240px] md:ml-[280px]"
-          >
-            Delete
-          </Button>
+          <DeleteClassAlert onDeleteClass = {deleteClassHandler} />
         )}
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
@@ -118,30 +218,29 @@ export default function ActionClassButton({ props, profile }) {
               Daftar
             </span>
           </div>
-
-          <div className="flex justify-center">
-            {!profile || profile.role === "NM" ? (
-              <Link href={paymentLink}>
-                <Button
-                  variant="yellow_full"
-                  className=" w-full py-3"
-                  type="submit"
-                >
-                  Lanjut ke Pembayaran
-                </Button>
-              </Link>
-            ) : (
-              <form className="" onSubmit={submitHandler}>
-                <Button
-                  variant="yellow_full"
-                  className=" w-full py-3"
-                  type="submit"
-                >
-                  Daftar
-                </Button>
-              </form>
-            )}
-          </div>
+            <div className="flex justify-center">
+              {!profile || profile.role === "NM" ? (
+                <Link href={paymentLink}>
+                  <Button
+                    variant="yellow_full"
+                    className=" w-full py-3"
+                    type="submit"
+                  >
+                    Lanjut ke Pembayaran
+                  </Button>
+                </Link>
+              ) : (
+                
+                  <Button
+                    variant="yellow_full"
+                    className=" w-full py-3"
+                    type="submit"
+                    onClick={daftarHandler}
+                  >
+                    Daftar
+                  </Button>
+              )}
+            </div>
         </DialogContent>
       </Dialog>
     </div>

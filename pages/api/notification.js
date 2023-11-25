@@ -41,7 +41,6 @@ const handler = async (req, res) => {
         const data = req.body;
         const {email,message,tanggal} = data;
         const newNotification = {email:email,message:message,tanggal:tanggal};
-        console.log(newNotification);
         const result = await insertDocument(client,"Notification",newNotification);
         client.close();
         res.status(201).json({message: "Notification Sent"});
@@ -51,9 +50,7 @@ const handler = async (req, res) => {
         try {
         const result = await deleteAllNotification(client, userEmail);
         res.status(201).json({message: result});
-        console.log("masuk 200 bray");
         } catch(error) {
-          console.log("masuk 500 bray");
           res.status(500).json({message: "Failed to delete notification"})
         }
       }
