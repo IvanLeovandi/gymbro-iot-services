@@ -5,12 +5,18 @@ import { signOut, useSession } from "next-auth/react";
 import { Fragment } from "react";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import { useState } from "react";
+import { useRouter } from "next/router";
 
 export default function adminnavbar() {
   const { data: session, status } = useSession();
+  const router = useRouter();
 
   const logoutHandler = () => {
-    signOut();
+    signOut({
+      redirect: false
+    }).then(() => {
+      router.push("/")
+    });
   };
 
   const [nav, setNav] = useState(false);

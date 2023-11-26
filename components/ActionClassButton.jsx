@@ -9,13 +9,22 @@ import {
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import DeleteClassAlert from "./DeleteClassAlert";
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 import NotificationContext from "@/context/notification-context";
 import { useRouter } from "next/router";
 
 export default function ActionClassButton({ props, profile, classesEnrolled }) {
-  const notificationCtx = useContext(NotificationContext);;
+  const notificationCtx = useContext(NotificationContext);
+  const [classEnrolled, setClassEnrolled] = useState([])
   const router = useRouter();
+
+  // useEffect(()=>{
+  //   fetch("/api/classesEnrolled")
+  //   .then((response) => response.json())
+  //   .then((data) => {
+  //     setClassEnrolled(data.classesEnrolled)
+  //   })
+  // },[])
 
   const submitHandler = async () => {
     const kelasBaru = {
@@ -44,8 +53,7 @@ export default function ActionClassButton({ props, profile, classesEnrolled }) {
           });
         });
     });
-  };
-
+  }
   const idKelas = props.id.toString();
   const paymentLink = `/payment/class/${idKelas}`;
 
@@ -106,8 +114,6 @@ export default function ActionClassButton({ props, profile, classesEnrolled }) {
         kelas.classId === props.id.toString() && kelas.email === profile.email
       );
     });
-
-    console.log(filteredClassEnrolled);
 
     if (filteredClassEnrolled.length === 0) {
       await submitHandler();
@@ -172,10 +178,12 @@ export default function ActionClassButton({ props, profile, classesEnrolled }) {
     }
   };
 
+  console.log(profile)
+  
   return (
     <div>
       <Dialog>
-        {profile.role !== "admin" ? (
+        {!profile || profile.role !== "admin" ? (
           <DialogTrigger asChild>
             <Button
               type="button"
@@ -212,7 +220,7 @@ export default function ActionClassButton({ props, profile, classesEnrolled }) {
             </span>
           </div>
           <div className="flex justify-center">
-            {!profile || profile.role === "NM" ? (
+            {profile.length === 0 || profile.role === "NM" ? (
               <Link href={paymentLink}>
                 <Button
                   variant="yellow_full"

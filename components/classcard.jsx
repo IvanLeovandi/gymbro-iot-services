@@ -5,10 +5,10 @@ import { useState, useEffect } from "react";
 import ActionClassButton from "./ActionClassButton";
 import { Fragment } from "react";
 import { useSession } from "next-auth/react";
+import PageLoader from "./PageLoader";
 
 const ClassCard = (props) => {
   const [profile, setProfile] = useState({});
-  const {data: session, status} = useSession();
   const [classesEnrolled, setClassesEnrolled] = useState([]);
 
   useEffect(() => {
@@ -19,13 +19,16 @@ const ClassCard = (props) => {
       });
   }, []);
 
-  useEffect(() => {
-    fetch("/api/profile")
-      .then((response) => response.json())
-      .then((data) => {
-        setProfile(data.user);
-      });
-  }, []);
+  console.log(props.profile);
+
+  // useEffect(() => {
+  //   fetch("/api/profile")
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       setProfile(data.user);
+  //       setLoading(false);
+  //     });
+  // }, []);
 
   const jadwalKelas = new Date(props.jadwal);
   const tahunKelas = jadwalKelas.getFullYear();
@@ -90,7 +93,7 @@ const ClassCard = (props) => {
                 Kelas Penuh
               </Button>
             )}
-            {profile && session &&  <ActionClassButton props={props} profile={profile} />}
+            {profile && classesEnrolled && <ActionClassButton props={props} profile={profile} classesEnrolled={classesEnrolled} />}
           </div>
         </div>
       </div>
