@@ -4,9 +4,11 @@ import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
 import ActionClassButton from "./ActionClassButton";
 import { Fragment } from "react";
+import { useSession } from "next-auth/react";
 
 const ClassCard = (props) => {
   const [profile, setProfile] = useState({});
+  const {data: session, status} = useSession();
 
   useEffect(() => {
     fetch("/api/profile")
@@ -79,7 +81,7 @@ const ClassCard = (props) => {
                 Kelas Penuh
               </Button>
             )}
-            {profile && <ActionClassButton props={props} profile={profile} />}
+            {profile && session && <ActionClassButton props={props} profile={profile} />}
           </div>
         </div>
       </div>
