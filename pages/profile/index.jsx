@@ -150,11 +150,20 @@ const MemberDetailPage = () => {
       {role === "Admin" && <AdminNavbar />}
       {(classLoading || userLoading) && <p>Loading...</p>}
       {!classLoading && !userLoading && (
-        <div className="px-20 py-10">
-          <h1 className="mb-5 font-bold text-5xl pl-4">
+        <div className="px-10 md:px-20 py-10">
+          <h1 className="mb-5 font-bold text-3xl md:text-5xl pl-4">
             Welcome, {profile.nama}
           </h1>
-          <div className="grid grid-cols-4">
+          <div className="md:hidden">
+            <div className="pb-[20px]">
+              <Userpic props={profile} role={role} />
+            </div>
+            <div>
+              <Biocard profile={profile} email={session.user.email} />
+            </div>
+            
+          </div>
+          <div className="hidden md:grid grid-cols-4">
             <div className="col-span-1">
               <Userpic props={profile} role={role} />
             </div>

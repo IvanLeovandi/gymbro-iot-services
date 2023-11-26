@@ -34,8 +34,8 @@ export default function Userpic({props, role}) {
   });
   return (
     <Fragment>
-      <div className="relative text-center rounded-md overflow-hidden shadow-md max-w-sm mx-auto mt-10s w-11/12 max-h flex items-center justify-center">
-        <Image src={Card} alt="Card" className="w-full h-[350px]" />
+      <div className="relative text-center rounded-md overflow-hidden shadow-md max-w-sm mx-auto mt-10s w-full md:w-11/12 max-h flex items-center justify-center">
+        <Image src={Card} alt="Card" className="w-full h-[360px]" />
         <div className="absolute">
           <div className="h-[250px] w-80 mx-auto">
             <Image

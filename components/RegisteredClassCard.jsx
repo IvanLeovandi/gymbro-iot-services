@@ -16,14 +16,14 @@ export default function RegisteredClassCard(props) {
 
   return (
     <Fragment>
-        <div key={props.id} className="flex ml-auto mr-auto mt-[30px]">
+        <div key={props.id} className="flex mt-[30px]">
           <div className="relative">
             <Image
               src={Card}
               alt="Card"
               className="w-[420px] md:w-[480px] h-[620px]"
             />
-            <div className="absolute top-[20px] left-[30px] md:left-[40px] w-[360px] md:w-[400px]">
+            <div className="absolute top-[20px] left-[30px] md:left-[40px] w-[360px] md:w-[400px] ml-auto mr-auto">
               <Image
                 src={props.gambar}
                 alt="image fitnes"
