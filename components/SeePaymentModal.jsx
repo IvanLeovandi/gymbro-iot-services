@@ -32,6 +32,31 @@ export default function SeePaymentModal({ user }) {
     modalOutput = <p>Loading...</p>;
   }
 
+  if (!paymentData) {
+    return (
+      <Dialog>
+        <DialogTrigger asChild>
+          <Button variant="yellow_outline" className="mx-auto my-2 w-60">
+            See Payment Details
+          </Button>
+        </DialogTrigger>
+        <DialogContent className="sm:max-w-[550px] md:max-w-[700px]">
+          <DialogHeader>
+            <DialogTitle>Payment Details</DialogTitle>
+          </DialogHeader>
+          <p>Payment not found</p>
+          <DialogFooter className="sm:justify-start">
+            <DialogClose asChild>
+              <Button type="button" variant="secondary">
+                Close
+              </Button>
+            </DialogClose>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    );
+  }
+
   if (!loading) {
     const tanggalPembayaran = new Date(paymentData.tanggal);
     const tahun = tanggalPembayaran.getFullYear();

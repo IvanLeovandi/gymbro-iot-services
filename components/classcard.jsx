@@ -8,27 +8,7 @@ import { useSession } from "next-auth/react";
 import PageLoader from "./PageLoader";
 
 const ClassCard = (props) => {
-  const [profile, setProfile] = useState({});
-  const [classesEnrolled, setClassesEnrolled] = useState([]);
-
-  useEffect(() => {
-    fetch("/api/classesEnrolled")
-      .then((response) => response.json())
-      .then((data) => {
-        setClassesEnrolled(data.classesEnrolled);
-      });
-  }, []);
-
-  console.log(props.profile);
-
-  // useEffect(() => {
-  //   fetch("/api/profile")
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       setProfile(data.user);
-  //       setLoading(false);
-  //     });
-  // }, []);
+  const { data: session, status } = useSession();
 
   const jadwalKelas = new Date(props.jadwal);
   const tahunKelas = jadwalKelas.getFullYear();
@@ -93,7 +73,13 @@ const ClassCard = (props) => {
                 Kelas Penuh
               </Button>
             )}
-            {profile && classesEnrolled && <ActionClassButton props={props} profile={profile} classesEnrolled={classesEnrolled} />}
+            {props.profile && status === "authenticated" && props.classesEnrolled && (
+              <ActionClassButton
+                props={props}
+                profile={props.profile}
+                classesEnrolled={props.classesEnrolled}
+              />
+            )}
           </div>
         </div>
       </div>

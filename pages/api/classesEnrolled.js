@@ -1,5 +1,6 @@
-import { ConnectDB, insertDocument, getDocument } from "@/database/db-util";
-
+import { ConnectDB, insertDocument, getDocument, editClassEnolledEmail, getUserProfile } from "@/database/db-util";
+import { getServerSession } from "next-auth";
+import { authNext } from "./auth/[...nextauth]";
 const handler = async (req, res) => {
   let client;
 
@@ -37,6 +38,34 @@ const handler = async (req, res) => {
       res.status(500).json({ message: "Failed to get data" });
     }
   }
+
+  if (req.method === "PATCH") {
+    const session = await getServerSession(req, res, authNext);
+
+    if (!session) {
+      console.log("session error")
+      return;
+    }
+
+    const {  email, currentEmail } = req.body;
+
+    const user = await getUserProfile(client, "User", currentEmail);
+
+    if (!user) {
+      client.close();
+      console.log("User not found")
+      return;
+    }
+
+    const dataUpdate = {
+      email: email,
+    };
+
+    const result = await editClassEnolledEmail(client, currentEmail, dataUpdate);
+
+    client.close();
+    res.status(200).json({ message: "User updated!" });
+  } 
 };
 
 export default handler;

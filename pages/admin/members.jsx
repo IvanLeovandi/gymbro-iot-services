@@ -26,6 +26,66 @@ const AdminMembersPage = () => {
   }, []);
 
   const editMember = (newData) => {
+    fetch("/api/payment", {
+      method: "PATCH",
+      body: JSON.stringify(newData),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      response
+        .json()
+        .then((data) => {
+          throw new Error(data.message || "Something went wrong");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    });
+
+    fetch("/api/classesEnrolled", {
+      method: "PATCH",
+      body: JSON.stringify(newData),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      response
+        .json()
+        .then((data) => {
+          throw new Error(data.message || "Something went wrong");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    });
+
+    fetch("/api/notification", {
+      method: "PATCH",
+      body: JSON.stringify(newData),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      response
+        .json()
+        .then((data) => {
+          throw new Error(data.message || "Something went wrong");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    });
+
     notificationCtx.showNotification({
       title: "Update data User",
       message: "Sedang mengupdate...",
@@ -142,7 +202,9 @@ const AdminMembersPage = () => {
               />
             ))}
           </div>
-          <h1 className="text-6xl font-bold text-center my-[10px]">Non Members</h1>
+          <h1 className="text-6xl font-bold text-center my-[10px]">
+            Non Members
+          </h1>
           <div className="grid grid-cols-1 min-[970px]:grid-cols-2 min-[1470px]:grid-cols-3 my-4">
             {nonMember.map((user, index) => (
               <NonMembercard

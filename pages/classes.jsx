@@ -10,6 +10,15 @@ const ClassPage = () => {
   const [profile, setProfile] = useState([]);
   const [classLoading, setClassLoading] = useState(true);
   const [userLoading, setUserLoading] = useState(true);
+  const [classesEnrolled, setClassesEnrolled] = useState([]);
+
+  useEffect(() => {
+    fetch("/api/classesEnrolled")
+      .then((response) => response.json())
+      .then((data) => {
+        setClassesEnrolled(data.classesEnrolled);
+      });
+  }, []);
 
   useEffect(() => {
     fetch("/api/classes")
@@ -32,7 +41,7 @@ const ClassPage = () => {
   return (
     <Fragment>
       {classLoading && userLoading && <PageLoader />}
-      {!classLoading && 
+      {!classLoading && (
         <Fragment>
           <Navbar />
           <h1 className="text-6xl font-bold text-center my-[10px]">Classes</h1>
@@ -51,11 +60,12 @@ const ClassPage = () => {
                 user={item.user}
                 kapasitas={item.kapasitas}
                 profile={profile}
+                classesEnrolled = {classesEnrolled}
               />
             ))}
           </div>
         </Fragment>
-      }
+      )}
     </Fragment>
   );
 };

@@ -15,16 +15,11 @@ import { useRouter } from "next/router";
 
 export default function ActionClassButton({ props, profile, classesEnrolled }) {
   const notificationCtx = useContext(NotificationContext);
-  const [classEnrolled, setClassEnrolled] = useState([])
   const router = useRouter();
 
-  // useEffect(()=>{
-  //   fetch("/api/classesEnrolled")
-  //   .then((response) => response.json())
-  //   .then((data) => {
-  //     setClassEnrolled(data.classesEnrolled)
-  //   })
-  // },[])
+  const filteredClassEnrolled = classesEnrolled.filter((kelas) => {
+    return props.id.toString() === kelas.classId && kelas.email === profile.email;
+  });
 
   const submitHandler = async () => {
     const kelasBaru = {
@@ -53,7 +48,7 @@ export default function ActionClassButton({ props, profile, classesEnrolled }) {
           });
         });
     });
-  }
+  };
   const idKelas = props.id.toString();
   const paymentLink = `/payment/class/${idKelas}`;
 
@@ -109,12 +104,6 @@ export default function ActionClassButton({ props, profile, classesEnrolled }) {
   };
 
   const daftarHandler = async () => {
-    const filteredClassEnrolled = classesEnrolled.filter((kelas) => {
-      return (
-        kelas.classId === props.id.toString() && kelas.email === profile.email
-      );
-    });
-
     if (filteredClassEnrolled.length === 0) {
       await submitHandler();
       const inc = props.user + 1;
@@ -178,21 +167,31 @@ export default function ActionClassButton({ props, profile, classesEnrolled }) {
     }
   };
 
-  console.log(profile)
-  
+  let content;
+
+  if (filteredClassEnrolled.length === 0) {
+    content = (
+      <Button
+        type="button"
+        variant="yellow_outline"
+        className="ml-[240px] md:ml-[280px]"
+      >
+        Daftar
+      </Button>
+    );
+  } else {
+    content = (
+      <Button disabled variant="secondary" className="ml-[240px] md:ml-[280px] mr-2">
+        Enrolled in this class
+      </Button>
+    );
+  }
+
   return (
     <div>
       <Dialog>
-        {!profile || profile.role !== "admin" ? (
-          <DialogTrigger asChild>
-            <Button
-              type="button"
-              variant="yellow_outline"
-              className="ml-[240px] md:ml-[280px]"
-            >
-              Daftar
-            </Button>
-          </DialogTrigger>
+        { profile.role !== "admin" ? (
+          <DialogTrigger asChild>{content}</DialogTrigger>
         ) : (
           <DeleteClassAlert onDeleteClass={deleteClassHandler} />
         )}
@@ -220,7 +219,7 @@ export default function ActionClassButton({ props, profile, classesEnrolled }) {
             </span>
           </div>
           <div className="flex justify-center">
-            {profile.length === 0 || profile.role === "NM" ? (
+            {!profile || profile.role === "NM" ? (
               <Link href={paymentLink}>
                 <Button
                   variant="yellow_full"
