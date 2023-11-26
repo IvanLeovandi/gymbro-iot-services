@@ -12,20 +12,10 @@ import DeleteClassAlert from "./DeleteClassAlert";
 import { useContext } from "react";
 import NotificationContext from "@/context/notification-context";
 import { useRouter } from "next/router";
-import { useState, useEffect } from "react";
 
-export default function ActionClassButton({ props, profile }) {
-  const notificationCtx = useContext(NotificationContext);
-  const [classEnrolled, setClassEnrolled] = useState([]);
+export default function ActionClassButton({ props, profile, classesEnrolled }) {
+  const notificationCtx = useContext(NotificationContext);;
   const router = useRouter();
-
-  useEffect(() => {
-    fetch("/api/classesEnrolled")
-      .then((response) => response.json())
-      .then((data) => {
-        setClassEnrolled(data.classesEnrolled);
-      });
-  }, []);
 
   const submitHandler = async () => {
     const kelasBaru = {
@@ -111,13 +101,13 @@ export default function ActionClassButton({ props, profile }) {
   };
 
   const daftarHandler = async () => {
-    const filteredClassEnrolled = classEnrolled.filter((kelas) => {
+    const filteredClassEnrolled = classesEnrolled.filter((kelas) => {
       return (
         kelas.classId === props.id.toString() && kelas.email === profile.email
       );
     });
 
-    console.log(filteredClassEnrolled)
+    console.log(filteredClassEnrolled);
 
     if (filteredClassEnrolled.length === 0) {
       await submitHandler();

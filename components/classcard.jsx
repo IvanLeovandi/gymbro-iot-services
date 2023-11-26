@@ -9,6 +9,15 @@ import { useSession } from "next-auth/react";
 const ClassCard = (props) => {
   const [profile, setProfile] = useState({});
   const {data: session, status} = useSession();
+  const [classesEnrolled, setClassesEnrolled] = useState([]);
+
+  useEffect(() => {
+    fetch("/api/classesEnrolled")
+      .then((response) => response.json())
+      .then((data) => {
+        setClassesEnrolled(data.classesEnrolled);
+      });
+  }, []);
 
   useEffect(() => {
     fetch("/api/profile")
@@ -81,7 +90,7 @@ const ClassCard = (props) => {
                 Kelas Penuh
               </Button>
             )}
-            {profile && session && <ActionClassButton props={props} profile={profile} />}
+            {profile && session &&  <ActionClassButton props={props} profile={profile} />}
           </div>
         </div>
       </div>
