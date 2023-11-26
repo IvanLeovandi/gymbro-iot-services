@@ -181,7 +181,7 @@ export default function ActionClassButton({ props, profile, classesEnrolled }) {
     );
   } else {
     content = (
-      <Button disabled variant="secondary" className="ml-[240px] md:ml-[280px] mr-2">
+      <Button disabled variant="secondary" className="ml-[180px] md:ml-[200px] w-1/2 mt-[10px]">
         Enrolled in this class
       </Button>
     );

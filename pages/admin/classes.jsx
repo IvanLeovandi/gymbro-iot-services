@@ -15,6 +15,7 @@ const AdminClassPage = () => {
   const [classLoading, setClassLoading] = useState(false);
   const [userLoading, setUserLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [classesEnrolled, setClassesEnrolled] = useState([])
 
   const handleCloseModal = () => setShowModal(false);
   const handleShowModal = () => setShowModal(true);
@@ -41,7 +42,13 @@ const AdminClassPage = () => {
       });
   }, []);
 
-  console.log(profile)
+  useEffect(() => {
+    fetch("/api/classesEnrolled")
+      .then((response) => response.json())
+      .then((data) => {
+        setClassesEnrolled(data.classesEnrolled);
+      });
+  }, []);
 
   let role;
   if (profile.role === "NM") {
@@ -154,6 +161,7 @@ const AdminClassPage = () => {
                   kapasitas={item.kapasitas}
                   profile={profile}
                   handleShowModal={handleShowModal}
+                  classesEnrolled = {classesEnrolled}
                 />
               ))}
             </div>
