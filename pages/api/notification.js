@@ -3,6 +3,8 @@ import {
   insertDocument,
   getNotificationFromEmail,
   deleteAllNotification,
+  editNotificationEmail,
+  getUserProfile
 } from "@/database/db-util";
 import { getServerSession } from "next-auth";
 import { authNext } from "./auth/[...nextauth]";
@@ -58,6 +60,32 @@ const handler = async (req, res) => {
     } catch (error) {
       res.status(500).json({ message: "Failed to delete notification" });
     }
+  }
+
+  if (req.method === "PATCH") {
+    const session = await getServerSession(req, res, authNext);
+
+    if (!session) {
+      return;
+    }
+
+    const {  email, currentEmail } = req.body;
+
+    const user = await getUserProfile(client, "User", currentEmail);
+
+    if (!user) {
+      client.close();
+      return;
+    }
+
+    const dataUpdate = {
+      email: email,
+    };
+
+    const result = await editNotificationEmail(client, currentEmail, dataUpdate);
+
+    client.close();
+    res.status(200).json({ message: "User updated!" });
   }
 };
 

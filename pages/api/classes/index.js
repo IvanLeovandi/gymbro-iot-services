@@ -32,9 +32,9 @@ const handler = async (req, res) => {
       judul: judul,
       jadwal: jadwal,
       deskripsi: deskripsi,
-      harga: harga,
+      harga: +harga,
       instruktur: instruktur,
-      kapasitas: kapasitas,
+      kapasitas: +kapasitas,
       tipe: tipe,
       user: user,
     };

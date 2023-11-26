@@ -148,3 +148,54 @@ export async function updateProfileRole(client, userEmail, newData) {
   );
   return result;
 }
+
+export async function editPaymentEmail(client, userEmail, newData) {
+  const db = client.db();
+  const result = await db.collection("Payments").updateMany(
+    { email: userEmail },
+    {
+      $set: {
+        email: newData.email,
+      }
+    }
+  )
+
+  return result
+}
+
+export async function editClassEnolledEmail(client, userEmail, newData) {
+  const db = client.db();
+  const result = await db.collection("ClassEnrolled").updateMany(
+    { email: userEmail },
+    {
+      $set: {
+        email: newData.email,
+      }
+    }
+  )
+
+  return result
+}
+
+export async function editNotificationEmail(client, userEmail, newData) {
+  const db = client.db();
+  const result = await db.collection("Notification").updateMany(
+    { email: userEmail },
+    {
+      $set: {
+        email: newData.email,
+      }
+    }
+  )
+
+  return result
+}
+
+export async function deleteClassEnrolledClass(client, id) {
+  const db = client.db();
+
+  const result = await db
+    .collection("ClassEnrolled")
+    .deleteMany({ classId: id });
+  return result;
+}

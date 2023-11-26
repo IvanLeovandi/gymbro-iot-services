@@ -9,13 +9,17 @@ import {
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import DeleteClassAlert from "./DeleteClassAlert";
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 import NotificationContext from "@/context/notification-context";
 import { useRouter } from "next/router";
 
 export default function ActionClassButton({ props, profile, classesEnrolled }) {
-  const notificationCtx = useContext(NotificationContext);;
+  const notificationCtx = useContext(NotificationContext);
   const router = useRouter();
+
+  const filteredClassEnrolled = classesEnrolled.filter((kelas) => {
+    return props.id.toString() === kelas.classId && kelas.email === profile.email;
+  });
 
   const submitHandler = async () => {
     const kelasBaru = {
@@ -45,7 +49,6 @@ export default function ActionClassButton({ props, profile, classesEnrolled }) {
         });
     });
   };
-
   const idKelas = props.id.toString();
   const paymentLink = `/payment/class/${idKelas}`;
 
@@ -101,14 +104,6 @@ export default function ActionClassButton({ props, profile, classesEnrolled }) {
   };
 
   const daftarHandler = async () => {
-    const filteredClassEnrolled = classesEnrolled.filter((kelas) => {
-      return (
-        kelas.classId === props.id.toString() && kelas.email === profile.email
-      );
-    });
-
-    console.log(filteredClassEnrolled);
-
     if (filteredClassEnrolled.length === 0) {
       await submitHandler();
       const inc = props.user + 1;
@@ -172,19 +167,31 @@ export default function ActionClassButton({ props, profile, classesEnrolled }) {
     }
   };
 
+  let content;
+
+  if (filteredClassEnrolled.length === 0) {
+    content = (
+      <Button
+        type="button"
+        variant="yellow_outline"
+        className="ml-[240px] md:ml-[280px]"
+      >
+        Daftar
+      </Button>
+    );
+  } else {
+    content = (
+      <Button disabled variant="secondary" className="ml-[180px] md:ml-[200px] w-1/2 mt-[10px]">
+        Enrolled in this class
+      </Button>
+    );
+  }
+
   return (
     <div>
       <Dialog>
-        {profile.role !== "admin" ? (
-          <DialogTrigger asChild>
-            <Button
-              type="button"
-              variant="yellow_outline"
-              className="ml-[240px] md:ml-[280px]"
-            >
-              Daftar
-            </Button>
-          </DialogTrigger>
+        { profile.role !== "admin" ? (
+          <DialogTrigger asChild>{content}</DialogTrigger>
         ) : (
           <DeleteClassAlert onDeleteClass={deleteClassHandler} />
         )}
