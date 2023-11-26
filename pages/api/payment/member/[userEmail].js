@@ -1,6 +1,10 @@
 const { getServerSession } = require("next-auth");
 const { authNext } = require("../../auth/[...nextauth]");
-const { ConnectDB, getLatestPayment, insertDocument } = require("@/database/db-util");
+const {
+  ConnectDB,
+  getLatestPayment,
+  insertDocument,
+} = require("@/database/db-util");
 
 const handler = async (req, res) => {
   const session = await getServerSession(req, res, authNext);
@@ -37,14 +41,10 @@ const handler = async (req, res) => {
       item: "Upgrade Membership",
       metode: metode,
       tanggal: new Date(Date.now()),
-      email:email,
+      email: email,
     };
 
-    const result = await insertDocument(
-      client,
-      "Payments",
-      newPayment,
-    );
+    const result = await insertDocument(client, "Payments", newPayment);
     client.close();
     res.status(201).json({ message: "Payment Sent" });
   }

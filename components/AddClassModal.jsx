@@ -11,12 +11,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useRef, useState } from "react";
-import Image from "next/image"
+import Image from "next/image";
 import { UploadDropzone } from "@/src/utils/uploadthing";
 
 export function AddClassModal(props) {
-const [imageUrl, setImageUrl] = useState("")
-const [open, setOpen] = useState(false);
+  const [imageUrl, setImageUrl] = useState("");
+  const [open, setOpen] = useState(false);
 
   const imageRef = useRef();
   const titleRef = useRef();
@@ -71,16 +71,14 @@ const [open, setOpen] = useState(false);
           </DialogHeader>
           <div className="grid grid-cols-2 gap-4 py-4">
             <div className="items-center gap-4">
-              {/* <Label htmlFor="picture">Picture</Label>
-              <Input id="picture" type="file" ref={imageRef} /> */}
-
               {imageUrl ? (
-                <Image 
-                  src={imageUrl} 
+                <Image
+                  src={imageUrl}
                   alt="Class Image"
                   width={1000}
                   height={1000}
-                  className="w-full h-5/6 object-cover mt-3"/>
+                  className="w-full h-5/6 object-cover mt-3"
+                />
               ) : (
                 <UploadDropzone
                   required
@@ -89,7 +87,7 @@ const [open, setOpen] = useState(false);
                   onClientUploadComplete={(res) => {
                     // Do something with the response
                     console.log("Files: ", res[0].url);
-                    setImageUrl(res[0].url)
+                    setImageUrl(res[0].url);
                     alert("Upload Completed");
                   }}
                   onUploadError={(error) => {
@@ -109,7 +107,6 @@ const [open, setOpen] = useState(false);
                   </Button>
                 </div>
               )}
-
             </div>
             <div className="grid grid-cols-2 items-center gap-4">
               <div className="col-span-2">

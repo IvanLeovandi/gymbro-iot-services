@@ -9,23 +9,17 @@ import {
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import DeleteClassAlert from "./DeleteClassAlert";
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 import NotificationContext from "@/context/notification-context";
 import { useRouter } from "next/router";
-import { useState, useEffect } from "react";
 
-export default function ActionClassButton({ props, profile }) {
+export default function ActionClassButton({ props, profile, classesEnrolled }) {
   const notificationCtx = useContext(NotificationContext);
-  const [classEnrolled, setClassEnrolled] = useState([])
   const router = useRouter();
 
-  useEffect(()=>{
-    fetch("/api/classesEnrolled")
-    .then((response) => response.json())
-    .then((data) => {
-      setClassEnrolled(data.classesEnrolled)
-    })
-  },[])
+  const filteredClassEnrolled = classesEnrolled.filter((kelas) => {
+    return props.id.toString() === kelas.classId && kelas.email === profile.email;
+  });
 
   const submitHandler = async () => {
     const kelasBaru = {
@@ -55,7 +49,6 @@ export default function ActionClassButton({ props, profile }) {
         });
     });
   };
-
   const idKelas = props.id.toString();
   const paymentLink = `/payment/class/${idKelas}`;
 
@@ -70,7 +63,7 @@ export default function ActionClassButton({ props, profile }) {
       message: "Kelas sedang dihapus...",
       status: "pending",
     });
-    fetch("/api/classes/"+idKelas, {
+    fetch("/api/classes/" + idKelas, {
       method: "DELETE",
     })
       .then((response) => {
@@ -108,38 +101,33 @@ export default function ActionClassButton({ props, profile }) {
       .then(() => {
         router.reload();
       });
-  }
+  };
 
   const daftarHandler = async () => {
-
-    const filteredClassEnrolled = classEnrolled.filter((kelas) => {
-      return kelas.classId === props.id.toString() && kelas.email === profile.email;
-    })
-
-    if(filteredClassEnrolled.length === 0) {
+    if (filteredClassEnrolled.length === 0) {
       await submitHandler();
       const inc = props.user + 1;
       const newData = {
-        user : inc,
-      }
-  
+        user: inc,
+      };
+
       notificationCtx.showNotification({
         title: "Daftar Kelas",
         message: "Kelas sedang didaftarkan...",
         status: "pending",
       });
-      fetch("/api/classes/"+idKelas, {
+      fetch("/api/classes/" + idKelas, {
         method: "PATCH",
         body: JSON.stringify(newData),
         headers: {
-          "Content-Type" : "application/json"
-        }
+          "Content-Type": "application/json",
+        },
       })
         .then((response) => {
           if (response.ok) {
             return response.json();
           }
-  
+
           response
             .json()
             .then((data) => {
@@ -175,25 +163,37 @@ export default function ActionClassButton({ props, profile }) {
         title: "Gagal Mendaftar di Kelas",
         message: "Anda sudah terdaftar di kelas ini",
         status: "error",
-      })
+      });
     }
+  };
+
+  let content;
+
+  if (filteredClassEnrolled.length === 0) {
+    content = (
+      <Button
+        type="button"
+        variant="yellow_outline"
+        className="ml-[240px] md:ml-[280px]"
+      >
+        Daftar
+      </Button>
+    );
+  } else {
+    content = (
+      <Button disabled variant="secondary" className="ml-[180px] md:ml-[200px] w-1/2 mt-[10px]">
+        Enrolled in this class
+      </Button>
+    );
   }
 
   return (
     <div>
       <Dialog>
-        {profile.role !== "admin" ? (
-          <DialogTrigger asChild>
-            <Button
-              type="button"
-              variant="yellow_outline"
-              className="ml-[240px] md:ml-[280px]"
-            >
-              Daftar
-            </Button>
-          </DialogTrigger>
+        { profile.role !== "admin" ? (
+          <DialogTrigger asChild>{content}</DialogTrigger>
         ) : (
-          <DeleteClassAlert onDeleteClass = {deleteClassHandler} />
+          <DeleteClassAlert onDeleteClass={deleteClassHandler} />
         )}
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
@@ -218,29 +218,28 @@ export default function ActionClassButton({ props, profile }) {
               Daftar
             </span>
           </div>
-            <div className="flex justify-center">
-              {!profile || profile.role === "NM" ? (
-                <Link href={paymentLink}>
-                  <Button
-                    variant="yellow_full"
-                    className=" w-full py-3"
-                    type="submit"
-                  >
-                    Lanjut ke Pembayaran
-                  </Button>
-                </Link>
-              ) : (
-                
-                  <Button
-                    variant="yellow_full"
-                    className=" w-full py-3"
-                    type="submit"
-                    onClick={daftarHandler}
-                  >
-                    Daftar
-                  </Button>
-              )}
-            </div>
+          <div className="flex justify-center">
+            {!profile || profile.role === "NM" ? (
+              <Link href={paymentLink}>
+                <Button
+                  variant="yellow_full"
+                  className=" w-full py-3"
+                  type="submit"
+                >
+                  Lanjut ke Pembayaran
+                </Button>
+              </Link>
+            ) : (
+              <Button
+                variant="yellow_full"
+                className=" w-full py-3"
+                type="submit"
+                onClick={daftarHandler}
+              >
+                Daftar
+              </Button>
+            )}
+          </div>
         </DialogContent>
       </Dialog>
     </div>

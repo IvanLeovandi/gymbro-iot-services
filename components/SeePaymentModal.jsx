@@ -4,14 +4,11 @@ import {
   Dialog,
   DialogClose,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 
 export default function SeePaymentModal({ user }) {
   const [paymentData, setPaymentData] = useState({});
@@ -27,12 +24,37 @@ export default function SeePaymentModal({ user }) {
         setPaymentData(data.payment);
         setLoading(false);
       });
-  },[]);
+  }, []);
 
   let modalOutput;
 
   if (loading) {
     modalOutput = <p>Loading...</p>;
+  }
+
+  if (!paymentData) {
+    return (
+      <Dialog>
+        <DialogTrigger asChild>
+          <Button variant="yellow_outline" className="mx-auto my-2 w-60">
+            See Payment Details
+          </Button>
+        </DialogTrigger>
+        <DialogContent className="sm:max-w-[550px] md:max-w-[700px]">
+          <DialogHeader>
+            <DialogTitle>Payment Details</DialogTitle>
+          </DialogHeader>
+          <p>Payment not found</p>
+          <DialogFooter className="sm:justify-start">
+            <DialogClose asChild>
+              <Button type="button" variant="secondary">
+                Close
+              </Button>
+            </DialogClose>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    );
   }
 
   if (!loading) {

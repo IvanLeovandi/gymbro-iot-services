@@ -1,32 +1,91 @@
 import { Fragment, useContext, useEffect, useState } from "react";
-import Navbar from "@/components/navbar";
 import Membercard from "@/components/membercard";
 import { getSession } from "next-auth/react";
 import AdminNavbar from "@/components/adminnavbar";
 import NotificationContext from "@/context/notification-context";
 import { useRouter } from "next/router";
 import NonMembercard from "@/components/nonmembercard";
+import PageLoader from "@/components/PageLoader";
 
 const AdminMembersPage = () => {
   const [member, setMember] = useState([]);
   const [nonMember, setNonMember] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [userLoading, setUserLoading] = useState(true);
 
   const notificationCtx = useContext(NotificationContext);
   const router = useRouter();
 
   useEffect(() => {
-    setLoading(true);
     fetch("/api/users")
       .then((response) => response.json())
       .then((data) => {
         setMember(data.member);
         setNonMember(data.nonMember);
-        setLoading(false);
+        setUserLoading(false);
       });
   }, []);
 
   const editMember = (newData) => {
+    fetch("/api/payment", {
+      method: "PATCH",
+      body: JSON.stringify(newData),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      response
+        .json()
+        .then((data) => {
+          throw new Error(data.message || "Something went wrong");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    });
+
+    fetch("/api/classesEnrolled", {
+      method: "PATCH",
+      body: JSON.stringify(newData),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      response
+        .json()
+        .then((data) => {
+          throw new Error(data.message || "Something went wrong");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    });
+
+    fetch("/api/notification", {
+      method: "PATCH",
+      body: JSON.stringify(newData),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      response
+        .json()
+        .then((data) => {
+          throw new Error(data.message || "Something went wrong");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    });
+
     notificationCtx.showNotification({
       title: "Update data User",
       message: "Sedang mengupdate...",
@@ -128,22 +187,24 @@ const AdminMembersPage = () => {
 
   return (
     <Fragment>
-      <AdminNavbar />
-      {loading && <p>Loading...</p>}
-      {!loading && (
+      {userLoading && <PageLoader />}
+      {!userLoading && (
         <Fragment>
+          <AdminNavbar />
           <h1 className="text-6xl font-bold text-center my-[10px]">Members</h1>
           <div className="grid grid-cols-1 min-[970px]:grid-cols-2 min-[1470px]:grid-cols-3 my-4">
             {member.map((user, index) => (
               <Membercard
-                item={user}
+                user={user}
                 key={index}
                 addNotification={addNotificationHandler}
                 editMemberHandler={editMember}
               />
             ))}
           </div>
-          <h1 className="text-6xl font-bold text-center my-[10px]">Non Members</h1>
+          <h1 className="text-6xl font-bold text-center my-[10px]">
+            Non Members
+          </h1>
           <div className="grid grid-cols-1 min-[970px]:grid-cols-2 min-[1470px]:grid-cols-3 my-4">
             {nonMember.map((user, index) => (
               <NonMembercard
@@ -167,7 +228,7 @@ export async function getServerSideProps(context) {
   if (!session) {
     return {
       redirect: {
-        destination: "/",
+        destination: "/404",
         permanent: false,
       },
     };
@@ -176,7 +237,7 @@ export async function getServerSideProps(context) {
   if (session.user.email !== "admingymbro@gmail.com") {
     return {
       redirect: {
-        destination: "/",
+        destination: "/404",
         permanent: false,
       },
     };

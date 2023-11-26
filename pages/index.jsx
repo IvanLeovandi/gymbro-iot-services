@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import Hero from "../public/hero.png";
 import Image from "next/image";
 import Navbar from "../components/navbar"

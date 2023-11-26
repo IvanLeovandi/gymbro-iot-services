@@ -59,7 +59,11 @@ const LoginPage = () => {
               <p className="text-red-700">Username atau password salah</p>
             )}
             <div className="flex justify-center">
-              <Button variant="yellow_outline" className="my-8 w-1/2" type="submit">
+              <Button
+                variant="yellow_outline"
+                className="my-8 w-1/2"
+                type="submit"
+              >
                 Login
               </Button>
             </div>

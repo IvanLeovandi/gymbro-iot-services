@@ -1,23 +1,10 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
 import Card from "../public/card.png";
 import Image from "next/image";
 
 export default function Biocard(props) {
   const { data: session, status } = useSession();
-  const [profile, setProfile] = useState({});
-  const [loading, setLoading] = useState(false);
-
-  // useEffect(() => {
-  //   setLoading(true);
-  //   fetch("http://localhost:3000/api/profile")
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       setProfile(data.user);
-  //       setLoading(false);
-  //     });
-  // }, []);
 
   return (
     <Fragment>
