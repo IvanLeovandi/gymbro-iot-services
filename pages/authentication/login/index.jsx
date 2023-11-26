@@ -39,7 +39,7 @@ const LoginPage = () => {
     <div className="">
       <Navbar />
       {/* Login Card */}
-      <div className="border border-solid border-white rounded-xl px-12 py-8 w-1/3 mx-auto">
+      <div className="border border-solid border-white rounded-xl px-12 py-8 w-[80vw] md:w-[60vw] lg:w-1/3 mx-auto">
         <Image src={Logo} alt="logo" className="mx-auto my-16" />
         <div>
           <form onSubmit={submitHandler}>

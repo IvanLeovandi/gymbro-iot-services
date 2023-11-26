@@ -28,7 +28,7 @@
     "framer-motion": "^10.16.4",
     "lucide-react": "^0.292.0",
     "mongodb": "^6.2.0",
-    "next": "^14.0.1",
+    "next": "^14.0.3",
     "next-auth": "^4.24.5",
     "postcss": "8.4.31",
     "radix-ui": "^1.0.1",

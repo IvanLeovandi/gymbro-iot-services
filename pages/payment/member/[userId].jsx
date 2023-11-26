@@ -125,14 +125,14 @@ const MembershipPaymentPage = (props) => {
         <Fragment>
           {" "}
           <h1 className="my-10 mx-10 text-5xl font-bold">Payment</h1>
-          <div className="relative grid grid-cols-4 mx-10">
-            <div className="col-span-3 relative rounded mr-10 h-[300px] pl-3">
+          <div className="relative min-[1545px]:grid grid-cols-4 mx-10">
+            <div className="col-span-3 relative rounded md:mr-10 h-[300px] min-[1545px]:pl-3 mb-[10px]">
               {" "}
               {/* BUAT PRODUK & HARGA */}
               <Image src={Card} alt="Card" className="w-full h-full" />
               <div className="absolute top-[1.5vw] left-[2vw] right-[2vw]">
                 <h2 className="text-4xl font-bold mb-4">Order Summary</h2>
-                <hr className=" w-[950px] h-[2.5px] bg-gradient-to-r from-transparent via-white to-transparent     mx-auto mb-5" />
+                <hr className=" w-[60vw] lg:w-[50vw] h-[2.5px] bg-gradient-to-r from-transparent via-white to-transparent     mx-auto mb-5" />
                 <div className="grid grid-cols-4">
                   <div className="col-span-3">
                     <h3 className="font-semibold text-3xl mb-4">Item</h3>

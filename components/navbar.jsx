@@ -28,7 +28,7 @@ export default function navbar() {
     <Fragment>
       <div className="flex justify-around items-center py-4 bg-[#4B4B4B] bg-opacity-80 m-8">
         <Link href="/">
-          <Image src={Logo} alt="logo" className=" w-[250px] h-[70px]" />
+          <Image src={Logo} alt="logo" className=" w-[180px] h-[55px] md:w-[250px] md:h-[70px]" />
         </Link>
         <div>
           <ul className="hidden md:flex justify-evenly gap-12">
