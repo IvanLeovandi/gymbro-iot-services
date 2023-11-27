@@ -2,6 +2,7 @@ import Hero from "../public/hero.png";
 import Image from "next/image";
 import Navbar from "../components/navbar"
 import { Noticia_Text } from 'next/font/google'
+import Link from "next/link";
 
 const noticia_text = Noticia_Text({
   weight: '400', // if single weight, otherwise you use array like [400, 500, 700],
@@ -25,9 +26,9 @@ const HomePage = () => {
             Discover your greatest potential and expedite your fitness journey with GymBros. Embrace the challenge and roar with determination with our diverse classes and personalized training programs. Join us and bring yourself closer to
             conquering your fitness dreams in a jungle of endless possibilities
           </p>
-          <a href="/classes" className="text-[#FFD700] font-sans border border-solid border-[#FFD700] rounded-lg px-4 py-2">
+          <Link href="/classes" className="text-[#FFD700] font-sans border border-solid border-[#FFD700] rounded-lg px-4 py-2">
             Learn More
-          </a>
+          </Link>
         </div>
         <div className="hidden md:block">
           <Image src={Hero} className=" h-[39vw] w-[39vw] object-fill" alt="hero image" />
