@@ -1,7 +1,10 @@
+import "cypress-real-events";
+const base_url = "https://gymbro-management-system.vercel.app"
+
 describe('Home Page', () => {
     it('Home Page Loads', () => {
       // Start from the index page
-      cy.visit('http://localhost:3000/')
+      cy.visit(`${base_url}`)
 
       // The new page should contain an h1 with "About page"
       cy.get('h1').contains('Welcome to the')
@@ -11,11 +14,10 @@ describe('Home Page', () => {
 describe('Navigation', () => {
     it('should navigate to the Classes page', () => {
       // Start from the index page
-      cy.visit('http://localhost:3000/')
+      cy.visit(`${base_url}`)
 
       // Find a link with an href attribute containing "about" and click it
       cy.contains("Classes").click()
-      cy.wait(10000)
    
       // The new url should include "/about"
       cy.url().should('include', '/classes')
@@ -31,16 +33,21 @@ describe('The Login Page', () => {
     const username="admin"
     const password="admin"
 
-    cy.visit('localhost:3000/authentication/login')
-
-    cy.get('input[name=username]').type(username)
+    cy.visit(`${base_url}/authentication/login`)
+    let i = 0
+    for(i;i<5;i++){
+      cy.realPress('Tab');
+    }
+    cy.realType(username)
 
     // {enter} causes the form to submit
-    cy.get('input[name=password]').type(password)
 
-    cy.get('Button[name=login]').click()
+    cy.realPress('Tab');
+    cy.realType(password)
+
+    cy.realPress('Tab');
+    cy.realPress('Enter');
     // we should be redirected to /dashboard
-    cy.wait(10000)
     cy.url().should('include', '/profile')
 
 
