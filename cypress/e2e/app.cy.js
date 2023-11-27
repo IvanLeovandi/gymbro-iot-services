@@ -27,31 +27,59 @@ describe('Navigation', () => {
     })
   })
 
-describe('The Login Page', () => {
-  it('successfully log in as admin', function () {
-    // destructuring assignment of the this.currentUser object
-    const username="admin"
-    const password="admin"
-
-    cy.visit(`${base_url}/authentication/login`)
-    let i = 0
-    for(i;i<5;i++){
+  describe('The Login Page', () => {
+    it('successfully log in as admin', function () {
+      // destructuring assignment of the this.currentUser object
+      const username="admin"
+      const password="admin"
+  
+      cy.visit(`${base_url}/authentication/login`)
+      let i = 0
+      for(i;i<5;i++){
+        cy.realPress('Tab');
+      }
+      cy.realType(username)
+  
+      // {enter} causes the form to submit
+  
       cy.realPress('Tab');
-    }
-    cy.realType(username)
-
-    // {enter} causes the form to submit
-
-    cy.realPress('Tab');
-    cy.realType(password)
-
-    cy.realPress('Tab');
-    cy.realPress('Enter');
-    // we should be redirected to /dashboard
-    cy.url().should('include', '/profile')
-
-
-    // UI should reflect this user being logged in
-    cy.get('p').should('contain', 'admin')
+      cy.realType(password)
+  
+      cy.realPress('Tab');
+      cy.realPress('Enter');
+      // we should be redirected to /dashboard
+      cy.url().should('include', '/profile')
+  
+  
+      // UI should reflect this user being logged in
+      cy.get('p').should('contain', 'admin')
+    })
   })
-})
+
+  describe('The Login Error Page', () => {
+    it('successfully log in as admin', function () {
+      // destructuring assignment of the this.currentUser object
+      const username="as"
+      const password="admin"
+  
+      cy.visit(`${base_url}/authentication/login`)
+      let i = 0
+      for(i;i<5;i++){
+        cy.realPress('Tab');
+      }
+      cy.realType(username)
+  
+      // {enter} causes the form to submit
+  
+      cy.realPress('Tab');
+      cy.realType(password)
+  
+      cy.realPress('Tab');
+      cy.realPress('Enter');
+      // we should be redirected to /dashboard
+  
+  
+      // UI should reflect this user being logged in
+      cy.get('p').should('contain', 'Username atau password salah')
+    })
+  })
