@@ -47,12 +47,14 @@ const LoginPage = () => {
             <Input
               className="bg-white border-none outline-none focus:outline-[#FFD700] mt-2 mb-4"
               type="text"
+              name = "username"
               ref={usernameRef}
             />
             <label className="">Password</label>
             <Input
               className="bg-white border-none outline-none focus:outline-[#FFD700] mt-2"
               type="password"
+              name = "password"
               ref={passwordRef}
             />
             {incorrectPass && (
@@ -63,6 +65,7 @@ const LoginPage = () => {
                 variant="yellow_outline"
                 className="my-8 w-1/2"
                 type="submit"
+                name="login"
               >
                 Login
               </Button>
