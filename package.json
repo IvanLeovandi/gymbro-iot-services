@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "webpack --config webpack.config.js",
     "start": "next start",
     "lint": "next lint",
     "cypress:open": "cypress open"
@@ -25,6 +25,7 @@
     "autoprefixer": "10.4.16",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
+    "cypress": "^13.6.0",
     "cypress-real-events": "^1.11.0",
     "date": "^2.0.3",
     "framer-motion": "^10.16.4",
@@ -46,7 +47,6 @@
     "uploadthing": "^6.0.3"
   },
   "devDependencies": {
-    "cypress": "^13.6.0",
     "webpack": "^5.89.0",
     "webpack-cli": "^5.1.4"
   }
