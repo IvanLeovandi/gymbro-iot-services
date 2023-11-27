@@ -1,11 +1,12 @@
 import { Fragment, useContext, useEffect, useState } from "react";
 import Membercard from "@/components/membercard";
-import { getSession } from "next-auth/react";
 import AdminNavbar from "@/components/adminnavbar";
 import NotificationContext from "@/context/notification-context";
 import { useRouter } from "next/router";
 import NonMembercard from "@/components/nonmembercard";
 import PageLoader from "@/components/PageLoader";
+import { getServerSession } from "next-auth";
+import { authNext } from "../api/auth/[...nextauth]";
 
 const AdminMembersPage = () => {
   const [member, setMember] = useState([]);
@@ -223,18 +224,9 @@ const AdminMembersPage = () => {
 
 export default AdminMembersPage;
 export async function getServerSideProps(context) {
-  const session = await getSession({ req: context.req });
+  const session = await getServerSession(context.req, context.res, authNext);
 
-  if (!session) {
-    return {
-      redirect: {
-        destination: "/404",
-        permanent: false,
-      },
-    };
-  }
-
-  if (session.user.email !== "admingymbro@gmail.com") {
+  if (!session || session.user.email !== "admingymbro@gmail.com") {
     return {
       redirect: {
         destination: "/404",

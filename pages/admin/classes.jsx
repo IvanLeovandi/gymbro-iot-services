@@ -5,9 +5,10 @@ import ClassCard from "@/components/classcard";
 import { AddClassModal } from "@/components/AddClassModal";
 import { useContext } from "react";
 import NotificationContext from "@/context/notification-context";
-import { getSession } from "next-auth/react";
 import AdminNavbar from "@/components/adminnavbar";
 import PageLoader from "@/components/PageLoader";
+import { getServerSession } from "next-auth";
+import { authNext } from "../api/auth/[...nextauth]";
 
 const AdminClassPage = () => {
   const [classes, setClasses] = useState([]);
@@ -173,18 +174,9 @@ const AdminClassPage = () => {
 };
 
 export async function getServerSideProps(context) {
-  const session = await getSession({ req: context.req });
+  const session = await getServerSession(context.req, context.res, authNext);
 
-  if (!session) {
-    return {
-      redirect: {
-        destination: "/404",
-        permanent: false,
-      },
-    };
-  }
-
-  if (session.user.email !== "admingymbro@gmail.com") {
+  if (!session || session.user.email !== "admingymbro@gmail.com") {
     return {
       redirect: {
         destination: "/404",

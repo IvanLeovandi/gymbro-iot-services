@@ -7,8 +7,10 @@ import { Button } from "@/components/ui/button";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useRouter } from "next/router";
-import { useSession, getSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import NotificationContext from "@/context/notification-context";
+import { getServerSession } from "next-auth";
+import { authNext } from "@/pages/api/auth/[...nextauth]";
 
 const MembershipPaymentPage = (props) => {
   const [profile, setProfile] = useState({});
@@ -201,16 +203,17 @@ const MembershipPaymentPage = (props) => {
 };
 
 export async function getServerSideProps(context) {
-  const session = await getSession({ req: context.req });
+  const session = await getServerSession(context.req, context.res, authNext);
 
   if (!session) {
     return {
       redirect: {
-        destination: "/authentication/login",
+        destination: "/404",
         permanent: false,
       },
     };
   }
+
   return {
     props: { session },
   };
