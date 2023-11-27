@@ -110,6 +110,8 @@ npm run cypress:open
 
 3. **Select E2E testing on web browser**
 
-4. **Click app.cy.js**
+4. **Click app.cy.js for the first testing**
+
+5. **Click deleteClass.cy.js for the second testing**
 
 
