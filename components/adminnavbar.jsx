@@ -26,7 +26,7 @@ export default function adminnavbar() {
 
   return (
     <Fragment>
-      <div className="flex justify-around items-center py-4 bg-[#4B4B4B] bg-opacity-80 m-8">
+      <div className=" flex justify-around items-center py-4 bg-[#4B4B4B] bg-opacity-80 m-8">
         <Link href="/">
           <Image src={Logo} alt="logo" className=" w-[250px] h-[70px]" />
         </Link>
@@ -79,7 +79,7 @@ export default function adminnavbar() {
             </button>
           )}
 
-          <div onClick={handleNav} className="block lg:hidden z-[110]">
+          <div onClick={handleNav} className="block md:hidden z-[110]">
             {nav ? (
               <AiOutlineClose
                 className="z-[110]"
@@ -91,7 +91,7 @@ export default function adminnavbar() {
             )}
           </div>
           <div
-            className={`lg:hidden fixed z-[100] top-0 ${
+            className={`md:hidden fixed z-[100] top-0 ${
               nav ? "translate-x-0" : "translate-x-full"
             } transition duration-300 right-0 bottom-0 flex justify-center items-center w-[80vw] h-screen bg-[#4B4B4B] text-center text-white`}
           >
