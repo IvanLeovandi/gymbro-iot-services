@@ -16,7 +16,7 @@ import UpgradeMemberModal from "@/components/UpgradeMemberModal";
 import PageLoader from "@/components/PageLoader";
 import { getServerSession } from "next-auth";
 
-const MemberDetailPage = () => {
+const MemberDetailPage = (props) => {
   const { data: session, status } = useSession();
   const [classes, setClasses] = useState([]);
   const [classesEnrolled, setClassesEnrolled] = useState([]);
@@ -29,10 +29,6 @@ const MemberDetailPage = () => {
 
   const notificationCtx = useContext(NotificationContext);
   const router = useRouter();
-
-  if (!session) {
-    router.replace('/');
-  }
 
   useEffect(() => {
     setClassLoading(true);
@@ -277,21 +273,21 @@ const MemberDetailPage = () => {
   );
 };
 
-// export async function getServerSideProps(context) {
-//   const session = await getSession({ req: context.req });
+export async function getServerSideProps(context) {
+  const session = await getSession({ req: context.req });
 
-//   if (!session) {
-//     return {
-//       redirect: {
-//         destination: "/",
-//         permanent: false,
-//       },
-//     };
-//   }
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
 
-//   return {
-//     props: { session },
-//   };
-// }
+  return {
+    props: { session },
+  };
+}
 
 export default MemberDetailPage;
