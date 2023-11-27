@@ -47,6 +47,7 @@ describe('Navigation', () => {
   
       cy.realPress('Tab');
       cy.realPress('Enter');
+      cy.wait(5000)
       // we should be redirected to /dashboard
       cy.url().should('include', '/profile')
   

@@ -11,7 +11,7 @@ export default function Userpic({ props, role }) {
     if (props.profileImage) {
       setImage(props.profileImage);
     }
-  });
+  }, [props.profileImage]);
   return (
     <Fragment>
       <div className="relative text-center rounded-md overflow-hidden shadow-md max-w-sm mx-auto mt-10s w-full md:w-11/12 max-h flex items-center justify-center">
