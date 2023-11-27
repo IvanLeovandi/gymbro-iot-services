@@ -213,7 +213,9 @@ export async function getServerSideProps(context) {
       },
     };
   }
-
+  
+  session.user.name = null;
+  session.user.image = null;
   return {
     props: { session },
   };
