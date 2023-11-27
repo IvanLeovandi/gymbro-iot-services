@@ -120,7 +120,6 @@ describe('Navigation', () => {
     cy.realType('Test Class by Cypress')
     cy.realPress('Tab');
     cy.realPress('Enter');
-    cy.realPress('Enter');
 
     cy.get('h3').should('contain', 'Test Title')
     })
