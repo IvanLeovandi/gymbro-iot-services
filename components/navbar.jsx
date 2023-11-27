@@ -72,7 +72,7 @@ export default function navbar() {
             </button>
           )}
 
-          <div onClick={handleNav} className="block lg:hidden z-[110]">
+          <div onClick={handleNav} className="block md:hidden z-[110]">
             {nav ? (
               <AiOutlineClose
                 className="z-[110]"
@@ -84,7 +84,7 @@ export default function navbar() {
             )}
           </div>
           <div
-            className={`lg:hidden fixed z-[100] top-0 ${
+            className={`md:hidden fixed z-[100] top-0 ${
               nav ? "translate-x-0" : "translate-x-full"
             } transition duration-300 right-0 bottom-0 flex justify-center items-center w-[80vw] h-screen bg-[#4B4B4B] text-center text-white`}
           >
