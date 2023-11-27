@@ -83,3 +83,44 @@ describe('Navigation', () => {
       cy.get('p').should('contain', 'Username atau password salah')
     })
   })
+
+  describe('Add Class', () => {
+    it('successfully Add Class', function () {
+      // destructuring assignment of the this.currentUser object
+      const username="admin"
+      const password="admin"
+  
+      cy.visit(`${base_url}/authentication/login`)
+      cy.get('Input[name=username]').type(username)
+
+    cy.get('Input[name=password]').type(`${password}`)
+    cy.realPress('Tab');
+    cy.wait(100);
+    cy.realPress('Enter');
+
+    cy.wait(8000)
+    cy.contains("Classes").click()
+    cy.get('button').contains('Add Class').click()
+    cy.realPress('Tab');
+    cy.realType('Test Title')
+    cy.realPress('Tab');
+    cy.realType('Test Instructor')
+    cy.realPress('Tab');
+    cy.realType('06062024')
+    cy.realPress('Tab');
+    cy.realType('1503')
+    cy.realPress('Tab');
+    cy.realType('Test Fitness')
+    cy.realPress('Tab');
+    cy.realType('5')
+    cy.realPress('Tab');
+    cy.realType('100000')
+    cy.realPress('Tab');
+    cy.realType('Test Class by Cypress')
+    cy.realPress('Tab');
+    cy.realPress('Enter');
+    cy.realPress('Enter');
+
+    cy.get('h3').should('contain', 'Test Title')
+    })
+  })

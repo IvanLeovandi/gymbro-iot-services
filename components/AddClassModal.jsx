@@ -117,6 +117,7 @@ export function AddClassModal(props) {
                   id="title"
                   className="col-span-3"
                   placeholder="Class Title"
+                  name = "title"
                   required
                   ref={titleRef}
                 />
@@ -127,6 +128,7 @@ export function AddClassModal(props) {
                   id="instructor"
                   className="col-span-3"
                   placeholder="Class Instructor"
+                  name="instructor"
                   required
                   ref={instructorRef}
                 />
@@ -139,6 +141,7 @@ export function AddClassModal(props) {
                   id="date"
                   className="col-span-3"
                   placeholder="Class Date"
+                  name = "date"
                   required
                   type="date"
                   ref={dateRef}
@@ -152,6 +155,7 @@ export function AddClassModal(props) {
                   id="time"
                   className="col-span-3"
                   placeholder="Class Time"
+                  name = "time"
                   required
                   type="time"
                   ref={timeRef}
@@ -165,6 +169,7 @@ export function AddClassModal(props) {
                   id="type"
                   className="col-span-3"
                   placeholder="Class Type"
+                  name = "type"
                   required
                   ref={typeRef}
                 />
@@ -177,6 +182,7 @@ export function AddClassModal(props) {
                   id="slot"
                   className="col-span-3"
                   placeholder="Class Slot"
+                  name = "slot"
                   type="number"
                   min="0"
                   required
@@ -192,6 +198,7 @@ export function AddClassModal(props) {
                   id="price"
                   className="col-span-3"
                   placeholder="Class Price"
+                  name = "price"
                   type="number"
                   min="50000"
                   step="5000"
