@@ -13,10 +13,8 @@ export default function adminnavbar() {
 
   const logoutHandler = () => {
     signOut({
-      redirect: false
-    }).then(() => {
-      router.push("/")
-    });
+      callbackUrl: "/",
+    })
   };
 
   const [nav, setNav] = useState(false);
