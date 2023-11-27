@@ -4,7 +4,7 @@ import { Fragment } from "react";
 import Biocard from "@/components/biocard";
 import Userpic from "@/components/userpic";
 import RegisteredClassCard from "@/components/RegisteredClassCard";
-import { getSession, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import AdminNavbar from "@/components/adminnavbar";
 import { Button } from "@/components/ui/button";
