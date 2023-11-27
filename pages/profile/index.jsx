@@ -15,6 +15,7 @@ import { useRouter } from "next/router";
 import UpgradeMemberModal from "@/components/UpgradeMemberModal";
 import PageLoader from "@/components/PageLoader";
 import { getServerSession } from "next-auth";
+import { authNext } from "../api/auth/[...nextauth]";
 
 const MemberDetailPage = (props) => {
   const { data: session, status } = useSession();
@@ -274,7 +275,7 @@ const MemberDetailPage = (props) => {
 };
 
 export async function getServerSideProps(context) {
-  const session = await getSession({ req: context.req });
+  const session = await getServerSession(context.req, context.res, authNext);
 
   if (!session) {
     return {
