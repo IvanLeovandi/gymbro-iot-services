@@ -90,3 +90,22 @@ pnpm dev
 
 ## Vercel 
 **Open [https://gymbro-management-system.vercel.app/](https://gymbro-management-system.vercel.app/)**
+
+## Testing
+1. **Install cypress**
+
+``
+npm install cypress
+``
+
+2. **Run Cypress**
+
+``
+npm run cypress:open
+``
+
+3. **Select E2E testing on web browser**
+
+4. **Click app.cy.js**
+
+
