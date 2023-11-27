@@ -14,8 +14,9 @@ import NotificationContext from "@/context/notification-context";
 import { useRouter } from "next/router";
 import UpgradeMemberModal from "@/components/UpgradeMemberModal";
 import PageLoader from "@/components/PageLoader";
+import { getServerSession } from "next-auth";
 
-const MemberDetailPage = () => {
+const MemberDetailPage = (props) => {
   const { data: session, status } = useSession();
   const [classes, setClasses] = useState([]);
   const [classesEnrolled, setClassesEnrolled] = useState([]);
