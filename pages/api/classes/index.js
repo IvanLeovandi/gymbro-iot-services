@@ -30,7 +30,7 @@ const handler = async (req, res) => {
     const newClass = {
       gambar: gambar,
       judul: judul,
-      jadwal: jadwal,
+      jadwal: new Date(jadwal),
       deskripsi: deskripsi,
       harga: +harga,
       instruktur: instruktur,

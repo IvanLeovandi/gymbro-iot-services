@@ -42,7 +42,7 @@ const handler = async (req, res) => {
     const newNotification = {
       email: email,
       message: message,
-      tanggal: tanggal,
+      tanggal: new Date(tanggal),
     };
     const result = await insertDocument(
       client,
