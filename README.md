@@ -1,10 +1,10 @@
 # Tugas Besar IF3152 Rekayasa Perangkat Lunak
-Gymbro Management System (GBMS) merupakan sebuah web app manajemen gym yang dibuat dengan framework next js dan di-styling menggunakan tailwindcss. GBMS dibuat dengan tujuan mempermudah pengalaman user untuk mendaftar ke dalam kelas-kelas yangtersedia dalam gym dan mempermudah admin dalam manajemen user dan kelas. User pada GBMS dibagi menjadi 3 jenis, yaitu 
+Gymbro Management System (GBMS) merupakan sebuah web app manajemen gym yang dibuat dengan framework next js dan di-styling menggunakan tailwindcss. GBMS dibuat dengan tujuan mempermudah pengalaman user untuk mendaftar ke dalam kelas-kelas yang tersedia dalam gym dan mempermudah admin dalam manajemen user dan kelas. User pada GBMS dibagi menjadi 3 jenis, yaitu 
 |Role             | Description  |
 |:----------------| -------------|
-|User Non-Member  | Akun yang diberikan untuk pengguna yang pertama kali mendaftarkan diri ke dalam website GBMS. User Non-Member dapat mendafatarkan ke kelas yang tersedia dengan harga tertentu. User Non-Member dapat melakukan upgrade menjadi member selama sebulan dengan melakukan pembayaran tertentu. |
+|User Non-Member  | Akun yang diberikan untuk pengguna yang pertama kali mendaftarkan diri ke dalam website GBMS. User Non-Member dapat mendaftarkan diri ke kelas yang tersedia dengan harga tertentu. User Non-Member dapat melakukan upgrade menjadi member selama sebulan dengan melakukan pembayaran tertentu. |
 |User Member      | Pengguna yang sudah melakukan pembayaran membership bulanan. User Member dapat mengikuti kelas yang tersedia pada GBMS secara gratis. |
-|Admin            |Akun yang sudah dibuatkan secara manual oleh pembuat website. Admin memiliki hak untuk menghapus kelas, mengubah data anggota GBMS, mengirimkan notifikasi kepada pengguna, dan melihat status pembayaran |
+|Admin            |Akun yang sudah dibuatkan secara manual oleh pembuat website. Admin memiliki hak untuk menghapus kelas, menambahkan kelas, mengubah data anggota GBMS, mengirimkan notifikasi kepada pengguna, dan melihat status pembayaran |
 
 ### Tugas dibuat oleh kelompok 8:
 | No.| Nama                          |  NIM     | 
@@ -76,7 +76,11 @@ Berikut adalah basis data yang tersedia pada GBMS :
 ```
 git clone https://gitlab.informatika.org/tubes-rpl-kelompok-8/gymbro-management-system.git
 ```
-2. **Jalankan development server:**
+2. **Install node modules**
+```
+npm install
+```
+3. **Jalankan development server:**
 
 ```bash
 npm run dev
@@ -86,9 +90,9 @@ yarn dev
 pnpm dev
 ```
 
-3. **Open [http://localhost:3000](http://localhost:3000)**
+4. **Open [http://localhost:3000](http://localhost:3000)**
 
-## Vercel 
+## Vercel Deployment
 **Open [https://gymbro-management-system.vercel.app/](https://gymbro-management-system.vercel.app/)**
 
 ## Testing
