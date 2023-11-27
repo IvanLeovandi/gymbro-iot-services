@@ -5,7 +5,8 @@ import { useState, useEffect } from "react";
 import ActionClassButton from "./ActionClassButton";
 import { Fragment } from "react";
 import { useSession } from "next-auth/react";
-import PageLoader from "./PageLoader";
+import ClassPlaceholder from "../public/class-placeholder.png"
+
 
 const ClassCard = (props) => {
   const { data: session, status } = useSession();
@@ -20,6 +21,14 @@ const ClassCard = (props) => {
 
   const jadwalfix = `${tanggalKelas}-${bulanKelas}-${tahunKelas} ${jamKelas}:${menitKelas}`;
 
+  const [image, setImage] = useState(ClassPlaceholder);
+
+  useEffect(() => {
+    if (props.gambar) {
+      setImage(props.gambar);
+    }
+  },[props.gambar]);
+  
   return (
     <Fragment>
       <div key={props.id} className="flex ml-auto mr-auto mt-[30px]">
@@ -31,8 +40,8 @@ const ClassCard = (props) => {
           />
           <div className="absolute top-[20px] left-[30px] md:left-[40px] w-[360px] md:w-[400px]">
             <Image
-              src={props.gambar}
-              alt="image fitnes"
+              src={image}
+              alt="gym class image"
               width={1000}
               height={1000}
               className="w-[360px] md:w-[400px]  h-[300px]  py-[5px] ml-auto mr-auto"
