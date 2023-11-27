@@ -7,7 +7,7 @@ import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import { useState } from "react";
 import { useRouter } from "next/router";
 
-export default function adminnavbar() {
+export default function AdminNavbar() {
   const { data: session, status } = useSession();
   const router = useRouter();
 

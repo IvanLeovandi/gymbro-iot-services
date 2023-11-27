@@ -7,6 +7,7 @@ import { useRef } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import Link from "next/link";
 
 const LoginPage = () => {
   const usernameRef = useRef();
@@ -71,13 +72,13 @@ const LoginPage = () => {
               </Button>
             </div>
             <p className="text-center text-xs">
-              Don't have an account?{" "}
-              <a
+              Don&apos;t have an account?{" "}
+              <Link
                 href="/authentication/register"
                 className="text-[#FFD700] hover:text-yellow-500"
               >
                 Register here
-              </a>
+              </Link>
             </p>
           </form>
         </div>
